@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌴 תאילנד 2026 — מנהל הטיול</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1117;--bg2:#161b27;--bg3:#1e2535;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--green:#22c55e;--green-d:#16a34a;--gp:rgba(34,197,94,0.1);--gold:#f59e0b;--goldp:rgba(245,158,11,0.1);--blue:#3b82f6;--bluep:rgba(59,130,246,0.1);--coral:#f97316;--coralp:rgba(249,115,22,0.1);--purple:#a855f7;--purplep:rgba(168,85,247,0.1);--red:#ef4444;--redp:rgba(239,68,68,0.1);--teal:#14b8a6;--tealp:rgba(20,184,166,0.1);--text:#f1f5f9;--textm:#94a3b8;--textd:#475569;--r:14px;--rsm:8px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:15px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
+
+/* SYNC */
+#sync{position:fixed;top:10px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);padding:5px 14px;border-radius:100px;font-size:12px;color:var(--textm);z-index:999;display:flex;align-items:center;gap:6px;pointer-events:none;transition:all .3s}
+#sync.saving{color:var(--gold);border-color:var(--gold)}
+#sync.saved{color:var(--green);border-color:var(--green)}
+#sync.err{color:var(--red);border-color:var(--red)}
+.sdot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.sdot.pulse{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,17,23,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:2px;padding:8px 16px;overflow-x:auto}
+nav::-webkit-scrollbar{display:none}
+.nb{flex-shrink:0;background:none;border:none;cursor:pointer;color:var(--textm);font-family:'Heebo',sans-serif;font-size:13px;font-weight:500;padding:6px 11px;border-radius:var(--rsm);transition:all .2s;white-space:nowrap}
+.nb:hover{color:var(--text);background:var(--bg3)}
+.nb.active{color:var(--green);background:var(--gp)}
+
+/* MAIN */
+main{max-width:980px;margin:0 auto;padding:66px 14px 80px}
+.section{display:none;animation:fi .3s ease}
+.section.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:14px}
+.ct{font-family:'Rubik',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px}
+.bg{background:var(--gp);color:var(--green)}.bo{background:var(--goldp);color:var(--gold)}.bb{background:var(--bluep);color:var(--blue)}.bc{background:var(--coralp);color:var(--coral)}.br{background:var(--redp);color:var(--red)}.bt{background:var(--tealp);color:var(--teal)}.bpu{background:var(--purplep);color:var(--purple)}
+
+/* INPUTS */
+.inp{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px 12px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color .2s;width:100%}
+.inp:focus{border-color:var(--green)}
+.inp::placeholder{color:var(--textd)}
+.inp-sm{padding:6px 10px;font-size:13px}
+.lbl{font-size:12px;color:var(--textm);margin-bottom:4px}
+.irow{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+textarea.inp{min-height:56px;resize:vertical}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;padding:8px 18px;border-radius:100px;cursor:pointer;text-decoration:none;transition:all .2s;border:none}
+.btn-g{background:var(--green);color:#fff}.btn-g:hover{background:var(--green-d)}
+.btn-b{background:var(--blue);color:#fff}.btn-b:hover{filter:brightness(1.1)}
+.btn-o{background:transparent;border:1.5px solid var(--border2);color:var(--textm)}.btn-o:hover{border-color:var(--green);color:var(--green);background:var(--gp)}
+
+/* ── DASHBOARD ── */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:18px}
+.dcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center}
+.dnum{font-family:'Rubik',sans-serif;font-size:40px;font-weight:900;line-height:1;margin-bottom:3px}
+.dlbl{font-size:12px;color:var(--textm)}
+.countdown{background:linear-gradient(135deg,#1a2a1a,#0f1f1a);border:1px solid rgba(34,197,94,.25);border-radius:var(--r);padding:26px;text-align:center;margin-bottom:18px}
+.countdown .days{font-family:'Rubik',sans-serif;font-size:76px;font-weight:900;color:var(--green);line-height:1}
+.countdown .sub{font-size:13px;color:var(--textm);margin-top:5px}
+.countdown .date{font-size:17px;font-weight:600;margin-top:7px}
+.pbar-bg{background:var(--bg3);border-radius:100px;height:8px;overflow:hidden}
+.pbar-f{height:8px;border-radius:100px;background:linear-gradient(90deg,var(--green),#86efac);transition:width .6s ease}
+.plabel{display:flex;justify-content:space-between;font-size:12px;color:var(--textm);margin-bottom:4px}
+
+/* REMINDERS */
+.rem-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.rem-item:last-child{border-bottom:none}
+.rem-date{flex-shrink:0;text-align:center;width:50px;background:var(--bg3);border-radius:var(--rsm);padding:6px 4px}
+.rem-date .rd{font-size:10px;color:var(--textm)}.rem-date .dd{font-family:'Rubik',sans-serif;font-size:17px;font-weight:700;line-height:1}.rem-date .mm{font-size:10px;color:var(--textm)}
+.rem-info .rt{font-size:13px;font-weight:500}
+.rem-info .rs{font-size:12px;color:var(--textm)}
+.r-urgent{border-right:3px solid var(--red);padding-right:10px}
+.r-soon{border-right:3px solid var(--gold);padding-right:10px}
+.r-ok{border-right:3px solid var(--green);padding-right:10px}
+
+/* ── TODO ── */
+.tcat{margin-bottom:18px}
+.tcathead{font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin-bottom:8px}
+.titem{display:flex;align-items:flex-start;gap:11px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);padding:11px 14px;margin-bottom:7px;cursor:pointer;transition:all .2s;user-select:none}
+.titem:hover{border-color:var(--border2);background:var(--bg3)}
+.titem.done{opacity:.5}
+.titem.done .ttxt{text-decoration:line-through;color:var(--textm)}
+.tchk{flex-shrink:0;width:20px;height:20px;border-radius:5px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .2s;font-size:12px}
+.titem.done .tchk{background:var(--green);border-color:var(--green);color:#fff}
+.ttxt{font-size:14px;color:var(--text);line-height:1.45}
+.tsub{font-size:12px;color:var(--textm);margin-top:2px}
+
+/* ── FLIGHTS ── */
+.fcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.fhdr{background:var(--bg3);padding:11px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.froute{font-family:'Rubik',sans-serif;font-size:15px;font-weight:700}
+.fbody{padding:16px 20px}
+.fleg{display:flex;align-items:stretch;gap:0;margin-bottom:12px}
+.fleg:last-of-type{margin-bottom:0}
+.ftc{flex-shrink:0;width:78px}
+.ftime{font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;line-height:1}
+.fdate{font-size:11px;color:var(--textm);margin-top:2px}
+.fairp{font-size:12px;color:var(--textm);margin-top:3px}
+.fterm{font-size:11px;color:var(--textd)}
+.flc{flex-shrink:0;width:54px;display:flex;flex-direction:column;align-items:center;padding:4px 0}
+.fdot{width:10px;height:10px;border-radius:50%;background:var(--green);flex-shrink:0}
+.fline{flex:1;width:2px;background:var(--border2);margin:3px 0}
+.fic{flex:1;padding-top:2px}
+.fcar{font-size:13px;font-weight:600}
+.fdur{font-size:12px;color:var(--textm);margin-top:3px}
+.feq{font-size:11px;color:var(--textd);margin-top:2px}
+.fams{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.fam{font-size:10px;background:var(--bg3);border:1px solid var(--border);padding:2px 7px;border-radius:100px;color:var(--textm)}
+.fcnx{background:var(--goldp);border:1px solid rgba(245,158,11,.2);border-radius:var(--rsm);padding:7px 13px;margin:9px 0;font-size:12px;color:var(--gold);display:flex;align-items:center;gap:7px}
+.fdr{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;padding-top:11px;border-top:1px solid var(--border)}
+.fdi{font-size:12px;color:var(--textm);background:var(--bg3);padding:4px 10px;border-radius:var(--rsm)}
+.confrow{display:flex;align-items:center;gap:10px;margin-top:11px;padding-top:11px;border-top:1px solid var(--border)}
+.conflbl{font-size:12px;color:var(--textm);flex-shrink:0}
+.confinp{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:6px 11px;font-family:'Rubik',sans-serif;font-size:14px;font-weight:600;color:var(--text);outline:none;letter-spacing:.5px;transition:border-color .2s}
+.confinp:focus{border-color:var(--green)}
+.confinp::placeholder{color:var(--textd);font-size:12px;font-weight:400;letter-spacing:0}
+.int-placeholder{background:var(--bg2);border:1px dashed var(--border2);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:14px}
+
+/* ── HOTELS ── */
+.hoption{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;transition:border-color .2s}
+.hoption.sel{border-color:var(--green)}
+.hhdr{background:var(--bg3);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hoption.sel .hhdr{background:rgba(34,197,94,.06)}
+.hname{font-family:'Rubik',sans-serif;font-size:16px;font-weight:700}
+.hloc{font-size:12px;color:var(--textm);margin-top:2px}
+.hbody{padding:14px 20px}
+.hfeats{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px;margin-bottom:12px}
+.hf{font-size:13px;color:var(--textm);display:flex;align-items:flex-start;gap:5px;line-height:1.4}
+.hpc{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.hpro{flex:1;min-width:120px;background:var(--gp);border:1px solid rgba(34,197,94,.15);border-radius:var(--rsm);padding:9px 11px}
+.hcon{flex:1;min-width:120px;background:var(--goldp);border:1px solid rgba(245,158,11,.15);border-radius:var(--rsm);padding:9px 11px}
+.pcth{font-size:11px;font-weight:700;letter-spacing:.3px;margin-bottom:4px}
+.hpro .pcth{color:var(--green)}.hcon .pcth{color:var(--gold)}
+.pci{font-size:12px;color:var(--textm);margin-bottom:2px;line-height:1.4}
+.hfoot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:13px;border-top:1px solid var(--border)}
+.hpr .per{font-size:11px;color:var(--textd)}.hpr .tot{font-family:'Rubik',sans-serif;font-size:19px;font-weight:700;color:var(--green)}.hpr .nts{font-size:11px;color:var(--textd)}
+.hsbtn{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;padding:7px 15px;border-radius:100px;cursor:pointer;border:none;font-family:'Heebo',sans-serif;transition:all .2s}
+.hsbtn.un{background:var(--bg3);color:var(--textm);border:1px solid var(--border2)}.hsbtn.un:hover{border-color:var(--green);color:var(--green)}
+.hsbtn.is{background:var(--green);color:#fff}
+.bkst{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:12px 14px;margin-top:10px}
+.bkst-t{font-size:11px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.cust-h{background:var(--bg2);border:1px dashed var(--border2);border-radius:var(--r);padding:18px;margin-bottom:14px}
+
+/* ── ITINERARY ── */
+.daycard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:9px;overflow:hidden;transition:border-color .2s}
+.daycard.done{border-color:rgba(34,197,94,.3)}
+.dayhdr{display:flex;align-items:center;gap:13px;padding:13px 18px;cursor:pointer;user-select:none}
+.dayhdr:hover{background:var(--bg3)}
+.dnbox{flex-shrink:0;width:46px;height:46px;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.daycard.done .dnbox{background:var(--gp);border-color:rgba(34,197,94,.3)}
+.dnum{font-family:'Rubik',sans-serif;font-size:17px;font-weight:700;line-height:1}
+.daycard.done .dnum{color:var(--green)}
+.dday{font-size:10px;color:var(--textd)}
+.dhi{flex:1}
+.dtitle{font-size:15px;font-weight:600}
+.ddate{font-size:12px;color:var(--textm);margin-top:1px}
+.dtog{color:var(--textd);transition:transform .2s;font-size:11px}
+.daycard.exp .dtog{transform:rotate(180deg)}
+.daybody{display:none;padding:0 18px 14px;border-top:1px solid var(--border)}
+.daycard.exp .daybody{display:block;padding-top:12px}
+.tblk{display:flex;gap:9px;margin-bottom:7px;font-size:13px}
+.tl{flex-shrink:0;width:70px;font-size:11px;font-weight:700;padding-top:2px}
+.tlm{color:var(--gold)}.tld{color:var(--green)}.tle{color:var(--blue)}
+.tt{color:var(--textm);line-height:1.55}
+.attrtag{display:inline-flex;align-items:center;gap:4px;background:var(--goldp);border:1px solid rgba(245,158,11,.2);color:var(--gold);font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px;margin-bottom:6px}
+.dnotes{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px 11px;min-height:54px;font-family:'Heebo',sans-serif;font-size:13px;color:var(--text);outline:none;resize:vertical;transition:border-color .2s}
+.dnotes:focus{border-color:var(--green)}
+.dnotes::placeholder{color:var(--textd)}
+.ddonebtn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:6px 13px;border-radius:100px;cursor:pointer;border:1px solid var(--border2);background:none;color:var(--textm);font-family:'Heebo',sans-serif;transition:all .2s;margin-top:9px}
+.ddonebtn:hover,.daycard.done .ddonebtn{background:var(--gp);border-color:var(--green);color:var(--green)}
+.cdiv{display:flex;align-items:center;gap:11px;margin:14px 0 10px;font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px}
+.cdiv::before,.cdiv::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── BUDGET ── */
+.bsum{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:18px}
+.bsc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;text-align:center}
+.bsnum{font-family:'Rubik',sans-serif;font-size:24px;font-weight:700;line-height:1}
+.bslbl{font-size:12px;color:var(--textm);margin-top:3px}
+.brow{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid var(--border)}
+.brow:last-child{border-bottom:none}
+.bem{font-size:18px;flex-shrink:0;width:26px;text-align:center}
+.bname{flex:1}
+.bnt{font-size:14px}
+.best{font-size:11px;color:var(--textd);margin-top:1px}
+.bbar{width:70px}
+.bbar-bg{background:var(--bg3);border-radius:100px;height:6px;overflow:hidden}
+.bbar-f{height:6px;border-radius:100px;transition:width .4s}
+.binp{width:100px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:6px 9px;font-family:'Rubik',sans-serif;font-size:14px;font-weight:600;color:var(--text);outline:none;transition:border-color .2s;text-align:left}
+.binp:focus{border-color:var(--green)}
+.binp::placeholder{color:var(--textd);font-size:12px;font-weight:400}
+
+/* ── CURRENCY ── */
+.curr-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.curr-title{font-family:'Rubik',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.curr-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:9px}
+.curr-inp{flex:1;min-width:110px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:9px 13px;font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--text);outline:none;transition:border-color .2s}
+.curr-inp:focus{border-color:var(--green)}
+.curr-res{font-family:'Rubik',sans-serif;font-size:24px;font-weight:700;color:var(--green)}
+.curr-lbl{font-size:12px;color:var(--textm)}
+.rate-info{font-size:12px;color:var(--textd);margin-top:6px}
+
+/* ── PACKING ── */
+.pcat{margin-bottom:18px}
+.pcath{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.pcattitle{font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px}
+.pcnt{font-size:12px;color:var(--textm);background:var(--bg3);padding:2px 9px;border-radius:100px}
+.pitem{display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:var(--rsm);cursor:pointer;transition:background .15s;user-select:none;margin-bottom:3px}
+.pitem:hover{background:var(--bg3)}
+.pitem.pkd{opacity:.5}
+.pitem.pkd .ptxt{text-decoration:line-through}
+.pchk{flex-shrink:0;width:17px;height:17px;border-radius:4px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:11px}
+.pitem.pkd .pchk{background:var(--green);border-color:var(--green);color:#fff}
+.ptxt{font-size:13px;color:var(--text)}
+.pnote{font-size:11px;color:var(--textd);margin-right:auto}
+
+/* ── TRANSPORT ── */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px}
+.tcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:17px 19px}
+.ticon{font-size:26px;margin-bottom:9px}
+.ttitle{font-family:'Rubik',sans-serif;font-size:15px;font-weight:700;margin-bottom:7px}
+.tbody{font-size:13px;color:var(--textm);line-height:1.7}
+.tbody strong{color:var(--text)}
+.tipbox{background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:9px 13px;margin-top:9px;font-size:12px;color:var(--textm);line-height:1.6}
+.mlinks{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px}
+
+/* ── BABY ── */
+.bsect{margin-bottom:18px}
+.bshead{font-size:14px;font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.bstip{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--textm);line-height:1.6}
+.bstip:last-child{border-bottom:none}
+.bstip strong{color:var(--text)}
+
+/* ── EMERGENCY ── */
+.egrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
+.ecard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:17px 19px}
+.ecard.urg{border-color:rgba(239,68,68,.3)}
+.etitle{font-size:14px;font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.erow{display:flex;flex-direction:column;gap:2px;margin-bottom:9px}
+.elbl{font-size:11px;color:var(--textd)}
+.eval{font-size:14px;font-weight:600}
+.ephone{display:inline-flex;align-items:center;gap:5px;background:var(--redp);border:1px solid rgba(239,68,68,.2);color:var(--red);font-size:15px;font-weight:700;padding:7px 14px;border-radius:var(--rsm);text-decoration:none;margin-top:3px;transition:background .2s}
+.ephone:hover{background:rgba(239,68,68,.2)}
+.insph{background:var(--bg3);border:1px dashed var(--border2);border-radius:var(--rsm);padding:11px;margin-top:9px;font-size:12px;color:var(--textd);text-align:center}
+
+/* ── WEATHER ── */
+.wrow{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px}
+.wcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center}
+.wtemp{font-family:'Rubik',sans-serif;font-size:46px;font-weight:900;line-height:1}
+.wdesc{font-size:13px;color:var(--textm);margin-top:4px}
+.wdet{font-size:12px;color:var(--textd);margin-top:4px}
+.wcity{font-size:13px;font-weight:700;color:var(--textm);margin-bottom:7px}
+
+/* ── MODAL ── */
+.modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}
+.mbox{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:26px;max-width:460px;width:100%}
+.mtitle{font-family:'Rubik',sans-serif;font-size:19px;font-weight:700;margin-bottom:7px}
+.msub{font-size:13px;color:var(--textm);margin-bottom:18px;line-height:1.6}
+.mstep{background:var(--bg3);border-radius:var(--rsm);padding:11px 13px;margin-bottom:9px}
+.mstepn{font-size:11px;font-weight:700;color:var(--green);margin-bottom:3px}
+.mstept{font-size:13px;color:var(--textm);line-height:1.5}
+.mstept code{background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:12px;color:var(--green)}
+.mbtns{display:flex;gap:9px;justify-content:flex-end;margin-top:18px}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .dgrid{grid-template-columns:1fr 1fr}
+  .bsum{grid-template-columns:1fr 1fr 1fr}
+  .bsnum{font-size:18px}
+  .hfeats,.igrid{grid-template-columns:1fr}
+  .wrow{grid-template-columns:1fr}
+  .egrid,.tgrid{grid-template-columns:1fr}
+  .bbar{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="sync"><div class="sdot" id="sdot"></div><span id="stxt">לא מחובר</span></div>
+
+<nav>
+  <button class="nb active" onclick="showSec('dashboard',this)">🏠 דשבורד</button>
+  <button class="nb" onclick="showSec('todo',this)">✅ משימות</button>
+  <button class="nb" onclick="showSec('flights',this)">✈️ טיסות</button>
+  <button class="nb" onclick="showSec('hotels',this)">🏨 מלונות</button>
+  <button class="nb" onclick="showSec('itinerary',this)">📅 לו"ז</button>
+  <button class="nb" onclick="showSec('budget',this)">💰 תקציב</button>
+  <button class="nb" onclick="showSec('currency',this)">💱 המרה</button>
+  <button class="nb" onclick="showSec('packing',this)">🧳 ארוז</button>
+  <button class="nb" onclick="showSec('transport',this)">🚗 תחבורה</button>
+  <button class="nb" onclick="showSec('baby',this)">👶 תינוקת</button>
+  <button class="nb" onclick="showSec('emergency',this)">📞 חירום</button>
+</nav>
+
+<main>
+
+<!-- DASHBOARD -->
+<div id="s-dashboard" class="section active">
+  <div class="countdown">
+    <div class="days" id="days-count">—</div>
+    <div class="sub">ימים עד לטיסה</div>
+    <div class="date">✈️ רביעי, 20 מאי 2026 · 20:10 · TLV T3</div>
+  </div>
+  <div class="dgrid">
+    <div class="dcard"><div class="dnum" id="td-done" style="color:var(--green)">0</div><div class="dlbl">משימות הושלמו</div></div>
+    <div class="dcard"><div class="dnum" id="td-left" style="color:var(--coral)">0</div><div class="dlbl">נשאר לעשות</div></div>
+    <div class="dcard"><div class="dnum" style="color:var(--blue)">14</div><div class="dlbl">לילות בחו"ל</div></div>
+    <div class="dcard"><div class="dnum" style="color:var(--purple)">3</div><div class="dlbl">נוסעים</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">📊 התקדמות הכנות</div>
+    <div class="plabel"><span>משימות שהושלמו</span><span id="ppct">0%</span></div>
+    <div class="pbar-bg"><div class="pbar-f" id="pfill" style="width:0%"></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">🌤️ מזג אוויר עכשיו</div>
+    <div class="wrow">
+      <div class="wcard"><div class="wcity">🏝️ קוסמוי</div><div id="w-samui">טוען...</div></div>
+      <div class="wcard"><div class="wcity">🏙️ בנגקוק</div><div id="w-bangkok">טוען...</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct">⏰ תזכורות קרובות</div>
+    <div id="remlist"></div>
+  </div>
+  <div class="card" style="border-color:rgba(59,130,246,.3)">
+    <div class="ct">☁️ סנכרון Google Sheets</div>
+    <p style="font-size:13px;color:var(--textm);margin-bottom:13px;line-height:1.6">כל השינויים (checkboxes, תקציב, הערות) יישמרו ב-Sheets שלך ויסתנכרנו בכל מכשיר.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn btn-b" onclick="document.getElementById('setup-modal').classList.add('show')">⚙️ הגדר חיבור</button>
+      <span id="shurl-disp" style="font-size:12px;color:var(--textd)"></span>
+    </div>
+  </div>
+</div>
+
+<!-- TODO -->
+<div id="s-todo" class="section">
+  <div class="card">
+    <div class="ct">✅ רשימת משימות</div>
+    <p style="font-size:13px;color:var(--textm);margin-bottom:15px">לחץ על משימה לסימון. נשמר אוטומטית.</p>
+    <div id="todo-container"></div>
+  </div>
+</div>
+
+<!-- FLIGHTS -->
+<div id="s-flights" class="section">
+  <!-- OUTBOUND -->
+  <div class="fcard">
+    <div class="fhdr">
+      <div class="froute">🇮🇱 תל אביב → בנגקוק 🇹🇭</div>
+      <div style="display:flex;gap:7px"><span class="badge bb">הלוך</span><span class="badge bt">Etihad</span></div>
+    </div>
+    <div class="fbody">
+      <div class="fleg">
+        <div class="ftc"><div class="ftime">20:10</div><div class="fdate">רביעי 20 מאי</div><div class="fairp">TLV — בן גוריון</div><div class="fterm">טרמינל 3</div></div>
+        <div class="flc"><div class="fdot"></div><div class="fline"></div><div style="font-size:13px">✈️</div><div class="fline"></div><div class="fdot" style="background:var(--gold)"></div></div>
+        <div class="fic"><div class="fcar">EY 598 · Etihad Airways</div><div class="fdur">⏱️ 3 שעות 15 דקות</div><div class="feq">Boeing 777-300ER</div><div class="fams"><span class="fam">📺 TV</span><span class="fam">📶 WIFI</span><span class="fam">🔌 חשמל</span><span class="fam">🔋 USB</span></div></div>
+      </div>
+      <div class="fcnx">🔄 <strong>עצירה — אבו דאבי (AUH)</strong> · טרמינל A · 2 שעות 5 דקות המתנה</div>
+      <div class="fleg">
+        <div class="ftc"><div class="ftime">02:30</div><div class="fdate">חמישי 21 מאי</div><div class="fairp">AUH — אבו דאבי</div><div class="fterm">טרמינל A</div></div>
+        <div class="flc"><div class="fdot" style="background:var(--gold)"></div><div class="fline"></div><div style="font-size:13px">✈️</div><div class="fline"></div><div class="fdot" style="background:var(--teal)"></div></div>
+        <div class="fic"><div class="fcar">EY 404 · Etihad Airways</div><div class="fdur">⏱️ 6 שעות 40 דקות</div><div class="feq">Airbus A321LR</div><div class="fams"><span class="fam">📺 TV</span><span class="fam">📶 WIFI</span><span class="fam">🔋 USB</span></div></div>
+      </div>
+      <div class="fdr">
+        <div class="fdi">🛬 נחיתה: 12:10 · BKK</div>
+        <div class="fdi">📅 חמישי 21 מאי</div>
+        <div class="fdi">⏱️ סה"כ 23:35</div>
+        <div class="fdi">💺 Economy</div>
+      </div>
+      <div class="confrow">
+        <div class="conflbl">🔖 מס' הזמנה:</div>
+        <input class="confinp" id="conf-out" placeholder="PNR..." oninput="saveData()">
+      </div>
+    </div>
+  </div>
+
+  <!-- RETURN -->
+  <div class="fcard">
+    <div class="fhdr">
+      <div class="froute">🇹🇭 בנגקוק → תל אביב 🇮🇱</div>
+      <div style="display:flex;gap:7px"><span class="badge bc">חזור</span><span class="badge bt">Etihad</span></div>
+    </div>
+    <div class="fbody">
+      <div class="fleg">
+        <div class="ftc"><div class="ftime">09:15</div><div class="fdate">רביעי 3 יוני</div><div class="fairp">BKK — Suvarnabhumi</div></div>
+        <div class="flc"><div class="fdot" style="background:var(--teal)"></div><div class="fline"></div><div style="font-size:13px">✈️</div><div class="fline"></div><div class="fdot" style="background:var(--gold)"></div></div>
+        <div class="fic"><div class="fcar">EY 403 · Etihad Airways</div><div class="fdur">⏱️ 6 שעות 20 דקות</div><div class="feq">Boeing 787-9 Dreamliner</div><div class="fams"><span class="fam">📺 TV</span><span class="fam">📶 WIFI</span><span class="fam">🔌 חשמל</span><span class="fam">🔋 USB</span></div></div>
+      </div>
+      <div class="fcnx">🔄 <strong>עצירה — אבו דאבי (AUH)</strong> · טרמינל A · 1 שעה 50 דקות המתנה</div>
+      <div class="fleg">
+        <div class="ftc"><div class="ftime">14:25</div><div class="fdate">רביעי 3 יוני</div><div class="fairp">AUH — אבו דאבי</div><div class="fterm">טרמינל A</div></div>
+        <div class="flc"><div class="fdot" style="background:var(--gold)"></div><div class="fline"></div><div style="font-size:13px">✈️</div><div class="fline"></div><div class="fdot"></div></div>
+        <div class="fic"><div class="fcar">EY 597 · Etihad Airways</div><div class="fdur">⏱️ 3 שעות 25 דקות</div><div class="feq">Boeing 777-300ER</div><div class="fams"><span class="fam">📺 TV</span><span class="fam">📶 WIFI</span><span class="fam">🔌 חשמל</span><span class="fam">🔋 USB</span></div></div>
+      </div>
+      <div class="fdr">
+        <div class="fdi">🛬 נחיתה: 16:50 · TLV</div>
+        <div class="fdi">📅 רביעי 3 יוני</div>
+        <div class="fdi">🏠 טרמינל 3</div>
+        <div class="fdi">💺 Economy</div>
+      </div>
+      <div class="confrow">
+        <div class="conflbl">🔖 מס' הזמנה:</div>
+        <input class="confinp" id="conf-ret" placeholder="PNR..." oninput="saveData()">
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERNAL -->
+  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">✈️ טיסה פנימית — קוסמוי ↔ בנגקוק</div>
+  <div class="int-placeholder">
+    <div style="font-size:15px;font-weight:600;color:var(--textm);margin-bottom:7px">🏝️ עדיין לא הוזמנה</div>
+    <div style="font-size:13px;color:var(--textd);margin-bottom:13px">Bangkok Airways / Thai AirAsia · BKK ↔ USM · ~80 דקות · מומלץ להזמין מוקדם</div>
+    <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-b" href="https://www.bangkokair.com" target="_blank">Bangkok Airways ←</a>
+      <a class="btn btn-o" href="https://www.airasia.com" target="_blank">AirAsia ←</a>
+    </div>
+    <div class="confrow" style="margin-top:13px">
+      <div class="conflbl">🔖 מס' הזמנה:</div>
+      <input class="confinp" id="conf-int" placeholder="לאחר הזמנה..." oninput="saveData()">
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(59,130,246,.3)">
+    <div class="ct">🌐 Check-in Online — Etihad</div>
+    <p style="font-size:13px;color:var(--textm);margin-bottom:11px">נפתח 48 שעות לפני: <strong style="color:var(--text)">יום שני 18 מאי 2026 בשעה 20:10</strong></p>
+    <a class="btn btn-b" href="https://www.etihad.com/en-il/manage/check-in" target="_blank">→ Check-in ב-Etihad</a>
+    <p style="font-size:12px;color:var(--textd);margin-top:9px">💡 בקשו מושב Bassinet (עריסת תינוק) — שורה ראשונה עם מחיצה. חינם אבל מקומות מוגבלים!</p>
+  </div>
+</div>
+
+<!-- HOTELS -->
+<div id="s-hotels" class="section">
+  <div style="background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:11px 15px;margin-bottom:18px;font-size:13px;color:var(--textm)">
+    🏝️ <strong style="color:var(--green)">קוסמוי — 20–28 מאי · 8 לילות</strong> · בחר מלון או הזן אחר. לחץ "בחר" ויפתחו שדות הזמנה.
+  </div>
+
+  <!-- NH COLLECTION -->
+  <div class="hoption" id="hkoh1">
+    <div class="hhdr">
+      <div><div class="hname">NH Collection Samui Peace Resort ★★★★★</div><div class="hloc">📍 Bophut Beach · 5 דק' מ-Fisherman's Village</div></div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="badge bg">⭐ מומלץ</span><span class="badge bt">🏊 Pool Villa</span></div>
+    </div>
+    <div class="hbody">
+      <div class="hfeats">
+        <div class="hf">🏊 Beachfront Pool Villa + חוף פרטי</div><div class="hf">👶 מגרש ילדים + בריכת ילדים</div>
+        <div class="hf">🍳 ארוחת בוקר בופה כלולה</div><div class="hf">🧖 Peace Tropical Spa</div>
+        <div class="hf">🚤 קיאקים + SUP חינם</div><div class="hf">⭐ "pool villa is incredible!"</div>
+      </div>
+      <div class="hpc">
+        <div class="hpro"><div class="pcth">✅ יתרונות</div><div class="pci">חוף פרטי מהבריכה</div><div class="pci">הליכה ל-Fisherman's Village</div><div class="pci">ביקורות מעולות על הצוות</div></div>
+        <div class="hcon"><div class="pcth">⚠️ לדעת</div><div class="pci">מסעדה יקרה יחסית</div><div class="pci">להזמין מוקדם — פופולרי</div></div>
+      </div>
+      <div class="hfoot">
+        <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~900–1,100 ₪</div><div class="nts">8 לילות: ~8,000 ₪</div></div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <a class="btn btn-o" href="https://www.booking.com/hotel/th/nh-collection-samui-peace-resort.html?checkin=2026-05-20&checkout=2026-05-28&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
+          <button class="hsbtn un" id="shk1" onclick="selHotel('koh',1)">בחר מלון זה</button>
+        </div>
+      </div>
+      <div class="bkst" id="bkoh1" style="display:none">
+        <div class="bkst-t">📋 פרטי הזמנה</div>
+        <div class="igrid">
+          <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="BOOKING-XXX" data-key="koh1-conf" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">סכום ששולם (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="koh1-price" oninput="saveData()"></div>
+        </div>
+        <div class="irow"><div class="lbl">בקשות מיוחדות</div><input class="inp inp-sm" placeholder="עריסה, gate לבריכה..." data-key="koh1-notes" oninput="saveData()"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANDARA -->
+  <div class="hoption" id="hkoh2">
+    <div class="hhdr">
+      <div><div class="hname">Bandara Spa Resort & Pool Villas ★★★★</div><div class="hloc">📍 Bophut Beach · 5 דק' מ-Fisherman's Village</div></div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="badge bpu">👶 Kids Club</span><span class="badge bt">🏊 Pool Villa</span></div>
+    </div>
+    <div class="hbody">
+      <div class="hfeats">
+        <div class="hf">🏊 Pool Villa Suite עם plunge pool</div><div class="hf">🧒 Monkey Club — Kids Club מאויש</div>
+        <div class="hf">🌊 4 בריכות + חוף פרטי</div><div class="hf">🍳 ארוחת בוקר בופה מצוינת</div>
+        <div class="hf">🧖 Bandara Spa</div><div class="hf">⭐ "שדרגו לחדר עם הבריכה!"</div>
+      </div>
+      <div class="hpc">
+        <div class="hpro"><div class="pcth">✅ יתרונות</div><div class="pci">Kids Club למי שצריך</div><div class="pci">מחיר נמוך לאיכות</div></div>
+        <div class="hcon"><div class="pcth">⚠️ לדעת</div><div class="pci">Plunge pool קטנה</div><div class="pci">מסעדה יקרה יחסית</div></div>
+      </div>
+      <div class="hfoot">
+        <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~750–900 ₪</div><div class="nts">8 לילות: ~6,800 ₪</div></div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <a class="btn btn-o" href="https://www.booking.com/hotel/th/bandara-resort-spa.html?checkin=2026-05-20&checkout=2026-05-28&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
+          <button class="hsbtn un" id="shk2" onclick="selHotel('koh',2)">בחר מלון זה</button>
+        </div>
+      </div>
+      <div class="bkst" id="bkoh2" style="display:none">
+        <div class="bkst-t">📋 פרטי הזמנה</div>
+        <div class="igrid">
+          <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="BOOKING-XXX" data-key="koh2-conf" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">סכום ששולם (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="koh2-price" oninput="saveData()"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAIR HOUSE -->
+  <div class="hoption" id="hkoh3">
+    <div class="hhdr">
+      <div><div class="hname">Fair House Villas & Spa ★★★★½</div><div class="hloc">📍 Mae Nam Beach · הכי שקט ופרטי</div></div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="badge bg">🌿 שקט</span><span class="badge bt">🏊 Pool Villa</span></div>
+    </div>
+    <div class="hbody">
+      <div class="hfeats">
+        <div class="hf">🏊 Beachfront Pool Villa + נוף ים</div><div class="hf">🌊 Mae Nam — חוף רדוד ושקט</div>
+        <div class="hf">🌿 גנים טרופיים ענקיים</div><div class="hf">🚤 SUP חינם לאורחים</div>
+        <div class="hf">🚌 שאטל חינם לצ'אוונג</div><div class="hf">⭐ "extraordinary — best I've stayed"</div>
+      </div>
+      <div class="hpc">
+        <div class="hpro"><div class="pcth">✅ יתרונות</div><div class="pci">הכי פרטי מבין השלוש</div><div class="pci">Pool villa ממש על הים</div></div>
+        <div class="hcon"><div class="pcth">⚠️ לדעת</div><div class="pci">צריך Grab לכל יציאה</div><div class="pci">אין Kids Club</div></div>
+      </div>
+      <div class="hfoot">
+        <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~700–850 ₪</div><div class="nts">8 לילות: ~6,400 ₪</div></div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <a class="btn btn-o" href="https://www.booking.com/hotel/th/fair-house-villas-spa.html?checkin=2026-05-20&checkout=2026-05-28&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
+          <button class="hsbtn un" id="shk3" onclick="selHotel('koh',3)">בחר מלון זה</button>
+        </div>
+      </div>
+      <div class="bkst" id="bkoh3" style="display:none">
+        <div class="bkst-t">📋 פרטי הזמנה</div>
+        <div class="igrid">
+          <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="BOOKING-XXX" data-key="koh3-conf" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">סכום ששולם (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="koh3-price" oninput="saveData()"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM KOH -->
+  <div class="cust-h">
+    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ מלון אחר בקוסמוי</div>
+    <div class="igrid">
+      <div class="irow"><div class="lbl">שם המלון</div><input class="inp inp-sm" placeholder="שם המלון..." data-key="koh-c-name" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="מס' הזמנה..." data-key="koh-c-conf" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">מחיר סה"כ (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="koh-c-price" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">לינק Booking</div><input class="inp inp-sm" placeholder="https://..." data-key="koh-c-link" oninput="saveData()"></div>
+    </div>
+    <div class="irow"><div class="lbl">הערות / בקשות</div><input class="inp inp-sm" placeholder="עריסה, gate בריכה..." data-key="koh-c-notes" oninput="saveData()"></div>
+  </div>
+
+  <!-- BKK HEADER -->
+  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">🏙️ בנגקוק — 28 מאי–3 יוני · 6 לילות</div>
+
+  <!-- HUA CHANG -->
+  <div class="hoption" id="hbkk1">
+    <div class="hhdr">
+      <div><div class="hname">Hua Chang Heritage Hotel ★★★★</div><div class="hloc">📍 מרכז בנגקוק · BTS Siam</div></div>
+      <span class="badge bb">🛒 ליד הקניונים</span>
+    </div>
+    <div class="hbody">
+      <div class="hfeats">
+        <div class="hf">📍 2 דקות מ-BTS Siam</div><div class="hf">🛒 הליכה ל-MBK, Siam Paragon</div>
+        <div class="hf">🏊 בריכה + ספא</div><div class="hf">🛏️ חדר משפחה + עריסה</div>
+      </div>
+      <div class="hfoot">
+        <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~650 ₪</div><div class="nts">6 לילות: ~3,900 ₪</div></div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <a class="btn btn-o" href="https://www.booking.com/hotel/th/hua-chang-heritage.html?checkin=2026-05-28&checkout=2026-06-03&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
+          <button class="hsbtn un" id="shb1" onclick="selHotel('bkk',1)">בחר</button>
+        </div>
+      </div>
+      <div class="bkst" id="bbkk1" style="display:none">
+        <div class="bkst-t">📋 פרטי הזמנה</div>
+        <div class="igrid">
+          <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="BOOKING-XXX" data-key="bkk1-conf" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">סכום ששולם (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="bkk1-price" oninput="saveData()"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM BKK -->
+  <div class="cust-h">
+    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ מלון אחר בבנגקוק</div>
+    <div class="igrid">
+      <div class="irow"><div class="lbl">שם המלון</div><input class="inp inp-sm" placeholder="שם המלון..." data-key="bkk-c-name" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="מס' הזמנה..." data-key="bkk-c-conf" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">מחיר סה"כ (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="bkk-c-price" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">לינק Booking</div><input class="inp inp-sm" placeholder="https://..." data-key="bkk-c-link" oninput="saveData()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ITINERARY -->
+<div id="s-itinerary" class="section">
+  <p style="font-size:13px;color:var(--textm);margin-bottom:15px">לחץ על יום לפרטים. סמן יום כ-✅ והוסף הערות אישיות.</p>
+  <div id="itin-container"></div>
+</div>
+
+<!-- BUDGET -->
+<div id="s-budget" class="section">
+  <div class="bsum">
+    <div class="bsc"><div class="bsnum" style="color:var(--blue)">27,000 ₪</div><div class="bslbl">תקציב כולל</div></div>
+    <div class="bsc"><div class="bsnum" id="b-spent" style="color:var(--gold)">0 ₪</div><div class="bslbl">שולם בפועל</div></div>
+    <div class="bsc"><div class="bsnum" id="b-left" style="color:var(--green)">27,000 ₪</div><div class="bslbl">נשאר</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">💰 מעקב הוצאות אמיתי</div>
+    <p style="font-size:12px;color:var(--textd);margin-bottom:13px">הזן סכום ששולם בפועל לכל קטגוריה.</p>
+    <div id="budget-rows"></div>
+  </div>
+</div>
+
+<!-- CURRENCY -->
+<div id="s-currency" class="section">
+  <div class="curr-box">
+    <div class="curr-title">🇮🇱 שקלים (₪) → 🇹🇭 บาท (THB)</div>
+    <div class="curr-row">
+      <div style="flex:1"><div class="curr-lbl">סכום בשקלים</div><input class="curr-inp" id="ils-in" type="number" placeholder="100" oninput="conv('ils')"></div>
+      <div style="color:var(--textd);font-size:20px">→</div>
+      <div><div class="curr-lbl">בבאט תאילנדי</div><div class="curr-res" id="ils-out">—</div></div>
+    </div>
+    <div class="rate-info" id="rate-ils">טוען שער...</div>
+  </div>
+  <div class="curr-box">
+    <div class="curr-title">🇺🇸 דולר ($) → 🇹🇭 บาท (THB)</div>
+    <div class="curr-row">
+      <div style="flex:1"><div class="curr-lbl">סכום בדולרים</div><input class="curr-inp" id="usd-in" type="number" placeholder="10" oninput="conv('usd')"></div>
+      <div style="color:var(--textd);font-size:20px">→</div>
+      <div><div class="curr-lbl">בבאט תאילנדי</div><div class="curr-res" id="usd-out">—</div></div>
+    </div>
+    <div class="rate-info" id="rate-usd">טוען שער...</div>
+  </div>
+  <div class="card">
+    <div class="ct">💡 טיפים — כסף בתאילנד</div>
+    <div class="bstip"><div>🏧</div><div><strong>כספומטים:</strong> משכו באט ישירות בתאילנד — שער הכי טוב. כל ATM גובה ~180 THB עמלה — משכו סכום גדול בכל פעם.</div></div>
+    <div class="bstip"><div>❌</div><div><strong>שדה התעופה:</strong> אל תמירו בשדה — השער גרוע ב-5–8%. המתינו לכספומט בעיר.</div></div>
+    <div class="bstip"><div>💳</div><div><strong>כרטיס אשראי:</strong> כרטיס ללא עמלות המרה חוסך הרבה. הודיעו לבנק לפני.</div></div>
+    <div class="bstip"><div>📱</div><div><strong>Grab:</strong> תשלום במזומן או בכרטיס דרך האפליקציה.</div></div>
+  </div>
+</div>
+
+<!-- PACKING -->
+<div id="s-packing" class="section">
+  <p style="font-size:13px;color:var(--textm);margin-bottom:15px">לחץ על פריט לסימון. הכל נשמר אוטומטית.</p>
+  <div id="pack-container"></div>
+</div>
+
+<!-- TRANSPORT -->
+<div id="s-transport" class="section">
+  <div class="tgrid">
+    <div class="tcard"><div class="ticon">📱</div><div class="ttitle">Grab — האובר של תאילנד</div><div class="tbody"><strong>הורידו לפני הנסיעה.</strong> מחיר קבוע מראש, בטוח עם תינוקת.<br><br>מ-BKK שדה: <strong>~250–350 THB</strong><br>בקוסמוי: <strong>~100–200 THB</strong><div class="tipbox">💡 הורידו גם <strong>GrabFood</strong> — משלוחים לווילה!</div></div></div>
+    <div class="tcard"><div class="ticon">🚇</div><div class="ttitle">BTS Skytrain — בנגקוק</div><div class="tbody">רשת רכבת עילית. <strong>נוחה מאוד</strong> עם עגלה — יש מעליות.<br><br>כרטיס יומי: <strong>~140 THB</strong><br>תחנות: Siam (קניונים), Mo Chit (Chatuchak)<div class="tipbox">💡 נגיש לעגלות בכל התחנות.</div></div></div>
+    <div class="tcard"><div class="ticon">🚤</div><div class="ttitle">שיט בנהר — בנגקוק</div><div class="tbody">Chao Phraya Express: <strong>~15 THB</strong> לנסיעה.<br>מגיע ל-Grand Palace, Wat Pho, Asiatique.<div class="tipbox">💡 סירת לונגטייל פרטית ~1,500 THB/שעה.</div></div></div>
+    <div class="tcard"><div class="ticon">🚕</div><div class="ttitle">מוניות בקוסמוי</div><div class="tbody">אין מד' — <strong>מחיר מוסכם מראש.</strong><br>לאטרקציות: <strong>~200–400 THB</strong> ה"ח<br>Grab מומלץ יותר.<div class="tipbox">💡 הקונסיירז' במלון יכול לסדר.</div></div></div>
+    <div class="tcard"><div class="ticon">🏝️</div><div class="ttitle">BKK ↔ קוסמוי</div><div class="tbody"><strong>טיסה פנימית:</strong> Bangkok Airways / AirAsia<br>~80 דקות · ~800–1,200 ₪ ה"ח<br><strong>לא מומלץ מעבורת</strong> עם תינוקת.<div class="tipbox">💡 שדה USM קטן ונחמד · ~15 דק' מהמלונות.</div></div></div>
+    <div class="tcard"><div class="ticon">📱</div><div class="ttitle">SIM תאילנדי</div><div class="tbody"><strong>AIS</strong> או <strong>True Move</strong> — שניהם מצוינים.<br>30 יום / אינטרנט ללא הגבלה: <strong>~250–350 THB</strong><br>קנו בשדה BKK מיד עם הנחיתה.<div class="tipbox">💡 eSIM מראש: Airalo, Nomad.</div></div></div>
+  </div>
+  <div class="card" style="margin-top:6px">
+    <div class="ct">🗺️ Google Maps — קישורים מהירים</div>
+    <div class="mlinks">
+      <a class="btn btn-o" href="https://maps.google.com/?q=Grand+Palace+Bangkok" target="_blank">Grand Palace</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Chatuchak+Market+Bangkok" target="_blank">Chatuchak</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Big+Buddha+Koh+Samui" target="_blank">Big Buddha</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Fishermans+Village+Bophut+Koh+Samui" target="_blank">Fisherman's Village</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Na+Muang+Waterfall+Koh+Samui" target="_blank">מפלי Na Muang</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Wat+Plai+Laem+Koh+Samui" target="_blank">Wat Plai Laem</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Suvarnabhumi+Airport" target="_blank">שדה BKK</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Koh+Samui+Airport" target="_blank">שדה USM</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=MBK+Center+Bangkok" target="_blank">MBK</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Siam+Paragon+Bangkok" target="_blank">Siam Paragon</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Platinum+Fashion+Mall+Bangkok" target="_blank">Platinum Mall</a>
+      <a class="btn btn-o" href="https://maps.google.com/?q=Asiatique+The+Riverfront+Bangkok" target="_blank">Asiatique</a>
+    </div>
+  </div>
+</div>
+
+<!-- BABY -->
+<div id="s-baby" class="section">
+  <div class="bsect">
+    <div class="bshead">✈️ על הטיסה (~10 שעות עם עצירה)</div>
+    <div class="bstip"><div>🛏️</div><div><strong>Bassinet (עריסת תינוק):</strong> בקשו מראש בניהול הזמנה ב-Etihad — שורה ראשונה עם מחיצה. חינם אבל מקומות מוגבלים!</div></div>
+    <div class="bstip"><div>👂</div><div><strong>לחץ אוזניים:</strong> להניק / לתת בקבוק בהמראה ובנחיתה — הבליעה עוזרת. אטמי אוזניים לתינוקות — קחו!</div></div>
+    <div class="bstip"><div>🎒</div><div><strong>תיק יד לתינוקת:</strong> חיתולים ל-12+ שעות, בגד חלופי ×2, שמיכה, צעצועים שקטים, אוכל, תרופות חום.</div></div>
+    <div class="bstip"><div>⏰</div><div><strong>שינה:</strong> הטיסה יוצאת 20:10 — שעת שינה טבעית לגיל שנה וחצי. נסו לתזמן זאת לטובתכם.</div></div>
+    <div class="bstip"><div>🚿</div><div><strong>החתלה:</strong> ב-Boeing 777 יש changing table בשירותים. שאלו את הצוות היכן.</div></div>
+  </div>
+  <div class="bsect">
+    <div class="bshead">🏝️ בקוסמוי</div>
+    <div class="bstip"><div>🏊</div><div><strong>Gate בטיחות לבריכה:</strong> בקשו בצ'ק-אין! רוב המלונות מספקים אבל יש לבקש מראש.</div></div>
+    <div class="bstip"><div>☀️</div><div><strong>שמש:</strong> SPF 50+ מינרלי. כובע עם שוליים רחבים. הימנעו מחשיפה ישירה 11:00–16:00.</div></div>
+    <div class="bstip"><div>🌊</div><div><strong>ים:</strong> חופשו חופים רדודים ושקטים — Bophut, Mae Nam, Bangrak. הימנעו מ-Chaweng בשעות שיא.</div></div>
+    <div class="bstip"><div>🦟</div><div><strong>יתושים:</strong> קרם DEET-free לתינוקות. ספריי על בגדים. רשת יתושים על העריסה בלילה.</div></div>
+    <div class="bstip"><div>🏥</div><div><strong>רפואה:</strong> Bangkok Hospital Samui (+66 77 429 500) ו-Samui International Hospital — שניהם מצוינים.</div></div>
+  </div>
+  <div class="bsect">
+    <div class="bshead">🏙️ בבנגקוק</div>
+    <div class="bstip"><div>🚗</div><div><strong>תחבורה:</strong> Grab עם מושב בטיחות — ציינו בהזמנה. BTS נגיש לעגלות — יש מעליות.</div></div>
+    <div class="bstip"><div>🌡️</div><div><strong>חום עירוני:</strong> בנגקוק חמה ולחה יותר מקוסמוי. קניונים ממוזגים = הצלה בשעות הצהריים.</div></div>
+    <div class="bstip"><div>🍜</div><div><strong>אוכל לתינוקת:</strong> אורז לבן, אטריות, עוף בגריל — בטוח ומצוין. הימנעו מאוכל חריף.</div></div>
+  </div>
+</div>
+
+<!-- EMERGENCY -->
+<div id="s-emergency" class="section">
+  <div class="egrid">
+    <div class="ecard urg">
+      <div class="etitle">🚨 חירום כללי — תאילנד</div>
+      <div class="erow"><div class="elbl">חירום כללי</div><a class="ephone" href="tel:191">📞 191</a></div>
+      <div class="erow"><div class="elbl">אמבולנס</div><a class="ephone" href="tel:1669">📞 1669</a></div>
+      <div class="erow"><div class="elbl">Tourist Police (אנגלית)</div><a class="ephone" href="tel:1155">📞 1155</a></div>
+    </div>
+    <div class="ecard">
+      <div class="etitle">🇮🇱 שגרירות ישראל — בנגקוק</div>
+      <div class="erow"><div class="elbl">כתובת</div><div class="eval" style="font-size:12px">25th Fl, Ocean Tower 2, 75/9 Sukhumvit 19</div></div>
+      <div class="erow"><div class="elbl">טלפון ראשי</div><a class="ephone" href="tel:+6626040403">📞 +66 2 604 0403</a></div>
+      <div class="erow"><div class="elbl">חירום קונסולרי (24/7)</div><a class="ephone" href="tel:+6626040400">📞 +66 2 604 0400</a></div>
+    </div>
+    <div class="ecard">
+      <div class="etitle">🏥 בתי חולים — קוסמוי</div>
+      <div class="erow"><div class="elbl">Bangkok Hospital Samui</div><a class="ephone" href="tel:+6677429500">📞 +66 77 429 500</a></div>
+      <div class="erow"><div class="elbl">Samui International Hospital</div><a class="ephone" href="tel:+6677230781">📞 +66 77 230 781</a></div>
+    </div>
+    <div class="ecard">
+      <div class="etitle">🏥 בתי חולים — בנגקוק</div>
+      <div class="erow"><div class="elbl">Bumrungrad International</div><a class="ephone" href="tel:+6626667000">📞 +66 2 666 7000</a></div>
+      <div class="erow"><div class="elbl">Samitivej Hospital</div><a class="ephone" href="tel:+6627117000">📞 +66 2 711 7000</a></div>
+    </div>
+    <div class="ecard">
+      <div class="etitle">🛡️ ביטוח — PassportCard</div>
+      <div class="insph">⏳ ביטוח עדיין לא הוסדר</div>
+      <div class="irow" style="margin-top:10px"><div class="lbl">מספר פוליסה</div><input class="inp inp-sm" placeholder="לאחר ביצוע ביטוח..." data-key="ins-num" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">טלפון חירום PassportCard</div><input class="inp inp-sm" placeholder="+972-..." data-key="ins-phone" oninput="saveData()"></div>
+    </div>
+    <div class="ecard">
+      <div class="etitle">✈️ Etihad — שירות לקוחות</div>
+      <div class="erow"><div class="elbl">ישראל</div><a class="ephone" href="tel:+97239251111">📞 +972 3 925 1111</a></div>
+      <div class="erow"><div class="elbl">בינלאומי (24/7)</div><a class="ephone" href="tel:+97126112111">📞 +971 2 611 2111</a></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- SETUP MODAL -->
+<div class="modal" id="setup-modal">
+  <div class="mbox">
+    <div class="mtitle">☁️ חיבור ל-Google Sheets</div>
+    <div class="msub">תהליך חד-פעמי של ~15 דקות. לאחר מכן הכל מסתנכרן בכל מכשיר.</div>
+    <div class="mstep"><div class="mstepn">שלב 1</div><div class="mstept">פתחו <a href="https://sheets.google.com" target="_blank" style="color:var(--green)">Google Sheets</a> וצרו גיליון חדש בשם <code>Thailand2026</code></div></div>
+    <div class="mstep"><div class="mstepn">שלב 2</div><div class="mstept">בתפריט: <code>Extensions → Apps Script</code></div></div>
+    <div class="mstep"><div class="mstepn">שלב 3</div><div class="mstept">מחקו את הקוד הקיים והדביקו את ה-Apps Script מהקובץ <code>Code.gs</code> שמצורף</div></div>
+    <div class="mstep"><div class="mstepn">שלב 4</div><div class="mstept"><code>Deploy → New deployment → Web App</code> → Execute as: Me → Who has access: Anyone → <code>Deploy</code></div></div>
+    <div class="mstep"><div class="mstepn">שלב 5</div><div class="mstept">העתיקו את ה-URL שקיבלתם והדביקו למטה</div></div>
+    <div class="irow" style="margin-top:14px"><div class="lbl">Web App URL</div><input class="inp" id="sh-url-inp" placeholder="https://script.google.com/macros/s/..."></div>
+    <div class="mbtns">
+      <button class="btn btn-o" onclick="document.getElementById('setup-modal').classList.remove('show')">ביטול</button>
+      <button class="btn btn-g" onclick="saveShUrl()">שמור וחבר ←</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══ STATE ═══
+let S = {};
+let shUrl = '';
+let saveTimer = null;
+let rates = {ILS:10.5, USD:34.5};
+const BUDGET = 27000;
+const FLIGHT = new Date('2026-05-20T20:10:00');
+
+// ═══ NAV ═══
+function showSec(id, btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ═══ COUNTDOWN ═══
+function updateCountdown() {
+  const d = Math.max(0, Math.floor((FLIGHT - new Date()) / 86400000));
+  document.getElementById('days-count').textContent = d;
+}
+
+// ═══ REMINDERS ═══
+const REMS = [
+  {date:'2026-05-01',day:'01',mo:'מאי',title:'בקשת מושב Bassinet ב-Etihad',sub:'ניהול הזמנה → Special Requests',u:'ok'},
+  {date:'2026-05-10',day:'10',mo:'מאי',title:'הזמינו SIM / eSIM תאילנדי',sub:'Airalo, Nomad — להזמין מראש',u:'ok'},
+  {date:'2026-05-15',day:'15',mo:'מאי',title:'TDAC — טופס כניסה לתאילנד',sub:'אונליין, חינם, עד 3 ימים לפני',u:'soon'},
+  {date:'2026-05-17',day:'17',mo:'מאי',title:'ודאו שהמזוודות מוכנות',sub:'מגבלת משקל Etihad Economy: 23 ק"ג',u:'soon'},
+  {date:'2026-05-18',day:'18',mo:'מאי',title:'⚠️ Check-in אונליין נפתח — Etihad',sub:'EY598 + EY404 · 48 שעות לפני',u:'urgent'},
+  {date:'2026-05-20',day:'20',mo:'מאי',title:'✈️ יום הטיסה!',sub:'המראה 20:10 · הגיעו 3 שעות לפני · T3',u:'urgent'},
+];
+function buildRem() {
+  const now = new Date();
+  const list = REMS.filter(r=>new Date(r.date)>=now).slice(0,5);
+  document.getElementById('remlist').innerHTML = list.length
+    ? list.map(r=>`<div class="rem-item r-${r.u}"><div class="rem-date"><div class="rd">תאר'</div><div class="dd">${r.day}</div><div class="mm">${r.mo}</div></div><div class="rem-info"><div class="rt">${r.title}</div><div class="rs">${r.sub}</div></div></div>`).join('')
+    : '<div style="font-size:13px;color:var(--textd)">אין תזכורות קרובות</div>';
+}
+
+// ═══ TODO ═══
+const TODOS = [
+  {cat:'✈️ טיסות וכניסה', items:[
+    {id:'t-internal',tx:'טיסה פנימית קוסמוי ↔ בנגקוק',sb:'Bangkok Airways / AirAsia · BKK ↔ USM'},
+    {id:'t-tdac',tx:'TDAC — טופס כניסה לתאילנד',sb:'אונליין, חינם, עד 3 ימים לפני'},
+    {id:'t-checkin',tx:'Check-in אונליין — Etihad',sb:'18 מאי בשעה 20:10 (48 שעות לפני)'},
+    {id:'t-seats',tx:'בחירת מושבים + Bassinet',sb:'Etihad → ניהול הזמנה → בקשות מיוחדות'},
+  ]},
+  {cat:'🏨 לינה', items:[
+    {id:'t-h-koh',tx:'הזמנת מלון קוסמוי',sb:'20–28 מאי · pool villa + עריסה'},
+    {id:'t-h-bkk',tx:'הזמנת מלון בנגקוק',sb:'28 מאי–3 יוני'},
+    {id:'t-cot',tx:'בקשת עריסה (Baby Cot) — שני המלונות',sb:'לציין בהזמנה ולאשר עם המלון'},
+    {id:'t-gate',tx:'Gate בטיחות לבריכה בקוסמוי',sb:'לבקש בצ\'ק-אין'},
+  ]},
+  {cat:'🛡️ ביטוח וניירת', items:[
+    {id:'t-ins',tx:'ביטוח נסיעות — PassportCard',sb:'כיסוי רפואי מלא לכל המשפחה'},
+    {id:'t-pass',tx:'ודאו תוקף דרכונים',sb:'6+ חודשים מ-20 מאי 2026'},
+    {id:'t-docscopy',tx:'צלמו דרכונים → שמרו בענן',sb:'Google Drive / WhatsApp לעצמכם'},
+    {id:'t-bank',tx:'הודיעו לבנק על הנסיעה',sb:'למנוע חסימת כרטיס אשראי'},
+  ]},
+  {cat:'💉 בריאות', items:[
+    {id:'t-vax',tx:'ייעוץ רופא ילדים — חיסוני נסיעה',sb:'לפחות 4 שבועות לפני הנסיעה'},
+    {id:'t-meds',tx:'ערכת תרופות לתינוקת',sb:'חום, שלשולים, אנטיהיסטמין, SPF 50+'},
+    {id:'t-mosq',tx:'קרם נגד יתושים לתינוקות',sb:'DEET-free — Picaridin / Citriodora'},
+  ]},
+  {cat:'📱 תקשורת וכסף', items:[
+    {id:'t-sim',tx:'SIM תאילנדי / eSIM',sb:'AIS / True Move · לקנות בשדה BKK'},
+    {id:'t-grab',tx:'הורדת Grab לפני הנסיעה',sb:'App Store / Google Play'},
+    {id:'t-cash',tx:'כסף מזומן להמרה ראשונה',sb:'אל תמירו בשדה — המתינו לכספומט'},
+    {id:'t-card',tx:'כרטיס אשראי ללא עמלות המרה',sb:'Max / Visa Cal — בדקו מול החברה'},
+  ]},
+  {cat:'👶 תינוקת וציוד', items:[
+    {id:'t-stroller',tx:'עגלה קלה + נשאית מוכנות',sb:'נשאית מומלצת לבנגקוק'},
+    {id:'t-bfood',tx:'תכנון אוכל לתינוקת לטיסה',sb:'10+ שעות — תכנן מה מותר לעלות'},
+    {id:'t-bass',tx:'Bassinet על הטיסה — Etihad',sb:'שורה ראשונה עם מחיצה'},
+    {id:'t-earp',tx:'אטמי אוזניים לתינוקות',sb:'לאיזון לחץ בהמראה ונחיתה'},
+  ]},
+  {cat:'🎫 אטרקציות', items:[
+    {id:'t-angthong',tx:'הזמנת טיול שייט Ang Thong',sb:'מומלץ להזמין מראש — GetYourGuide / ViatorThai'},
+    {id:'t-massage',tx:'הזמנת עיסוי בריזורט (אופציונלי)',sb:'לשריין מראש בספא המלון'},
+  ]},
+];
+function buildTodo() {
+  document.getElementById('todo-container').innerHTML = TODOS.map(cat=>`
+    <div class="tcat">
+      <div class="tcathead">${cat.cat}</div>
+      ${cat.items.map(it=>`
+        <div class="titem ${S[it.id]?'done':''}" onclick="togTodo('${it.id}')">
+          <div class="tchk">${S[it.id]?'✓':''}</div>
+          <div><div class="ttxt">${it.tx}</div>${it.sb?`<div class="tsub">${it.sb}</div>`:''}</div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+function togTodo(id) { S[id]=!S[id]; saveData(); buildTodo(); updateProgress(); }
+function updateProgress() {
+  const all = TODOS.flatMap(c=>c.items);
+  const done = all.filter(i=>S[i.id]).length;
+  const tot = all.length;
+  const pct = Math.round(done/tot*100);
+  document.getElementById('td-done').textContent = done;
+  document.getElementById('td-left').textContent = tot-done;
+  document.getElementById('ppct').textContent = pct+'%';
+  document.getElementById('pfill').style.width = pct+'%';
+}
+
+// ═══ ITINERARY ═══
+const ITIN = [
+  {n:1,date:'19 מאי',dn:'ג\'',city:'koh',title:'טיסה מישראל ✈️',blks:[
+    {tc:'tle',tl:'20:10',tt:'המראה מבן גוריון — EY598. הגיעו 3 שעות לפני!'},
+  ]},
+  {n:2,date:'20 מאי',dn:'ד\'',city:'koh',title:'הגעה לקוסמוי 🏝️',blks:[
+    {tc:'tlm',tl:'12:10',tt:'נחיתה BKK. קונקשן לטיסה פנימית USM.'},
+    {tc:'tld',tl:'אחה"צ',tt:'הגעה לקוסמוי. העברה למלון. בריכה פרטית ראשונה!'},
+    {tc:'tle',tl:'ערב',tt:'ארוחת ערב קלה. שינה מוקדמת.'},
+  ]},
+  {n:3,date:'21 מאי',dn:'ה\'',city:'koh',title:'יום כניסה לאווירה 🌊',blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'קפה, בריכה פרטית, ארוחת בוקר.'},
+    {tc:'tld',tl:'11:00–17:00',tt:'חוף קרוב. מים רדודים עם התינוקת. שינת צהריים.'},
+    {tc:'tle',tl:'ערב',tt:'שקיעה מהמרפסת + ארוחת ערב.'},
+  ]},
+  {n:4,date:'22 מאי',dn:'ו\'',city:'koh',title:'⭐ Big Buddha 🙏',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'בריכה + ארוחת בוקר.'},
+    {tc:'tld',tl:'11:00–14:00',tt:'מונית ל-Big Buddha (פסל 12 מ\'). שוק אומנים. ארוחת צהריים.'},
+    {tc:'tle',tl:'14:00+',tt:'חזרה. ים + בריכה + שקיעה.'},
+  ]},
+  {n:5,date:'23 מאי',dn:'ש\'',city:'koh',title:'יום בריכה + עיסוי 💆',blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה.'},
+    {tc:'tld',tl:'11:00–16:00',tt:'עיסוי תאילנדי זוגי (~120 ₪ ל-60 דק\'). ים + בריכה.'},
+    {tc:'tle',tl:'ערב',tt:'שוק לילה מקומי.'},
+  ]},
+  {n:6,date:'24 מאי',dn:'א\'',city:'koh',title:'⭐ מפלי Na Muang 🌿',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + הכנה. כובעים, קרם, מים.'},
+    {tc:'tld',tl:'11:00–15:00',tt:'מונית למפלים (~20 דק\'). מים קרירים. ארוחת צהריים.'},
+    {tc:'tle',tl:'15:00+',tt:'חזרה. בריכה פרטית.'},
+  ]},
+  {n:7,date:'25 מאי',dn:'ב\'',city:'koh',title:'⭐ שייט Ang Thong ⛵',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + הכנה.'},
+    {tc:'tld',tl:'11:00–17:00',tt:'טיול סירה — Ang Thong Marine Park · 42 איים · שנורקלינג + ארוחה.'},
+    {tc:'tle',tl:'ערב',tt:'בריכה + שקיעה.'},
+  ]},
+  {n:8,date:'26 מאי',dn:'ג\'',city:'koh',title:'יום ים מלא 🏖️',blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר ארוכה + בריכה.'},
+    {tc:'tld',tl:'11:00–18:00',tt:'יום ים שלם. חול, מים, שמש. לא מתכננים כלום.'},
+    {tc:'tle',tl:'ערב',tt:'מסעדת פירות ים על הים.'},
+  ]},
+  {n:9,date:'27 מאי',dn:'ד\'',city:'koh',title:'⭐ Wat Plai Laem 🛕',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה.'},
+    {tc:'tld',tl:'11:00–14:00',tt:'Wat Plai Laem — צבעוני, על אגם, פסלים ענקיים.'},
+    {tc:'tle',tl:'14:00+',tt:'ים + בריכה. ערב: שוק לאמאי.'},
+  ]},
+  {n:10,date:'28 מאי',dn:'ה\'',city:'koh',title:"כפר הדייגים + מעבר לבנגקוק 🏙️",blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר אחרונה + צ\'ק-אאוט.'},
+    {tc:'tld',tl:'11:00–14:00',tt:"Fisherman's Village בבופוט — פירות ים, קניות."},
+    {tc:'tle',tl:'אחה"צ',tt:'טיסה USM → BKK. צ\'ק-אין מלון בנגקוק.'},
+  ]},
+  {n:11,date:'29 מאי',dn:'ו\'',city:'bkk',title:'⭐ שוק Chatuchak 🛒',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר.'},
+    {tc:'tld',tl:'11:00–15:00',tt:'Chatuchak — 15,000 דוכנים! BTS Mo Chit.'},
+    {tc:'tle',tl:'15:00+',tt:'MBK ממוזג. Pad Thai ברחוב.'},
+  ]},
+  {n:12,date:'30 מאי',dn:'ש\'',city:'bkk',title:'⭐ Grand Palace + שיט 🏯',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר.'},
+    {tc:'tld',tl:'11:00–16:00',tt:'Grand Palace + Wat Pho. שיט ב-Chao Phraya לאסיאטיק.'},
+    {tc:'tle',tl:'ערב',tt:'ארוחת ערב על הנהר.'},
+  ]},
+  {n:13,date:'31 מאי',dn:'א\'',city:'bkk',title:'⭐ Siam Paragon + Platinum 🛍️',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר.'},
+    {tc:'tld',tl:'11:00–17:00',tt:'Siam Paragon + Platinum Fashion Mall (בגדי ילדים בזול!).'},
+    {tc:'tle',tl:'ערב',tt:'עיסוי + ארוחה מיוחדת. אריזת מזוודות!'},
+  ]},
+  {n:14,date:'1 יוני',dn:'ב\'',city:'bkk',title:'קניות אחרונות + שדה 🏠',blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + צ\'ק-אאוט.'},
+    {tc:'tld',tl:'11:00–16:00',tt:'CentralWorld — קניות + ארוחת צהריים פינאלית.'},
+    {tc:'tle',tl:'ערב',tt:'יציאה לשדה Suvarnabhumi. EY403 → 09:15 למחרת.'},
+  ]},
+  {n:15,date:'3 יוני',dn:'ד\'',city:'bkk',title:'חזרה לישראל 🇮🇱',blks:[
+    {tc:'tlm',tl:'09:15',tt:'המראה — EY403.'},
+    {tc:'tld',tl:'12:35',tt:'נחיתה AUH. קונקשן → EY597.'},
+    {tc:'tle',tl:'16:50',tt:'נחיתה בן גוריון! ברוכים השבים 🌴'},
+  ]},
+];
+let kohDiv=false, bkkDiv=false;
+function buildItin() {
+  kohDiv=false; bkkDiv=false;
+  document.getElementById('itin-container').innerHTML = ITIN.map(day=>{
+    let div='';
+    if(day.city==='koh'&&!kohDiv){kohDiv=true;div='<div class="cdiv">🏝️ קוסמוי</div>';}
+    if(day.city==='bkk'&&!bkkDiv){bkkDiv=true;div='<div class="cdiv">🏙️ בנגקוק</div>';}
+    const done=S['dd-'+day.n]; const note=S['dn-'+day.n]||'';
+    return `${div}
+    <div class="daycard ${done?'done':''}" id="dc-${day.n}">
+      <div class="dayhdr" onclick="togDay(${day.n})">
+        <div class="dnbox"><div class="dnum">${day.n}</div><div class="dday">${day.dn}</div></div>
+        <div class="dhi"><div class="dtitle">${done?'✅ ':''}${day.title}</div><div class="ddate">${day.date}</div></div>
+        <div class="dtog">▼</div>
+      </div>
+      <div class="daybody">
+        ${day.attr?'<div class="attrtag">⭐ אטרקציה יומית</div>':''}
+        ${day.blks.map(b=>`<div class="tblk"><div class="tl ${b.tc}">${b.tl}</div><div class="tt">${b.tt}</div></div>`).join('')}
+        <div style="font-size:11px;color:var(--textd);margin:10px 0 4px">📝 הערות אישיות</div>
+        <textarea class="dnotes" placeholder="מה קרה? המלצות?" oninput="saveDN(${day.n},this.value)">${note}</textarea>
+        <button class="ddonebtn" onclick="togDD(${day.n})">${done?'✅ הושלם':'○ סמן כהושלם'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function togDay(n){document.getElementById('dc-'+n).classList.toggle('exp');}
+function togDD(n){S['dd-'+n]=!S['dd-'+n];saveData();kohDiv=false;bkkDiv=false;buildItin();}
+function saveDN(n,v){S['dn-'+n]=v;saveData();}
+
+// ═══ BUDGET ═══
+const BCATS=[
+  {id:'b-fl',em:'✈️',nm:'טיסות Etihad',est:'~10,000 ₪',col:'#3b82f6'},
+  {id:'b-int',em:'🏝️',nm:'טיסה פנימית',est:'~1,800 ₪',col:'#14b8a6'},
+  {id:'b-hkoh',em:'🌴',nm:'מלון קוסמוי (8 לילות)',est:'~7,000–8,000 ₪',col:'#22c55e'},
+  {id:'b-hbkk',em:'🏙️',nm:'מלון בנגקוק (6 לילות)',est:'~3,500 ₪',col:'#a855f7'},
+  {id:'b-food',em:'🍜',nm:'אוכל',est:'~2,500 ₪',col:'#f97316'},
+  {id:'b-trans',em:'🚗',nm:'תחבורה מקומית',est:'~800 ₪',col:'#f59e0b'},
+  {id:'b-shop',em:'🛍️',nm:'קניות',est:'~2,000 ₪',col:'#ef4444'},
+  {id:'b-act',em:'⛵',nm:'ספא + אטרקציות',est:'~1,000 ₪',col:'#ec4899'},
+  {id:'b-ins',em:'🛡️',nm:'ביטוח נסיעות',est:'~600 ₪',col:'#8b5cf6'},
+  {id:'b-misc',em:'🎲',nm:'שונות / בלתי צפוי',est:'~800 ₪',col:'#64748b'},
+];
+function buildBudget(){
+  document.getElementById('budget-rows').innerHTML=BCATS.map(c=>{
+    const v=S[c.id]||''; const pct=v?Math.min(100,parseInt(v)/BUDGET*100):0;
+    return `<div class="brow">
+      <div class="bem">${c.em}</div>
+      <div class="bname"><div class="bnt">${c.nm}</div><div class="best">אומדן: ${c.est}</div></div>
+      <div class="bbar"><div class="bbar-bg"><div class="bbar-f" style="width:${pct}%;background:${c.col}"></div></div></div>
+      <input class="binp" type="number" placeholder="0 ₪" value="${v}" oninput="updBudget('${c.id}',this.value)">
+    </div>`;
+  }).join('');
+  calcBudget();
+}
+function updBudget(id,v){S[id]=v;saveData();calcBudget();buildBudget();}
+function calcBudget(){
+  const sp=BCATS.reduce((s,c)=>s+(parseInt(S[c.id]||0)||0),0);
+  const lft=BUDGET-sp;
+  document.getElementById('b-spent').textContent=sp.toLocaleString()+' ₪';
+  const el=document.getElementById('b-left');
+  el.textContent=(lft<0?'-':'')+Math.abs(lft).toLocaleString()+' ₪';
+  el.style.color=lft>=0?'var(--green)':'var(--red)';
+}
+
+// ═══ CURRENCY ═══
+async function fetchRates(){
+  try{
+    const r=await fetch('https://api.frankfurter.app/latest?from=ILS&to=THB');
+    const d=await r.json(); rates.ILS=d.rates.THB;
+    document.getElementById('rate-ils').textContent=`שער: 1 ₪ = ${rates.ILS.toFixed(2)} THB · עודכן עכשיו`;
+    const r2=await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');
+    const d2=await r2.json(); rates.USD=d2.rates.THB;
+    document.getElementById('rate-usd').textContent=`שער: 1 $ = ${rates.USD.toFixed(2)} THB · עודכן עכשיו`;
+  }catch(e){
+    document.getElementById('rate-ils').textContent=`שער משוער: 1 ₪ ≈ ${rates.ILS} THB`;
+    document.getElementById('rate-usd').textContent=`שער משוער: 1 $ ≈ ${rates.USD} THB`;
+  }
+}
+function conv(t){
+  if(t==='ils'){const v=parseFloat(document.getElementById('ils-in').value)||0;document.getElementById('ils-out').textContent=(v*rates.ILS).toFixed(0)+' ฿';}
+  else{const v=parseFloat(document.getElementById('usd-in').value)||0;document.getElementById('usd-out').textContent=(v*rates.USD).toFixed(0)+' ฿';}
+}
+
+// ═══ PACKING ═══
+const PACK=[
+  {cat:'📄 מסמכים',items:[
+    {id:'p-pass',tx:'דרכונים לכולם',nt:'ודאו תוקף 6+ חודשים'},
+    {id:'p-tickets',tx:'אישורי טיסה מודפסים',nt:'Etihad + פנימית'},
+    {id:'p-ins',tx:'פוליסת ביטוח PassportCard'},
+    {id:'p-hconf',tx:'אישורי מלון — קוסמוי + בנגקוק'},
+    {id:'p-cards',tx:'כרטיסי אשראי + מזומן $',nt:'2 כרטיסים לפחות'},
+  ]},
+  {cat:'💊 בריאות ותרופות',items:[
+    {id:'p-fever',tx:'תרופות חום לתינוקת',nt:'אקמול / נורופן + מד חום'},
+    {id:'p-diar',tx:'תרופות שלשול'},
+    {id:'p-anti',tx:'אנטיהיסטמין',nt:'לעקיצות ואלרגיות'},
+    {id:'p-mosq',tx:'קרם נגד יתושים DEET-free',nt:'לתינוקת בפרט'},
+    {id:'p-sun',tx:'קרם שמש SPF 50+',nt:'מינרלי לתינוקות'},
+    {id:'p-faid',tx:'ערכת עזרה ראשונה',nt:'פלסטרים, חיטוי'},
+  ]},
+  {cat:'👶 לתינוקת',items:[
+    {id:'p-diap',tx:'חיתולים',nt:'ל-3 ימים + מלאי לטיסה'},
+    {id:'p-wipes',tx:'מגבונים לח — הרבה!'},
+    {id:'p-bfood',tx:'אוכל לתינוקת לטיסה'},
+    {id:'p-botts',tx:'בקבוקים',nt:'2–3 + מנקה'},
+    {id:'p-stroll',tx:'עגלה קלה + נשאית'},
+    {id:'p-net',tx:'רשת יתושים לעריסה',nt:'חיוני!'},
+    {id:'p-batow',tx:'מגבת + בגד ים לתינוקת'},
+    {id:'p-toys',tx:'צעצועים שקטים לטיסה'},
+    {id:'p-earp',tx:'אטמי אוזניים לתינוקות'},
+    {id:'p-rash',tx:'חולצת הגנה מהשמש',nt:'חיוני לתינוקת'},
+  ]},
+  {cat:'👕 ביגוד',items:[
+    {id:'p-lcloth',tx:'בגדים קלים וכותנה',nt:'חם ולח — קל ככל האפשר'},
+    {id:'p-swim',tx:'בגדי ים',nt:'לפחות 2 לכל אחד'},
+    {id:'p-cover',tx:'כיסוי לכניסה למקדשים',nt:'כתפיים + ברכיים מכוסות'},
+    {id:'p-hat',tx:'כובע שמש — לכולם'},
+    {id:'p-sand',tx:'נעלי ים / כפכפים'},
+    {id:'p-jack',tx:'ז\'קט קל',nt:'לקניונים ממוזגים מאוד'},
+  ]},
+  {cat:'📱 טכנולוגיה',items:[
+    {id:'p-adapt',tx:'מתאם חשמל',nt:'תאילנד: Type A/B/C'},
+    {id:'p-pb',tx:'Power Bank גדול',nt:'לטיסה + יום שלם'},
+    {id:'p-cam',tx:'מצלמה / GoPro'},
+    {id:'p-head',tx:'אוזניות לטיסה',nt:'Noise canceling — הצלה!'},
+  ]},
+];
+function buildPack(){
+  document.getElementById('pack-container').innerHTML=PACK.map(cat=>{
+    const pkd=cat.items.filter(i=>S[i.id]).length;
+    return `<div class="pcat">
+      <div class="pcath"><div class="pcattitle">${cat.cat}</div><div class="pcnt">${pkd}/${cat.items.length}</div></div>
+      ${cat.items.map(it=>`<div class="pitem ${S[it.id]?'pkd':''}" onclick="togPack('${it.id}')">
+        <div class="pchk">${S[it.id]?'✓':''}</div>
+        <div class="ptxt">${it.tx}</div>
+        ${it.nt?`<div class="pnote">${it.nt}</div>`:''}
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+function togPack(id){S[id]=!S[id];saveData();buildPack();}
+
+// ═══ HOTEL SELECTION ═══
+function selHotel(dest,num){
+  [1,2,3].forEach(n=>{
+    const b=document.getElementById(`sh${dest[0]}${n}`);
+    const c=document.getElementById(`h${dest}${n}`);
+    const bk=document.getElementById(`b${dest}${n}`);
+    if(!b)return;
+    b.className='hsbtn un'; b.textContent='בחר מלון זה';
+    if(c)c.classList.remove('sel');
+    if(bk)bk.style.display='none';
+  });
+  const already=S[`hsel-${dest}`]===num;
+  if(already){S[`hsel-${dest}`]=null;}
+  else{
+    S[`hsel-${dest}`]=num;
+    const b=document.getElementById(`sh${dest[0]}${num}`);
+    const c=document.getElementById(`h${dest}${num}`);
+    const bk=document.getElementById(`b${dest}${num}`);
+    if(b){b.className='hsbtn is';b.textContent='✅ נבחר';}
+    if(c)c.classList.add('sel');
+    if(bk)bk.style.display='block';
+  }
+  saveData();
+}
+function restoreHotels(){
+  ['koh','bkk'].forEach(dest=>{
+    const n=S[`hsel-${dest}`];
+    if(!n)return;
+    const b=document.getElementById(`sh${dest[0]}${n}`);
+    const c=document.getElementById(`h${dest}${n}`);
+    const bk=document.getElementById(`b${dest}${n}`);
+    if(b){b.className='hsbtn is';b.textContent='✅ נבחר';}
+    if(c)c.classList.add('sel');
+    if(bk)bk.style.display='block';
+  });
+}
+
+// ═══ WEATHER ═══
+async function fetchWeather(){
+  const locs=[{id:'w-samui',lat:9.512,lon:100.014},{id:'w-bangkok',lat:13.756,lon:100.502}];
+  for(const l of locs){
+    try{
+      const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${l.lat}&longitude=${l.lon}&current=temperature_2m,weathercode,relative_humidity_2m&timezone=auto`);
+      const d=await r.json();
+      const t=Math.round(d.current.temperature_2m);
+      const h=d.current.relative_humidity_2m;
+      const c=d.current.weathercode;
+      const ic=c<=1?'☀️':c<=3?'⛅':c<=67?'🌧️':'⛈️';
+      const desc=c<=1?'שמשי':c<=3?'מעונן חלקית':c<=67?'גשום':'סופה';
+      document.getElementById(l.id).innerHTML=`<div class="wtemp">${ic} ${t}°</div><div class="wdesc">${desc}</div><div class="wdet">לחות: ${h}%</div>`;
+    }catch(e){document.getElementById(l.id).innerHTML='<div style="color:var(--textd);font-size:13px">לא זמין</div>';}
+  }
+}
+
+// ═══ SYNC / SAVE ═══
+function setSyncStatus(type,txt){
+  const el=document.getElementById('sync');
+  const dot=document.getElementById('sdot');
+  el.className=type;
+  dot.className='sdot'+(type==='saving'?' pulse':'');
+  document.getElementById('stxt').textContent=txt;
+}
+function saveShUrl(){
+  const url=document.getElementById('sh-url-inp').value.trim();
+  if(!url.startsWith('https://script.google.com')){alert('URL לא תקין');return;}
+  shUrl=url;
+  localStorage.setItem('th2026-shurl',url);
+  document.getElementById('setup-modal').classList.remove('show');
+  document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';
+  setSyncStatus('saved','✅ מחובר');
+  syncSheets();
+}
+async function syncSheets(){
+  if(!shUrl)return;
+  setSyncStatus('saving','שומר...');
+  try{
+    await fetch(shUrl,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'save',data:S})});
+    setSyncStatus('saved','✅ נשמר');
+    setTimeout(()=>setSyncStatus('','מחובר'),3000);
+  }catch(e){setSyncStatus('err','❌ שגיאה');}
+}
+function saveData(){
+  // collect all data-key inputs
+  document.querySelectorAll('[data-key]').forEach(el=>S[el.getAttribute('data-key')]=el.value);
+  ['conf-out','conf-ret','conf-int'].forEach(id=>{const el=document.getElementById(id);if(el)S[id]=el.value;});
+  localStorage.setItem('th2026',JSON.stringify(S));
+  setSyncStatus('saving','שומר...');
+  if(saveTimer)clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    if(shUrl)syncSheets(); else setSyncStatus('','שמור מקומית');
+  },1000);
+  updateProgress();
+  calcBudget();
+}
+function loadData(){
+  const raw=localStorage.getItem('th2026');
+  if(raw)S=JSON.parse(raw);
+  setTimeout(()=>{
+    document.querySelectorAll('[data-key]').forEach(el=>{if(S[el.getAttribute('data-key')]!==undefined)el.value=S[el.getAttribute('data-key')];});
+    ['conf-out','conf-ret','conf-int'].forEach(id=>{const el=document.getElementById(id);if(el&&S[id])el.value=S[id];});
+    restoreHotels(); calcBudget();
+  },80);
+}
+
+// ═══ INIT ═══
+function init(){
+  shUrl=localStorage.getItem('th2026-shurl')||'';
+  if(shUrl){document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';setSyncStatus('saved','מחובר ל-Sheets');}
+  loadData(); buildTodo(); buildItin(); buildBudget(); buildPack(); buildRem(); updateCountdown(); fetchWeather(); fetchRates(); updateProgress();
+  setInterval(updateCountdown,60000);
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
