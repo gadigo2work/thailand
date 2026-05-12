@@ -769,7 +769,7 @@ textarea.inp{min-height:56px;resize:vertical}
 <script>
 // ═══ STATE ═══
 let S = {};
-let shUrl = '';
+let shUrl = 'https://script.google.com/macros/s/AKfycbzNiInaz_DmxsyDvUS3B53v9nIpZ4eg9bzlCFD5s7sPWoM_fDPD_xLXBDuOKZX2pHD_aA/exec';
 let saveTimer = null;
 let rates = {ILS:10.5, USD:34.5};
 const BUDGET = 27000;
@@ -1223,11 +1223,10 @@ function loadLocalData(){
 
 // ═══ INIT ═══
 async function init(){
-  shUrl=localStorage.getItem('th2026-shurl')||'';
-  if(shUrl){
-    document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';
-    setSyncStatus('saving','מחובר ל-Sheets');
-  }
+  // URL is hardcoded — no setup needed on any device
+  localStorage.setItem('th2026-shurl', shUrl);
+  document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';
+  setSyncStatus('saving','מתחבר...');
 
   // Load local first for instant render
   loadLocalData();
