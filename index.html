@@ -1151,14 +1151,17 @@ function setSyncStatus(type,txt){
   dot.className='sdot'+(type==='saving'?' pulse':'');
   document.getElementById('stxt').textContent=txt;
 }
-function saveShUrl(){
+async function saveShUrl(){
   const url=document.getElementById('sh-url-inp').value.trim();
   if(!url.startsWith('https://script.google.com')){alert('URL לא תקין');return;}
   shUrl=url;
   localStorage.setItem('th2026-shurl',url);
   document.getElementById('setup-modal').classList.remove('show');
   document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';
-  setSyncStatus('saved','✅ מחובר');
+  // Load existing data from Sheets first
+  const loaded = await loadFromSheets();
+  if(loaded) setTimeout(applyState, 100);
+  // Then save current local state
   syncSheets();
 }
 async function syncSheets(){
@@ -1183,21 +1186,61 @@ function saveData(){
   updateProgress();
   calcBudget();
 }
-function loadData(){
+function applyState(){
+  document.querySelectorAll('[data-key]').forEach(el=>{if(S[el.getAttribute('data-key')]!==undefined)el.value=S[el.getAttribute('data-key')];});
+  ['conf-out','conf-ret','conf-int'].forEach(id=>{const el=document.getElementById(id);if(el&&S[id])el.value=S[id];});
+  restoreHotels(); calcBudget();
+  buildTodo(); buildItin(); buildBudget(); buildPack(); updateProgress();
+}
+
+async function loadFromSheets(){
+  if(!shUrl) return false;
+  try{
+    setSyncStatus('saving','טוען נתונים...');
+    const r = await fetch(shUrl + '?action=load&t=' + Date.now(), {
+      method: 'GET',
+      mode: 'cors',
+    });
+    const d = await r.json();
+    if(d && d.data && Object.keys(d.data).length > 0){
+      S = {...S, ...d.data};
+      localStorage.setItem('th2026', JSON.stringify(S));
+      setSyncStatus('saved','✅ נטען מ-Sheets');
+      setTimeout(()=>setSyncStatus('','מחובר ל-Sheets'), 2000);
+      return true;
+    }
+  }catch(e){
+    setSyncStatus('err','⚠️ שגיאת טעינה');
+    setTimeout(()=>setSyncStatus('','מחובר'), 2000);
+  }
+  return false;
+}
+
+function loadLocalData(){
   const raw=localStorage.getItem('th2026');
-  if(raw)S=JSON.parse(raw);
-  setTimeout(()=>{
-    document.querySelectorAll('[data-key]').forEach(el=>{if(S[el.getAttribute('data-key')]!==undefined)el.value=S[el.getAttribute('data-key')];});
-    ['conf-out','conf-ret','conf-int'].forEach(id=>{const el=document.getElementById(id);if(el&&S[id])el.value=S[id];});
-    restoreHotels(); calcBudget();
-  },80);
+  if(raw) S=JSON.parse(raw);
 }
 
 // ═══ INIT ═══
-function init(){
+async function init(){
   shUrl=localStorage.getItem('th2026-shurl')||'';
-  if(shUrl){document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';setSyncStatus('saved','מחובר ל-Sheets');}
-  loadData(); buildTodo(); buildItin(); buildBudget(); buildPack(); buildRem(); updateCountdown(); fetchWeather(); fetchRates(); updateProgress();
+  if(shUrl){
+    document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';
+    setSyncStatus('saving','מחובר ל-Sheets');
+  }
+
+  // Load local first for instant render
+  loadLocalData();
+  buildTodo(); buildItin(); buildBudget(); buildPack(); buildRem();
+  updateCountdown(); fetchWeather(); fetchRates(); updateProgress();
+  setTimeout(applyState, 80);
+
+  // Then load from Sheets and re-render if connected
+  if(shUrl){
+    const loaded = await loadFromSheets();
+    if(loaded) setTimeout(applyState, 100);
+  }
+
   setInterval(updateCountdown,60000);
 }
 document.addEventListener('DOMContentLoaded',init);
