@@ -6,7 +6,58 @@
 <title>🌴 תאילנד 2026 — מנהל הטיול</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1117;--bg2:#161b27;--bg3:#1e2535;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--green:#22c55e;--green-d:#16a34a;--gp:rgba(34,197,94,0.1);--gold:#f59e0b;--goldp:rgba(245,158,11,0.1);--blue:#3b82f6;--bluep:rgba(59,130,246,0.1);--coral:#f97316;--coralp:rgba(249,115,22,0.1);--purple:#a855f7;--purplep:rgba(168,85,247,0.1);--red:#ef4444;--redp:rgba(239,68,68,0.1);--teal:#14b8a6;--tealp:rgba(20,184,166,0.1);--text:#f1f5f9;--textm:#94a3b8;--textd:#475569;--r:14px;--rsm:8px}
+:root{--bg:#0f1117;--bg2:#1a2035;--bg3:#242d42;--border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.18);--green:#22c55e;--green-d:#16a34a;--gp:rgba(34,197,94,0.12);--gold:#f59e0b;--goldp:rgba(245,158,11,0.12);--blue:#3b82f6;--bluep:rgba(59,130,246,0.12);--coral:#f97316;--coralp:rgba(249,115,22,0.12);--purple:#a855f7;--purplep:rgba(168,85,247,0.12);--red:#ef4444;--redp:rgba(239,68,68,0.12);--teal:#14b8a6;--tealp:rgba(20,184,166,0.12);--text:#f0f4ff;--textm:#b0bdd0;--textd:#7a8a9e;--r:14px;--rsm:8px;--shadow:0 4px 24px rgba(0,0,0,.4)}
+/* LIGHT THEME */
+body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf4;--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);--text:#1a2035;--textm:#4a5a70;--textd:#8a9ab0;--shadow:0 4px 24px rgba(0,0,0,.1)}
+body.light nav{background:rgba(240,244,248,.95)}
+body.light #sync{background:#fff}
+body.light .countdown{background:linear-gradient(135deg,#e8f5ee,#d4f0e2)}
+body.light .modal .mbox{background:#fff}
+
+/* SEARCH OVERLAY */
+#search-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);padding:20px;align-items:flex-start;justify-content:center;padding-top:80px}
+#search-overlay.show{display:flex}
+.search-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);width:100%;max-width:600px;overflow:hidden;box-shadow:var(--shadow)}
+.search-inp-wrap{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.search-inp-wrap span{font-size:18px;color:var(--textm)}
+#search-inp{flex:1;background:none;border:none;font-family:'Heebo',sans-serif;font-size:16px;color:var(--text);outline:none}
+#search-inp::placeholder{color:var(--textd)}
+#search-results{max-height:400px;overflow-y:auto;padding:8px}
+.sr-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:var(--rsm);cursor:pointer;transition:background .15s}
+.sr-item:hover{background:var(--bg3)}
+.sr-section{font-size:11px;font-weight:700;color:var(--textm);background:var(--bg3);padding:2px 8px;border-radius:100px;flex-shrink:0;margin-top:2px}
+.sr-text{font-size:13px;color:var(--text);line-height:1.5}
+.sr-match{color:var(--green);font-weight:700}
+.sr-empty{text-align:center;padding:30px;color:var(--textd);font-size:13px}
+
+/* STAR RATING */
+.stars-row{display:flex;gap:6px;margin:8px 0}
+.star{font-size:22px;cursor:pointer;transition:transform .15s;line-height:1;filter:grayscale(1);opacity:.4}
+.star.lit{filter:none;opacity:1}
+.star:hover{transform:scale(1.2)}
+.rating-label{font-size:12px;color:var(--textm);margin-top:4px}
+
+/* PIE CHART */
+.pie-wrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.pie-svg{flex-shrink:0}
+.pie-legend{flex:1;min-width:150px}
+.pie-leg-item{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;color:var(--textm)}
+.pie-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* NOTIFICATIONS */
+.notif-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:14px}
+.notif-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.notif-list{display:flex;flex-direction:column;gap:8px}
+.notif-item{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--bg3);border-radius:var(--rsm)}
+.notif-item .ni-icon{font-size:18px;flex-shrink:0}
+.notif-item .ni-text{flex:1;font-size:13px;color:var(--textm)}
+.notif-item .ni-time{font-size:11px;color:var(--textd)}
+.toggle-sw{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle-sw input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--bg3);border-radius:100px;cursor:pointer;transition:.3s;border:1px solid var(--border2)}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;background:var(--textd);border-radius:50%;transition:.3s}
+input:checked+.toggle-slider{background:var(--green);border-color:var(--green)}
+input:checked+.toggle-slider::before{transform:translateX(20px);background:#fff}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:15px}
@@ -65,9 +116,32 @@ textarea.inp{min-height:56px;resize:vertical}
 .countdown .days{font-family:'Rubik',sans-serif;font-size:76px;font-weight:900;color:var(--green);line-height:1}
 .countdown .sub{font-size:13px;color:var(--textm);margin-top:5px}
 .countdown .date{font-size:17px;font-weight:600;margin-top:7px}
+.countdown .hms{display:flex;justify-content:center;gap:16px;margin-top:12px}
+.countdown .hms-item{text-align:center}
+.countdown .hms-num{font-family:'Rubik',sans-serif;font-size:32px;font-weight:700;color:#86efac;line-height:1}
+.countdown .hms-lbl{font-size:11px;color:var(--textm);margin-top:2px}
 .pbar-bg{background:var(--bg3);border-radius:100px;height:8px;overflow:hidden}
 .pbar-f{height:8px;border-radius:100px;background:linear-gradient(90deg,var(--green),#86efac);transition:width .6s ease}
 .plabel{display:flex;justify-content:space-between;font-size:12px;color:var(--textm);margin-bottom:4px}
+/* Calendar view */
+.view-toggle{display:flex;gap:6px;margin-bottom:14px}
+.vtbtn{padding:6px 14px;border-radius:100px;border:1.5px solid var(--border2);background:none;color:var(--textm);font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.vtbtn.active{background:var(--green);border-color:var(--green);color:#fff}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px}
+.cal-hdr{text-align:center;font-size:11px;font-weight:700;color:var(--textm);padding:4px 0}
+.cal-day{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);padding:6px 4px;min-height:70px;cursor:pointer;transition:all .2s;position:relative}
+.cal-day:hover{border-color:var(--green);background:var(--bg3)}
+.cal-day.active-trip{border-color:rgba(34,197,94,.3)}
+.cal-day.has-event{background:var(--bg3)}
+.cal-day.done-day{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.05)}
+.cal-day-num{font-size:12px;font-weight:700;color:var(--textm);margin-bottom:3px}
+.cal-event{font-size:10px;color:var(--green);background:var(--gp);border-radius:3px;padding:1px 4px;margin-bottom:2px;line-height:1.4;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.cal-day.today .cal-day-num{color:var(--green);font-size:13px}
+/* Inline edit */
+.edit-inline{display:flex;gap:6px;align-items:center;background:var(--bg3);border:1px solid var(--green);border-radius:var(--rsm);padding:6px 10px;margin-bottom:6px}
+.edit-inline input{flex:1;background:none;border:none;color:var(--text);font-family:'Heebo',sans-serif;font-size:13px;outline:none}
+.edit-btn{font-size:12px;padding:3px 8px;border-radius:100px;border:none;cursor:pointer;font-family:'Heebo',sans-serif;font-weight:600}
+.eb-save{background:var(--green);color:#fff}.eb-cancel{background:var(--bg3);border:1px solid var(--border2);color:var(--textm)}
 
 /* REMINDERS */
 .rem-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
@@ -301,11 +375,27 @@ textarea.inp{min-height:56px;resize:vertical}
   <button class="nb" onclick="showSec('itinerary',this)">📅 לו"ז</button>
   <button class="nb" onclick="showSec('budget',this)">💰 תקציב</button>
   <button class="nb" onclick="showSec('currency',this)">💱 המרה</button>
-  <button class="nb" onclick="showSec('packing',this)">🧳 ארוז</button>
+  <button class="nb" onclick="showSec('packing',this)">🧳 לארוז</button>
   <button class="nb" onclick="showSec('transport',this)">🚗 תחבורה</button>
   <button class="nb" onclick="showSec('baby',this)">👶 תינוקת</button>
   <button class="nb" onclick="showSec('emergency',this)">📞 חירום</button>
+  <button class="nb" onclick="showSec('notifications',this)">🔔 התראות</button>
+  <div style="flex:1"></div>
+  <button class="nb" onclick="openSearch()" title="חיפוש">🔍</button>
+  <button class="nb" onclick="toggleTheme()" id="theme-btn" title="עצב">🌙</button>
 </nav>
+
+<!-- SEARCH OVERLAY -->
+<div id="search-overlay" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-inp-wrap">
+      <span>🔍</span>
+      <input id="search-inp" placeholder="חפש בכל הדף... (משימות, מלונות, לו״ז...)" oninput="doSearch(this.value)" autofocus>
+      <button class="nb" onclick="closeSearch()" style="padding:4px 10px">✕</button>
+    </div>
+    <div id="search-results"><div class="sr-empty">התחל להקליד לחיפוש...</div></div>
+  </div>
+</div>
 
 <main>
 
@@ -314,6 +404,11 @@ textarea.inp{min-height:56px;resize:vertical}
   <div class="countdown">
     <div class="days" id="days-count">—</div>
     <div class="sub">ימים עד לטיסה</div>
+    <div class="hms">
+      <div class="hms-item"><div class="hms-num" id="hms-h">00</div><div class="hms-lbl">שעות</div></div>
+      <div class="hms-item"><div class="hms-num" id="hms-m">00</div><div class="hms-lbl">דקות</div></div>
+      <div class="hms-item"><div class="hms-num" id="hms-s">00</div><div class="hms-lbl">שניות</div></div>
+    </div>
     <div class="date">✈️ רביעי, 20 מאי 2026 · 20:10 · TLV T3</div>
   </div>
   <div class="dgrid">
@@ -552,14 +647,16 @@ textarea.inp{min-height:56px;resize:vertical}
 
   <!-- CUSTOM KOH -->
   <div class="cust-h">
-    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ מלון אחר בקוסמוי</div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ הוסף מלון בקוסמוי</div>
+    <div id="custom-hotels-koh"></div>
     <div class="igrid">
-      <div class="irow"><div class="lbl">שם המלון</div><input class="inp inp-sm" placeholder="שם המלון..." data-key="koh-c-name" oninput="saveData()"></div>
-      <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="מס' הזמנה..." data-key="koh-c-conf" oninput="saveData()"></div>
-      <div class="irow"><div class="lbl">מחיר סה"כ (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="koh-c-price" oninput="saveData()"></div>
-      <div class="irow"><div class="lbl">לינק Booking</div><input class="inp inp-sm" placeholder="https://..." data-key="koh-c-link" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">שם המלון *</div><input class="inp inp-sm" id="ch-koh-name" placeholder="שם המלון..."></div>
+      <div class="irow"><div class="lbl">מיקום</div><input class="inp inp-sm" id="ch-koh-loc" placeholder="חוף, אזור..."></div>
+      <div class="irow"><div class="lbl">מחיר סה"כ (₪)</div><input class="inp inp-sm" id="ch-koh-price" placeholder="0"></div>
+      <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" id="ch-koh-conf" placeholder="BOOKING-XXX"></div>
     </div>
-    <div class="irow"><div class="lbl">הערות / בקשות</div><input class="inp inp-sm" placeholder="עריסה, gate בריכה..." data-key="koh-c-notes" oninput="saveData()"></div>
+    <div class="irow"><div class="lbl">לינק Booking</div><input class="inp inp-sm" id="ch-koh-link" placeholder="https://..."></div>
+    <button class="btn btn-g" style="margin-top:4px" onclick="addCustomHotel('koh')">+ הוסף מלון</button>
   </div>
 
   <!-- BKK HEADER -->
@@ -595,20 +692,28 @@ textarea.inp{min-height:56px;resize:vertical}
 
   <!-- CUSTOM BKK -->
   <div class="cust-h">
-    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ מלון אחר בבנגקוק</div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ הוסף מלון אחר בבנגקוק</div>
+    <div id="custom-hotels-bkk"></div>
     <div class="igrid">
-      <div class="irow"><div class="lbl">שם המלון</div><input class="inp inp-sm" placeholder="שם המלון..." data-key="bkk-c-name" oninput="saveData()"></div>
-      <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="מס' הזמנה..." data-key="bkk-c-conf" oninput="saveData()"></div>
-      <div class="irow"><div class="lbl">מחיר סה"כ (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="bkk-c-price" oninput="saveData()"></div>
-      <div class="irow"><div class="lbl">לינק Booking</div><input class="inp inp-sm" placeholder="https://..." data-key="bkk-c-link" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">שם המלון *</div><input class="inp inp-sm" id="ch-bkk-name" placeholder="שם המלון..."></div>
+      <div class="irow"><div class="lbl">מיקום</div><input class="inp inp-sm" id="ch-bkk-loc" placeholder="אזור, BTS..."></div>
+      <div class="irow"><div class="lbl">מחיר סה"כ (₪)</div><input class="inp inp-sm" id="ch-bkk-price" placeholder="0"></div>
+      <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" id="ch-bkk-conf" placeholder="BOOKING-XXX"></div>
     </div>
+    <div class="irow"><div class="lbl">לינק Booking</div><input class="inp inp-sm" id="ch-bkk-link" placeholder="https://..."></div>
+    <button class="btn btn-g" style="margin-top:4px" onclick="addCustomHotel('bkk')">+ הוסף מלון</button>
   </div>
 </div>
 
 <!-- ITINERARY -->
 <div id="s-itinerary" class="section">
+  <div class="view-toggle">
+    <button class="vtbtn active" id="vt-list" onclick="setItinView('list')">📋 רשימה</button>
+    <button class="vtbtn" id="vt-cal" onclick="setItinView('cal')">📅 לוח שנה</button>
+  </div>
   <p style="font-size:13px;color:var(--textm);margin-bottom:15px">לחץ על יום לפרטים. סמן יום כ-✅ והוסף הערות אישיות.</p>
   <div id="itin-container"></div>
+  <div id="cal-container" style="display:none"></div>
 </div>
 
 <!-- BUDGET -->
@@ -617,6 +722,13 @@ textarea.inp{min-height:56px;resize:vertical}
     <div class="bsc"><div class="bsnum" style="color:var(--blue)">27,000 ₪</div><div class="bslbl">תקציב כולל</div></div>
     <div class="bsc"><div class="bsnum" id="b-spent" style="color:var(--gold)">0 ₪</div><div class="bslbl">שולם בפועל</div></div>
     <div class="bsc"><div class="bsnum" id="b-left" style="color:var(--green)">27,000 ₪</div><div class="bslbl">נשאר</div></div>
+  </div>
+  <div class="card" id="pie-card">
+    <div class="ct">📊 פיזור התקציב</div>
+    <div class="pie-wrap">
+      <svg class="pie-svg" id="pie-svg" width="160" height="160" viewBox="0 0 160 160"></svg>
+      <div class="pie-legend" id="pie-legend"></div>
+    </div>
   </div>
   <div class="card">
     <div class="ct">💰 מעקב הוצאות אמיתי</div>
@@ -644,6 +756,24 @@ textarea.inp{min-height:56px;resize:vertical}
       <div><div class="curr-lbl">בבאט תאילנדי</div><div class="curr-res" id="usd-out">—</div></div>
     </div>
     <div class="rate-info" id="rate-usd">טוען שער...</div>
+  </div>
+  <div class="curr-box">
+    <div class="curr-title">🇹🇭 บาท (THB) → 🇮🇱 שקלים (₪)</div>
+    <div class="curr-row">
+      <div style="flex:1"><div class="curr-lbl">סכום בבאט</div><input class="curr-inp" id="thb-ils-in" type="number" placeholder="100" oninput="conv('thb-ils')"></div>
+      <div style="color:var(--textd);font-size:20px">→</div>
+      <div><div class="curr-lbl">בשקלים</div><div class="curr-res" id="thb-ils-out">—</div></div>
+    </div>
+    <div class="rate-info" id="rate-thb-ils">טוען שער...</div>
+  </div>
+  <div class="curr-box">
+    <div class="curr-title">🇹🇭 บาท (THB) → 🇺🇸 דולר ($)</div>
+    <div class="curr-row">
+      <div style="flex:1"><div class="curr-lbl">סכום בבאט</div><input class="curr-inp" id="thb-usd-in" type="number" placeholder="100" oninput="conv('thb-usd')"></div>
+      <div style="color:var(--textd);font-size:20px">→</div>
+      <div><div class="curr-lbl">בדולרים</div><div class="curr-res" id="thb-usd-out">—</div></div>
+    </div>
+    <div class="rate-info" id="rate-thb-usd">טוען שער...</div>
   </div>
   <div class="card">
     <div class="ct">💡 טיפים — כסף בתאילנד</div>
@@ -754,6 +884,37 @@ textarea.inp{min-height:56px;resize:vertical}
   </div>
 </div>
 
+<!-- NOTIFICATIONS -->
+<div id="s-notifications" class="section">
+  <div class="card">
+    <div class="ct">🔔 התראות חכמות</div>
+    <p style="font-size:13px;color:var(--textm);margin-bottom:16px;line-height:1.6">
+      אפשר התראות כדי לקבל תזכורות אוטומטיות — למשל כשנפתח צ'ק-אין אונליין, TDAC, ועוד.
+    </p>
+    <div id="notif-permission-box">
+      <button class="btn btn-g" onclick="requestNotifPermission()" id="notif-req-btn">🔔 אפשר התראות</button>
+      <span id="notif-status" style="font-size:13px;color:var(--textm);margin-right:10px"></span>
+    </div>
+  </div>
+  <div class="card" id="notif-settings" style="display:none">
+    <div class="ct">⚙️ הגדרות התראות</div>
+    <div class="notif-list" id="notif-list"></div>
+  </div>
+  <div class="card">
+    <div class="ct">📋 תזכורות מתוכננות</div>
+    <div class="notif-list">
+      <div class="notif-item"><div class="ni-icon">✈️</div><div class="ni-text"><strong>Check-in Etihad נפתח</strong><br>18 מאי 2026, 20:10</div><div class="ni-time" id="checkin-countdown"></div></div>
+      <div class="notif-item"><div class="ni-icon">📄</div><div class="ni-text"><strong>TDAC — הגשת טופס כניסה</strong><br>17 מאי 2026</div><div class="ni-time"></div></div>
+      <div class="notif-item"><div class="ni-icon">🏝️</div><div class="ni-text"><strong>יציאה לקוסמוי!</strong><br>20 מאי 2026</div><div class="ni-time"></div></div>
+      <div class="notif-item"><div class="ni-icon">🏙️</div><div class="ni-text"><strong>מעבר לבנגקוק</strong><br>28 מאי 2026</div><div class="ni-time"></div></div>
+      <div class="notif-item"><div class="ni-icon">🛬</div><div class="ni-text"><strong>חזרה לישראל!</strong><br>3 יוני 2026</div><div class="ni-time"></div></div>
+    </div>
+    <div style="margin-top:14px">
+      <button class="btn btn-g" onclick="scheduleAllNotifs()">📅 תזמן את כל ההתראות</button>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <!-- SETUP MODAL -->
@@ -793,8 +954,20 @@ function showSec(id, btn) {
 
 // ═══ COUNTDOWN ═══
 function updateCountdown() {
-  const d = Math.max(0, Math.floor((FLIGHT - new Date()) / 86400000));
-  document.getElementById('days-count').textContent = d;
+  const diff = FLIGHT - new Date();
+  if (diff <= 0) {
+    document.getElementById('days-count').textContent = '🛫';
+    ['hms-h','hms-m','hms-s'].forEach(id=>document.getElementById(id).textContent='00');
+    return;
+  }
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  document.getElementById('days-count').textContent = days;
+  document.getElementById('hms-h').textContent = String(hours).padStart(2,'0');
+  document.getElementById('hms-m').textContent = String(mins).padStart(2,'0');
+  document.getElementById('hms-s').textContent = String(secs).padStart(2,'0');
 }
 
 // ═══ REMINDERS ═══
@@ -1002,29 +1175,71 @@ const ITIN = [
 let kohDiv=false, bkkDiv=false;
 function buildItin() {
   kohDiv=false; bkkDiv=false;
-  document.getElementById('itin-container').innerHTML = ITIN.map(day=>{
-    let div='';
-    if(day.city==='koh'&&!kohDiv){kohDiv=true;div='<div class="cdiv">🏝️ קוסמוי</div>';}
-    if(day.city==='bkk'&&!bkkDiv){bkkDiv=true;div='<div class="cdiv">🏙️ בנגקוק</div>';}
-    const done=S['dd-'+day.n]; const note=S['dn-'+day.n]||'';
-    return `${div}
-    <div class="daycard ${done?'done':''}" id="dc-${day.n}">
-      <div class="dayhdr" onclick="togDay(${day.n})">
-        <div class="dnbox"><div class="dnum">${day.n}</div><div class="dday">${day.dn}</div></div>
-        <div class="dhi"><div class="dtitle">${done?'✅ ':''}${day.title}</div><div class="ddate">${day.date}</div></div>
-        <div class="dtog">▼</div>
+  const customDays=getCustomDays();
+  const allBuiltin=ITIN.filter(d=>!S['del-day-'+d.n]);
+  document.getElementById('itin-container').innerHTML = [
+    ...allBuiltin.map(day=>{
+      let div='';
+      if(day.city==='koh'&&!kohDiv){kohDiv=true;div='<div class="cdiv">🏝️ קוסמוי</div>';}
+      if(day.city==='bkk'&&!bkkDiv){bkkDiv=true;div='<div class="cdiv">🏙️ בנגקוק</div>';}
+      const done=S['dd-'+day.n]; const note=S['dn-'+day.n]||'';
+      const title=S['day-title-'+day.n]||day.title;
+      return `${div}
+      <div class="daycard ${done?'done':''}" id="dc-${day.n}">
+        <div class="dayhdr" onclick="togDay(${day.n})">
+          <div class="dnbox"><div class="dnum">${day.n}</div><div class="dday">${day.dn}</div></div>
+          <div class="dhi"><div class="dtitle" id="dt-${day.n}">${done?'✅ ':''}${title}</div><div class="ddate">${day.date}</div></div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <div class="del-btn" onclick="event.stopPropagation();editDayTitle(${day.n},false,'')" title="ערוך">✏️</div>
+            <div class="del-btn" onclick="event.stopPropagation();delBuiltinDay(${day.n})" title="מחק">×</div>
+            <div class="dtog">▼</div>
+          </div>
+        </div>
+        <div class="daybody">
+          ${day.attr?'<div class="attrtag">⭐ אטרקציה יומית</div>':''}
+          ${day.blks.map(b=>`<div class="tblk"><div class="tl ${b.tc}">${b.tl}</div><div class="tt">${b.tt}</div></div>`).join('')}
+          <div style="font-size:11px;color:var(--textd);margin:10px 0 4px">📝 הערות אישיות</div>
+          <textarea class="dnotes" placeholder="מה קרה? המלצות?" oninput="saveDN(${day.n},this.value)">${note}</textarea>
+          <div style="font-size:11px;color:var(--textd);margin:10px 0 4px">⭐ דרג את היום</div>
+          <div class="stars-row" id="stars-${day.n}">
+            ${[1,2,3,4,5].map(i=>`<span class="star ${(S['star-'+day.n]||0)>=i?'lit':''}" onclick="setRating(${day.n},${i})">⭐</span>`).join('')}
+          </div>
+          ${S['star-'+day.n]?`<div class="rating-label">${['','😞 גרוע','😐 בסדר','😊 טוב','😄 מצוין','🤩 מדהים!'][S['star-'+day.n]]}</div>`:''}
+          <button class="ddonebtn" onclick="togDD(${day.n})">${done?'✅ הושלם':'○ סמן כהושלם'}</button>
+        </div>
+      </div>`;
+    }),
+    customDays.length?'<div class="cdiv">➕ ימים מותאמים</div>':'',
+    ...customDays.map(day=>{
+      const note=S['dn-c-'+day.id]||'';
+      return `<div class="daycard" id="dc-${day.id}">
+        <div class="dayhdr" onclick="togDay('${day.id}')">
+          <div class="dnbox"><div class="dnum">+</div><div class="dday">custom</div></div>
+          <div class="dhi"><div class="dtitle">${day.title}</div><div class="ddate">${day.date}</div></div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <div class="del-btn" onclick="event.stopPropagation();editDayTitle(0,true,'${day.id}')" title="ערוך">✏️</div>
+            <div class="del-btn" onclick="event.stopPropagation();delCustomDay('${day.id}')" title="מחק">×</div>
+            <div class="dtog">▼</div>
+          </div>
+        </div>
+        <div class="daybody">
+          <div style="font-size:11px;color:var(--textd);margin-bottom:4px">📝 הערות</div>
+          <textarea class="dnotes" placeholder="פרטים, הערות..." oninput="S['dn-c-${day.id}']=this.value;saveData()">${note}</textarea>
+          <button class="ddonebtn" onclick="delCustomDay('${day.id}')">🗑️ מחק יום</button>
+        </div>
+      </div>`;
+    }),
+    `<div class="card" style="margin-top:16px">
+      <div class="ct">➕ הוסף יום</div>
+      <div class="igrid">
+        <div class="irow"><div class="lbl">תאריך</div><input class="inp inp-sm" id="add-day-date" placeholder="20 מאי" /></div>
+        <div class="irow"><div class="lbl">כותרת</div><input class="inp inp-sm" id="add-day-title" placeholder="יום חוף + עיסוי..." onkeydown="if(event.key==='Enter')addCustomDay()" /></div>
       </div>
-      <div class="daybody">
-        ${day.attr?'<div class="attrtag">⭐ אטרקציה יומית</div>':''}
-        ${day.blks.map(b=>`<div class="tblk"><div class="tl ${b.tc}">${b.tl}</div><div class="tt">${b.tt}</div></div>`).join('')}
-        <div style="font-size:11px;color:var(--textd);margin:10px 0 4px">📝 הערות אישיות</div>
-        <textarea class="dnotes" placeholder="מה קרה? המלצות?" oninput="saveDN(${day.n},this.value)">${note}</textarea>
-        <button class="ddonebtn" onclick="togDD(${day.n})">${done?'✅ הושלם':'○ סמן כהושלם'}</button>
-      </div>
-    </div>`;
-  }).join('');
+      <button class="btn btn-g" onclick="addCustomDay()">+ הוסף יום</button>
+    </div>`
+  ].join('');
 }
-function togDay(n){document.getElementById('dc-'+n).classList.toggle('exp');}
+function togDay(n){const el=document.getElementById('dc-'+n);if(el)el.classList.toggle('exp');}
 function togDD(n){S['dd-'+n]=!S['dd-'+n];saveData();kohDiv=false;bkkDiv=false;buildItin();}
 function saveDN(n,v){S['dn-'+n]=v;saveData();}
 
@@ -1042,20 +1257,34 @@ const BCATS=[
   {id:'b-misc',em:'🎲',nm:'שונות / בלתי צפוי',est:'~800 ₪',col:'#64748b'},
 ];
 function buildBudget(){
-  document.getElementById('budget-rows').innerHTML=BCATS.map(c=>{
-    const v=S[c.id]||''; const pct=v?Math.min(100,parseInt(v)/BUDGET*100):0;
-    return `<div class="brow">
-      <div class="bem">${c.em}</div>
-      <div class="bname"><div class="bnt">${c.nm}</div><div class="best">אומדן: ${c.est}</div></div>
-      <div class="bbar"><div class="bbar-bg"><div class="bbar-f" style="width:${pct}%;background:${c.col}"></div></div></div>
-      <input class="binp" type="number" placeholder="0 ₪" value="${v}" oninput="updBudget('${c.id}',this.value)">
+  const customs=getCustomBudget();
+  const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
+  const allRows=[...builtinRows,...customs];
+  const spent=allRows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+  document.getElementById('budget-rows').innerHTML=`
+    ${allRows.map(c=>{
+      const v=S[c.id]||c.val||''; const pct=v?Math.min(100,parseInt(v)/BUDGET*100):0;
+      const isCustom=!!c.custom;
+      return `<div class="brow">
+        <div class="bem">${c.em}</div>
+        <div class="bname"><div class="bnt">${c.nm}</div>${c.est?`<div class="best">אומדן: ${c.est}</div>`:''}</div>
+        <div class="bbar"><div class="bbar-bg"><div class="bbar-f" style="width:${pct}%;background:${c.col}"></div></div></div>
+        <input class="binp" type="number" placeholder="0 ₪" value="${v}" oninput="updBudget('${c.id}',this.value)">
+        <div class="del-btn" onclick="delBudgetRow('${c.id}',${isCustom})" title="מחק">×</div>
+      </div>`;
+    }).join('')}
+    <div class="add-item-row" style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)">
+      <input class="add-item-inp" id="b-add-name" placeholder="+ הוסף קטגוריה..." onkeydown="if(event.key==='Enter')addBudgetRow()">
+      <button class="add-item-btn" onclick="addBudgetRow()">+</button>
     </div>`;
-  }).join('');
   calcBudget();
+  setTimeout(buildPieChart,50);
 }
-function updBudget(id,v){S[id]=v;saveData();calcBudget();buildBudget();}
+function updBudget(id,v){S[id]=v;saveData();calcBudget();}
 function calcBudget(){
-  const sp=BCATS.reduce((s,c)=>s+(parseInt(S[c.id]||0)||0),0);
+  const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
+  const customs=getCustomBudget();
+  const sp=[...builtinRows,...customs].reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
   const lft=BUDGET-sp;
   document.getElementById('b-spent').textContent=sp.toLocaleString()+' ₪';
   const el=document.getElementById('b-left');
@@ -1069,17 +1298,23 @@ async function fetchRates(){
     const r=await fetch('https://api.frankfurter.app/latest?from=ILS&to=THB');
     const d=await r.json(); rates.ILS=d.rates.THB;
     document.getElementById('rate-ils').textContent=`שער: 1 ₪ = ${rates.ILS.toFixed(2)} THB · עודכן עכשיו`;
+    document.getElementById('rate-thb-ils').textContent=`שער: 1 THB = ${(1/rates.ILS).toFixed(4)} ₪`;
     const r2=await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');
     const d2=await r2.json(); rates.USD=d2.rates.THB;
     document.getElementById('rate-usd').textContent=`שער: 1 $ = ${rates.USD.toFixed(2)} THB · עודכן עכשיו`;
+    document.getElementById('rate-thb-usd').textContent=`שער: 1 THB = ${(1/rates.USD).toFixed(4)} $`;
   }catch(e){
     document.getElementById('rate-ils').textContent=`שער משוער: 1 ₪ ≈ ${rates.ILS} THB`;
     document.getElementById('rate-usd').textContent=`שער משוער: 1 $ ≈ ${rates.USD} THB`;
+    document.getElementById('rate-thb-ils').textContent=`שער משוער: 1 THB ≈ ${(1/rates.ILS).toFixed(4)} ₪`;
+    document.getElementById('rate-thb-usd').textContent=`שער משוער: 1 THB ≈ ${(1/rates.USD).toFixed(4)} $`;
   }
 }
 function conv(t){
   if(t==='ils'){const v=parseFloat(document.getElementById('ils-in').value)||0;document.getElementById('ils-out').textContent=(v*rates.ILS).toFixed(0)+' ฿';}
-  else{const v=parseFloat(document.getElementById('usd-in').value)||0;document.getElementById('usd-out').textContent=(v*rates.USD).toFixed(0)+' ฿';}
+  else if(t==='usd'){const v=parseFloat(document.getElementById('usd-in').value)||0;document.getElementById('usd-out').textContent=(v*rates.USD).toFixed(0)+' ฿';}
+  else if(t==='thb-ils'){const v=parseFloat(document.getElementById('thb-ils-in').value)||0;document.getElementById('thb-ils-out').textContent=(v/rates.ILS).toFixed(2)+' ₪';}
+  else if(t==='thb-usd'){const v=parseFloat(document.getElementById('thb-usd-in').value)||0;document.getElementById('thb-usd-out').textContent='$'+(v/rates.USD).toFixed(2);}
 }
 
 // ═══ PACKING ═══
@@ -1182,7 +1417,142 @@ function buildPack(){
 }
 function togPack(id){S[id]=!S[id];saveData();buildPack();}
 
-// ═══ HOTEL SELECTION ═══
+// ═══ CUSTOM HOTELS ═══
+function getCustomHotels(dest){ return S[`hotels-custom-${dest}`] ? JSON.parse(S[`hotels-custom-${dest}`]) : []; }
+function saveCustomHotels(dest,arr){ S[`hotels-custom-${dest}`]=JSON.stringify(arr); saveData(); }
+function addCustomHotel(dest){
+  const n=document.getElementById(`ch-${dest}-name`).value.trim();
+  if(!n)return;
+  const arr=getCustomHotels(dest);
+  const h={id:'h-'+Date.now(),name:n,loc:document.getElementById(`ch-${dest}-loc`).value.trim(),price:document.getElementById(`ch-${dest}-price`).value.trim(),link:document.getElementById(`ch-${dest}-link`).value.trim(),conf:document.getElementById(`ch-${dest}-conf`).value.trim()};
+  arr.push(h);
+  saveCustomHotels(dest,arr);
+  ['name','loc','price','link','conf'].forEach(f=>{const el=document.getElementById(`ch-${dest}-${f}`);if(el)el.value='';});
+  buildCustomHotels(dest);
+}
+function delCustomHotel(dest,id){
+  const arr=getCustomHotels(dest).filter(h=>h.id!==id);
+  saveCustomHotels(dest,arr);
+  buildCustomHotels(dest);
+}
+function buildCustomHotels(dest){
+  const arr=getCustomHotels(dest);
+  const container=document.getElementById(`custom-hotels-${dest}`);
+  if(!container)return;
+  container.innerHTML=arr.map(h=>`
+    <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:12px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px">
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14px">${h.name}</div>
+        ${h.loc?`<div style="font-size:12px;color:var(--textm)">📍 ${h.loc}</div>`:''}
+        ${h.price?`<div style="font-size:12px;color:var(--green)">💰 ${h.price} ₪</div>`:''}
+        ${h.conf?`<div style="font-size:12px;color:var(--textm)">🔖 ${h.conf}</div>`:''}
+        ${h.link?`<a href="${h.link}" target="_blank" style="font-size:12px;color:var(--blue)">🔗 Booking</a>`:''}
+      </div>
+      <div class="del-btn" onclick="delCustomHotel('${dest}','${h.id}')">×</div>
+    </div>`).join('');
+}
+
+// ═══ BUDGET ADD/EDIT/DELETE ═══
+function getCustomBudget(){ return S['budget-custom'] ? JSON.parse(S['budget-custom']) : []; }
+function saveCustomBudget(arr){ S['budget-custom']=JSON.stringify(arr); saveData(); }
+function addBudgetRow(){
+  const n=document.getElementById('b-add-name').value.trim();
+  if(!n)return;
+  const arr=getCustomBudget();
+  arr.push({id:'b-'+Date.now(),em:'💸',nm:n,col:'#64748b',val:''});
+  saveCustomBudget(arr); document.getElementById('b-add-name').value='';
+  buildBudget();
+}
+function delBudgetRow(id,isCustom){
+  if(isCustom){saveCustomBudget(getCustomBudget().filter(r=>r.id!==id));}
+  else{S['del-b-'+id]=true;saveData();}
+  buildBudget();
+}
+
+// ═══ ITINERARY ADD/EDIT/DELETE ═══
+function getCustomDays(){ return S['itin-custom'] ? JSON.parse(S['itin-custom']) : []; }
+function saveCustomDays(arr){ S['itin-custom']=JSON.stringify(arr); saveData(); }
+function addCustomDay(){
+  const date=document.getElementById('add-day-date').value.trim();
+  const title=document.getElementById('add-day-title').value.trim();
+  if(!title)return;
+  const arr=getCustomDays();
+  arr.push({id:'cd-'+Date.now(),date,title,city:'bkk',custom:true});
+  saveCustomDays(arr);
+  document.getElementById('add-day-date').value='';
+  document.getElementById('add-day-title').value='';
+  buildItin();
+}
+function delCustomDay(id){
+  saveCustomDays(getCustomDays().filter(d=>d.id!==id));
+  buildItin();
+}
+function delBuiltinDay(n){
+  S['del-day-'+n]=true; saveData(); buildItin();
+}
+function editDayTitle(n,isCustom,id){
+  const el=isCustom?document.getElementById('dc-'+id):document.getElementById('dc-'+n);
+  if(!el)return;
+  const cur=isCustom?getCustomDays().find(d=>d.id===id)?.title:ITIN.find(d=>d.n===n)?.title;
+  const titleEl=el.querySelector('.dtitle');
+  titleEl.innerHTML=`<div class="edit-inline"><input value="${cur||''}" id="etitle-${n}" style="width:100%"><button class="edit-btn eb-save" onclick="saveEditTitle(${n},'${isCustom}','${id||''}')">✓</button><button class="edit-btn eb-cancel" onclick="buildItin()">✕</button></div>`;
+}
+function saveEditTitle(n,isCustom,id){
+  const val=document.getElementById('etitle-'+n)?.value.trim()||'';
+  if(!val)return;
+  if(isCustom==='true'){
+    const arr=getCustomDays();
+    const idx=arr.findIndex(d=>d.id===id);
+    if(idx>=0){arr[idx].title=val;saveCustomDays(arr);}
+  } else {
+    S['day-title-'+n]=val; saveData();
+  }
+  buildItin();
+}
+
+// ═══ CALENDAR VIEW ═══
+let itinView='list';
+function setItinView(v){
+  itinView=v;
+  document.getElementById('vt-list').classList.toggle('active',v==='list');
+  document.getElementById('vt-cal').classList.toggle('active',v==='cal');
+  document.getElementById('itin-container').style.display=v==='list'?'block':'none';
+  document.getElementById('cal-container').style.display=v==='cal'?'block':'none';
+  if(v==='cal')buildCalendar();
+}
+function buildCalendar(){
+  const container=document.getElementById('cal-container');
+  const days=['א','ב','ג','ד','ה','ו','ש'];
+  // Build May and June 2026
+  let html='';
+  ['2026-05','2026-06'].forEach(ym=>{
+    const [y,m]=ym.split('-').map(Number);
+    const monthName=m===5?'מאי 2026':'יוני 2026';
+    const firstDay=new Date(y,m-1,1).getDay();
+    const daysInMonth=new Date(y,m,0).getDate();
+    html+=`<div style="font-size:14px;font-weight:700;margin:0 0 8px;color:var(--text)">${monthName}</div>`;
+    html+=`<div class="cal-grid">`;
+    days.forEach(d=>html+=`<div class="cal-hdr">${d}</div>`);
+    for(let i=0;i<firstDay;i++)html+=`<div></div>`;
+    for(let d=1;d<=daysInMonth;d++){
+      const dateStr=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const tripDay=ITIN.find(it=>{
+        const itDate=new Date(2026,4,19+it.n-1);
+        return itDate.getMonth()===m-1&&itDate.getDate()===d;
+      });
+      const customDay=getCustomDays().find(cd=>cd.date===dateStr);
+      const done=tripDay&&S['dd-'+tripDay.n];
+      const isToday=new Date().toISOString().slice(0,10)===dateStr;
+      html+=`<div class="cal-day ${tripDay||customDay?'active-trip':''} ${done?'done-day':''} ${isToday?'today':''}">
+        <div class="cal-day-num">${d}${isToday?' •':''}</div>
+        ${tripDay?`<div class="cal-event" onclick="setItinView('list');setTimeout(()=>{const el=document.getElementById('dc-${tripDay.n}');if(el){el.classList.add('exp');el.scrollIntoView({behavior:'smooth'});}},100)">${done?'✅ ':''}${tripDay.title.replace(/⭐/,'').trim().slice(0,20)}</div>`:''}
+        ${customDay?`<div class="cal-event">${customDay.title.slice(0,20)}</div>`:''}
+      </div>`;
+    }
+    html+=`</div><div style="height:16px"></div>`;
+  });
+  container.innerHTML=html;
+}
 function selHotel(dest,num){
   [1,2,3].forEach(n=>{
     const b=document.getElementById(`sh${dest[0]}${n}`);
@@ -1221,20 +1591,52 @@ function restoreHotels(){
 
 // ═══ WEATHER ═══
 async function fetchWeather(){
-  const locs=[{id:'w-samui',lat:9.512,lon:100.014},{id:'w-bangkok',lat:13.756,lon:100.502}];
+  const locs=[
+    {id:'w-samui',   lat:9.5120, lon:100.0136, name:'Koh Samui'},
+    {id:'w-bangkok', lat:13.7563, lon:100.5018, name:'Bangkok'}
+  ];
   for(const l of locs){
+    const el=document.getElementById(l.id);
+    if(!el)continue;
+    // Try open-meteo first
     try{
-      const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${l.lat}&longitude=${l.lon}&current=temperature_2m,weathercode,relative_humidity_2m&timezone=auto`);
+      const url=`https://api.open-meteo.com/v1/forecast?latitude=${l.lat}&longitude=${l.lon}&current=temperature_2m,weathercode,relative_humidity_2m,wind_speed_10m&timezone=Asia%2FBangkok`;
+      const r=await fetch(url);
+      if(!r.ok) throw new Error('status '+r.status);
       const d=await r.json();
-      const t=Math.round(d.current.temperature_2m);
-      const h=d.current.relative_humidity_2m;
-      const c=d.current.weathercode;
-      const ic=c<=1?'☀️':c<=3?'⛅':c<=67?'🌧️':'⛈️';
-      const desc=c<=1?'שמשי':c<=3?'מעונן חלקית':c<=67?'גשום':'סופה';
-      document.getElementById(l.id).innerHTML=`<div class="wtemp">${ic} ${t}°</div><div class="wdesc">${desc}</div><div class="wdet">לחות: ${h}%</div>`;
-    }catch(e){document.getElementById(l.id).innerHTML='<div style="color:var(--textd);font-size:13px">לא זמין</div>';}
+      const cur=d.current;
+      const t=Math.round(cur.temperature_2m);
+      const h=cur.relative_humidity_2m;
+      const w=Math.round(cur.wind_speed_10m||0);
+      const c=cur.weathercode;
+      const ic=c===0?'☀️':c<=3?'⛅':c<=48?'🌫️':c<=67?'🌧️':c<=77?'❄️':'⛈️';
+      const desc=c===0?'שמשי':c<=3?'מעונן חלקית':c<=48?'ערפל':c<=67?'גשום':c<=77?'שלג':'סופה';
+      const now=new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+      el.innerHTML=`<div class="wtemp">${ic} ${t}°C</div><div class="wdesc">${desc}</div><div class="wdet">לחות: ${h}% · רוח: ${w} km/h</div><div style="font-size:10px;color:var(--textd);margin-top:4px">עודכן: ${now}</div>`;
+    } catch(e){
+      // Fallback: wttr.in JSON API
+      try{
+        const r2=await fetch(`https://wttr.in/${encodeURIComponent(l.name)}?format=j1`);
+        if(!r2.ok) throw new Error();
+        const d2=await r2.json();
+        const cc=d2.current_condition[0];
+        const t=cc.temp_C;
+        const h=cc.humidity;
+        const w=cc.windspeedKmph;
+        const desc=cc.lang_he?.[0]?.value || cc.weatherDesc[0].value;
+        const code=parseInt(cc.weatherCode);
+        const ic=code<=113?'☀️':code<=176?'⛅':code<=260?'🌫️':code<=350?'🌧️':'⛈️';
+        const now=new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+        el.innerHTML=`<div class="wtemp">${ic} ${t}°C</div><div class="wdesc">${desc}</div><div class="wdet">לחות: ${h}% · רוח: ${w} km/h</div><div style="font-size:10px;color:var(--textd);margin-top:4px">עודכן: ${now}</div>`;
+      } catch(e2){
+        el.innerHTML=`<div style="color:var(--textd);font-size:12px;text-align:center;padding:10px 0">⚠️ לא ניתן לטעון מזג אוויר<br><span style="font-size:11px">בדוק חיבור לאינטרנט</span></div>
+        <div style="margin-top:8px;text-align:center"><a href="https://www.timeanddate.com/weather/thailand/${l.name.toLowerCase().replace(' ','-')}" target="_blank" style="font-size:12px;color:var(--blue)">פתח תחזית ←</a></div>`;
+      }
+    }
   }
 }
+// refresh weather every 10 minutes
+setInterval(fetchWeather, 600000);
 
 // ═══ SYNC / SAVE ═══
 function setSyncStatus(type,txt){
@@ -1284,6 +1686,7 @@ function applyState(){
   ['conf-out','conf-ret','conf-int'].forEach(id=>{const el=document.getElementById(id);if(el&&S[id])el.value=S[id];});
   restoreHotels(); calcBudget();
   buildTodo(); buildItin(); buildBudget(); buildPack(); updateProgress();
+  buildCustomHotels('koh'); buildCustomHotels('bkk');
 }
 
 async function loadFromSheets(){
@@ -1333,9 +1736,176 @@ async function init(){
     if(loaded) setTimeout(applyState, 100);
   }
 
-  setInterval(updateCountdown,60000);
+  // countdown every second, weather every 10min
+  setInterval(updateCountdown, 1000);
+  buildCustomHotels('koh');
+  buildCustomHotels('bkk');
+  buildPieChart();
+  initNotifications();
+  initTheme();
+  registerSW();
 }
 document.addEventListener('DOMContentLoaded',init);
+// ═══ THEME TOGGLE ═══
+function toggleTheme(){
+  const isLight=document.body.classList.toggle('light');
+  document.getElementById('theme-btn').textContent=isLight?'☀️':'🌙';
+  localStorage.setItem('th2026-theme', isLight?'light':'dark');
+}
+function initTheme(){
+  const t=localStorage.getItem('th2026-theme');
+  if(t==='light'){document.body.classList.add('light');document.getElementById('theme-btn').textContent='☀️';}
+}
+
+// ═══ SEARCH ═══
+const SEARCH_INDEX=[
+  ...TODOS.flatMap(cat=>cat.items.map(i=>({section:'✅ משימות',text:i.tx+' '+i.sb,nav:'todo'}))),
+  ...ITIN.map(d=>({section:'📅 לו"ז',text:d.title+' '+d.date+' '+d.blks.map(b=>b.tt).join(' '),nav:'itinerary'})),
+  {section:'🏨 מלונות',text:'NH Collection Samui Peace Resort Bophut pool villa beachfront',nav:'hotels'},
+  {section:'🏨 מלונות',text:'Bandara Spa Resort Pool Villas Samui Kids Club',nav:'hotels'},
+  {section:'🏨 מלונות',text:'Fair House Villas Spa Mae Nam Beach',nav:'hotels'},
+  {section:'🏨 מלונות',text:'Hua Chang Heritage Hotel Bangkok BTS Siam',nav:'hotels'},
+  {section:'✈️ טיסות',text:'Etihad EY598 EY404 EY403 EY597 Abu Dhabi Bangkok TLV',nav:'flights'},
+  {section:'💰 תקציב',text:'תקציב הוצאות כסף שקל',nav:'budget'},
+  {section:'💱 המרה',text:'המרה שקל דולר באט THB ILS USD',nav:'currency'},
+  {section:'🚗 תחבורה',text:'Grab BTS מוניות שיט סים SIM',nav:'transport'},
+  {section:'👶 תינוקת',text:'תינוקת בסינט טיסה בריכה שמש יתושים',nav:'baby'},
+  {section:'📞 חירום',text:'שגרירות חירום אמבולנס PassportCard Etihad',nav:'emergency'},
+];
+function openSearch(){document.getElementById('search-overlay').classList.add('show');setTimeout(()=>document.getElementById('search-inp').focus(),100);}
+function closeSearch(){document.getElementById('search-overlay').classList.remove('show');document.getElementById('search-inp').value='';document.getElementById('search-results').innerHTML='<div class="sr-empty">התחל להקליד לחיפוש...</div>';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch();if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}});
+function doSearch(q){
+  const res=document.getElementById('search-results');
+  if(!q.trim()){res.innerHTML='<div class="sr-empty">התחל להקליד...</div>';return;}
+  const ql=q.toLowerCase();
+  const hits=SEARCH_INDEX.filter(i=>i.text.toLowerCase().includes(ql)).slice(0,12);
+  // also search custom todos and days
+  TODOS.forEach(cat=>cat.items.forEach(i=>{if(i.tx.toLowerCase().includes(ql))hits.push({section:'✅ משימות',text:i.tx,nav:'todo'});}));
+  getCustomDays().forEach(d=>{if(d.title.toLowerCase().includes(ql))hits.push({section:'📅 לו"ז',text:d.title,nav:'itinerary'});});
+  if(!hits.length){res.innerHTML='<div class="sr-empty">לא נמצאו תוצאות עבור "'+q+'"</div>';return;}
+  const seen=new Set();
+  res.innerHTML=hits.filter(h=>{const k=h.section+h.text;if(seen.has(k))return false;seen.add(k);return true;}).map(h=>{
+    const highlighted=h.text.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="sr-match">$1</span>');
+    return `<div class="sr-item" onclick="closeSearch();showSec('${h.nav}',document.querySelector('.nb:not(.active)'));document.querySelectorAll('.nb').forEach(b=>{b.classList.toggle('active',b.getAttribute('onclick')&&b.getAttribute('onclick').includes('${h.nav}'))})">
+      <span class="sr-section">${h.section}</span>
+      <div class="sr-text">${highlighted.slice(0,120)}${h.text.length>120?'...':''}</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══ STAR RATING ═══
+function setRating(dayNum, stars){
+  S['star-'+dayNum]=stars;
+  saveData();
+  // rebuild just this day's stars inline
+  const starsEl=document.getElementById('stars-'+dayNum);
+  if(starsEl){
+    starsEl.querySelectorAll('.star').forEach((s,i)=>{s.classList.toggle('lit',i<stars);});
+    const labels=['','😞 גרוע','😐 בסדר','😊 טוב','😄 מצוין','🤩 מדהים!'];
+    const next=starsEl.nextElementSibling;
+    if(next&&next.classList.contains('rating-label'))next.textContent=labels[stars];
+    else{const d=document.createElement('div');d.className='rating-label';d.textContent=labels[stars];starsEl.after(d);}
+  }
+}
+
+// ═══ PIE CHART ═══
+function buildPieChart(){
+  const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
+  const customs=getCustomBudget();
+  const allRows=[...builtinRows,...customs];
+  const data=allRows.map(c=>({label:c.nm,val:parseInt(S[c.id]||c.val||0)||0,col:c.col||'#64748b'})).filter(d=>d.val>0);
+  const total=data.reduce((s,d)=>s+d.val,0);
+  const svg=document.getElementById('pie-svg');
+  const legend=document.getElementById('pie-legend');
+  if(!svg||!legend)return;
+  if(!total||!data.length){svg.innerHTML='<text x="80" y="85" text-anchor="middle" fill="#7a8a9e" font-size="12">אין נתונים</text>';legend.innerHTML='';return;}
+  const cx=80,cy=80,r=70;
+  let startAngle=-Math.PI/2;
+  let paths='';
+  data.forEach(d=>{
+    const slice=(d.val/total)*Math.PI*2;
+    const endAngle=startAngle+slice;
+    const x1=cx+r*Math.cos(startAngle),y1=cy+r*Math.sin(startAngle);
+    const x2=cx+r*Math.cos(endAngle),y2=cy+r*Math.sin(endAngle);
+    const large=slice>Math.PI?1:0;
+    paths+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} Z" fill="${d.col}" opacity=".85" stroke="var(--bg)" stroke-width="2"><title>${d.label}: ${d.val.toLocaleString()} ₪</title></path>`;
+    startAngle=endAngle;
+  });
+  svg.innerHTML=paths+`<circle cx="${cx}" cy="${cy}" r="28" fill="var(--bg2)"/><text x="${cx}" y="${cy-4}" text-anchor="middle" fill="var(--textm)" font-size="10" font-family="Rubik">סה"כ</text><text x="${cx}" y="${cy+10}" text-anchor="middle" fill="var(--green)" font-size="11" font-family="Rubik" font-weight="700">${total.toLocaleString()}</text>`;
+  legend.innerHTML=data.map(d=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${d.col}"></div><div>${d.label}: <strong>${d.val.toLocaleString()} ₪</strong> (${Math.round(d.val/total*100)}%)</div></div>`).join('');
+}
+
+// ═══ NOTIFICATIONS ═══
+const NOTIF_EVENTS=[
+  {id:'n-checkin',icon:'✈️',title:'Check-in Etihad נפתח!',body:'זמן לבחור מושבים ולאשר Bassinet',date:new Date('2026-05-18T20:10:00')},
+  {id:'n-tdac',icon:'📄',title:'TDAC — הגש טופס כניסה',body:'מלא את הטופס אונליין לפני הכניסה לתאילנד',date:new Date('2026-05-17T09:00:00')},
+  {id:'n-flight',icon:'🛫',title:'היום עפים!',body:'המראה 20:10 מ-TLV. צאו לשדה בשעה 17:00',date:new Date('2026-05-20T10:00:00')},
+  {id:'n-samui',icon:'🏝️',title:'ברוכים הבאים לקוסמוי!',body:'תהנו מהבריכה הפרטית 🌴',date:new Date('2026-05-20T20:00:00')},
+  {id:'n-bangkok',icon:'🏙️',title:'מעבר לבנגקוק היום',body:'אל תשכחו לעשות Check-out ולהגיע לשדה בזמן',date:new Date('2026-05-28T08:00:00')},
+  {id:'n-return',icon:'🛬',title:'חזרה לישראל!',body:'הטיסה EY403 יוצאת 09:15. הגיעו לשדה ב-07:00',date:new Date('2026-06-03T06:00:00')},
+];
+async function requestNotifPermission(){
+  if(!('Notification' in window)){alert('הדפדפן שלך לא תומך בהתראות');return;}
+  const perm=await Notification.requestPermission();
+  updateNotifUI(perm);
+  if(perm==='granted'){S['notif-enabled']=true;saveData();buildNotifList();}
+}
+function updateNotifUI(perm){
+  const status=document.getElementById('notif-status');
+  const btn=document.getElementById('notif-req-btn');
+  const settings=document.getElementById('notif-settings');
+  if(perm==='granted'){status.textContent='✅ התראות מופעלות';btn.style.display='none';if(settings)settings.style.display='block';}
+  else if(perm==='denied'){status.textContent='❌ התראות חסומות — אפשר בהגדרות הדפדפן';btn.style.display='none';}
+  else{status.textContent='';}
+}
+function buildNotifList(){
+  const list=document.getElementById('notif-list');
+  if(!list)return;
+  list.innerHTML=NOTIF_EVENTS.map(ev=>{
+    const enabled=S[ev.id]!==false;
+    const isPast=ev.date<new Date();
+    return `<div class="notif-item">
+      <div class="ni-icon">${ev.icon}</div>
+      <div class="ni-text"><strong>${ev.title}</strong><br>${ev.date.toLocaleString('he-IL',{dateStyle:'medium',timeStyle:'short'})}</div>
+      <label class="toggle-sw" title="${isPast?'כבר עבר':''}">
+        <input type="checkbox" ${enabled&&!isPast?'checked':''} ${isPast?'disabled':''} onchange="toggleNotif('${ev.id}',this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>`;
+  }).join('');
+}
+function toggleNotif(id,on){S[id]=on;saveData();if(on)scheduleNotif(NOTIF_EVENTS.find(e=>e.id===id));}
+function scheduleNotif(ev){
+  if(!ev||Notification.permission!=='granted')return;
+  const delay=ev.date-new Date();
+  if(delay<=0)return;
+  setTimeout(()=>{new Notification(ev.title,{body:ev.body,icon:'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/72x72/1f334.png'});},delay);
+}
+function scheduleAllNotifs(){
+  if(Notification.permission!=='granted'){alert('אפשר קודם התראות למעלה');return;}
+  NOTIF_EVENTS.forEach(ev=>{S[ev.id]=true;scheduleNotif(ev);});
+  saveData();buildNotifList();
+  alert('✅ כל ההתראות תוזמנו!');
+}
+function initNotifications(){
+  if('Notification' in window)updateNotifUI(Notification.permission);
+  if(S['notif-enabled'])buildNotifList();
+}
+
+// ═══ OFFLINE SERVICE WORKER ═══
+function registerSW(){
+  if(!('serviceWorker' in navigator))return;
+  const swCode=`
+const CACHE='thailand2026-v1';
+const ASSETS=['/'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
+self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const clone=res.clone();caches.open(CACHE).then(c=>c.put(e.request,clone));return res;}))));
+`;
+  const blob=new Blob([swCode],{type:'application/javascript'});
+  const url=URL.createObjectURL(blob);
+  navigator.serviceWorker.register(url).catch(()=>{});
+}
 </script>
 </body>
 </html>
