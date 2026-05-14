@@ -907,8 +907,8 @@ let shUrl = 'https://script.google.com/macros/s/AKfycbzNiInaz_DmxsyDvUS3B53v9nIp
 let saveTimer = null;
 let rates = {ILS:10.5, USD:34.5};
 const BUDGET = 27000;
-// Countdown uses first leg departure
-const FLIGHT = new Date(FLIGHTS.outbound.legs[0].depDateTime);
+// ════════════════════════════════════════════════════════
+// ✈️  FLIGHT CONFIG — EDIT THIS SECTION TO UPDATE FLIGHTS
 // ════════════════════════════════════════════════════════
 const FLIGHTS = {
   outbound: {
@@ -980,7 +980,7 @@ const FLIGHTS = {
 };
 // ════════════════════════════════════════════════════════
 
-// Countdown uses first leg departure
+// Countdown uses first leg departure — defined AFTER FLIGHTS
 const FLIGHT = new Date(FLIGHTS.outbound.legs[0].depDateTime);
 
 // ═══ FLIGHT RENDERER ═══
@@ -2113,8 +2113,4 @@ self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r
 `;
   const blob=new Blob([swCode],{type:'application/javascript'});
   const url=URL.createObjectURL(blob);
-  navigator.serviceWorker.register(url).catch(()=>{});
-}
-</script>
-</body>
-</html>
+  navigator.serviceWorker.register(url).c
