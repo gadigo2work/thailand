@@ -109,20 +109,44 @@ textarea.inp{min-height:56px;resize:vertical}
 
 /* ── DASHBOARD ── */
 .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:18px}
-.dcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center}
+.dcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;cursor:pointer;transition:all .2s}
+.dcard:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 4px 20px rgba(34,197,94,.15)}
 .dnum{font-family:'Rubik',sans-serif;font-size:40px;font-weight:900;line-height:1;margin-bottom:3px}
 .dlbl{font-size:12px;color:var(--textm)}
+.dash-clickable{cursor:pointer;transition:all .2s}
+.dash-clickable:hover{border-color:var(--green)!important;box-shadow:0 4px 20px rgba(34,197,94,.12)}
 .countdown{background:linear-gradient(135deg,#1a2a1a,#0f1f1a);border:1px solid rgba(34,197,94,.25);border-radius:var(--r);padding:26px;text-align:center;margin-bottom:18px}
 .countdown .days{font-family:'Rubik',sans-serif;font-size:76px;font-weight:900;color:var(--green);line-height:1}
 .countdown .sub{font-size:13px;color:var(--textm);margin-top:5px}
 .countdown .date{font-size:17px;font-weight:600;margin-top:7px}
-.countdown .hms{display:flex;justify-content:center;gap:16px;margin-top:12px}
+.countdown .hms{display:flex;justify-content:center;gap:16px;margin-top:12px;direction:ltr}
 .countdown .hms-item{text-align:center}
 .countdown .hms-num{font-family:'Rubik',sans-serif;font-size:32px;font-weight:700;color:#86efac;line-height:1}
 .countdown .hms-lbl{font-size:11px;color:var(--textm);margin-top:2px}
 .pbar-bg{background:var(--bg3);border-radius:100px;height:8px;overflow:hidden}
 .pbar-f{height:8px;border-radius:100px;background:linear-gradient(90deg,var(--green),#86efac);transition:width .6s ease}
 .plabel{display:flex;justify-content:space-between;font-size:12px;color:var(--textm);margin-bottom:4px}
+/* Weather full daily */
+.wrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.wcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;overflow:hidden}
+.wcity{font-size:13px;font-weight:700;color:var(--textm);margin-bottom:10px}
+.wtemp{font-family:'Rubik',sans-serif;font-size:46px;font-weight:900;line-height:1}
+.wdesc{font-size:13px;color:var(--textm);margin-top:4px}
+.wdet{font-size:12px;color:var(--textd);margin-top:4px}
+.whourly{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:4px;scrollbar-width:none}
+.whourly::-webkit-scrollbar{display:none}
+.wh-item{flex-shrink:0;text-align:center;background:var(--bg3);border-radius:var(--rsm);padding:7px 10px;min-width:52px}
+.wh-time{font-size:10px;color:var(--textd);margin-bottom:4px}
+.wh-icon{font-size:16px;margin-bottom:3px}
+.wh-temp{font-size:13px;font-weight:700;font-family:'Rubik',sans-serif}
+.wh-rain{font-size:10px;color:var(--blue);margin-top:2px}
+.wday-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.wday-item{text-align:center;padding:4px 2px}
+.wday-name{font-size:10px;color:var(--textd);margin-bottom:3px}
+.wday-icon{font-size:14px;margin-bottom:2px}
+.wday-hi{font-size:12px;font-weight:700;font-family:'Rubik',sans-serif}
+.wday-lo{font-size:11px;color:var(--textd)}
+@media(max-width:600px){.wrow{grid-template-columns:1fr}}
 /* Calendar view */
 .view-toggle{display:flex;gap:6px;margin-bottom:14px}
 .vtbtn{padding:6px 14px;border-radius:100px;border:1.5px solid var(--border2);background:none;color:var(--textm);font-family:'Heebo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
@@ -411,28 +435,51 @@ textarea.inp{min-height:56px;resize:vertical}
     </div>
     <div class="date">✈️ שלישי, 19 מאי 2026 · 15:05 · TLV T3</div>
   </div>
+
   <div class="dgrid">
-    <div class="dcard"><div class="dnum" id="td-done" style="color:var(--green)">0</div><div class="dlbl">משימות הושלמו</div></div>
-    <div class="dcard"><div class="dnum" id="td-left" style="color:var(--coral)">0</div><div class="dlbl">נשאר לעשות</div></div>
-    <div class="dcard"><div class="dnum" style="color:var(--blue)">14</div><div class="dlbl">לילות בחו"ל</div></div>
-    <div class="dcard"><div class="dnum" style="color:var(--purple)">3</div><div class="dlbl">נוסעים</div></div>
+    <div class="dcard" onclick="navTo('todo')" title="עבור למשימות">
+      <div class="dnum" id="td-done" style="color:var(--green)">0</div>
+      <div class="dlbl">משימות הושלמו ↗</div>
+    </div>
+    <div class="dcard" onclick="navTo('todo')" title="עבור למשימות">
+      <div class="dnum" id="td-left" style="color:var(--coral)">0</div>
+      <div class="dlbl">נשאר לעשות ↗</div>
+    </div>
+    <div class="dcard" onclick="navTo('itinerary')" title="עבור ללו״ז">
+      <div class="dnum" style="color:var(--blue)">14</div>
+      <div class="dlbl">לילות בחו"ל ↗</div>
+    </div>
+    <div class="dcard" onclick="navTo('flights')" title="עבור לטיסות">
+      <div class="dnum" style="color:var(--purple)">3</div>
+      <div class="dlbl">נוסעים ↗</div>
+    </div>
   </div>
-  <div class="card">
-    <div class="ct">📊 התקדמות הכנות</div>
+
+  <div class="card dash-clickable" onclick="navTo('todo')" style="cursor:pointer" title="עבור למשימות">
+    <div class="ct">📊 התקדמות הכנות <span style="font-size:12px;color:var(--textd);margin-right:auto">↗ לחץ לפרטים</span></div>
     <div class="plabel"><span>משימות שהושלמו</span><span id="ppct">0%</span></div>
     <div class="pbar-bg"><div class="pbar-f" id="pfill" style="width:0%"></div></div>
   </div>
+
   <div class="card">
-    <div class="ct">🌤️ מזג אוויר עכשיו</div>
+    <div class="ct">🌤️ מזג אוויר — תחזית מלאה</div>
     <div class="wrow">
-      <div class="wcard"><div class="wcity">🏝️ קוסמוי</div><div id="w-samui">טוען...</div></div>
-      <div class="wcard"><div class="wcity">🏙️ בנגקוק</div><div id="w-bangkok">טוען...</div></div>
+      <div class="wcard">
+        <div class="wcity">🏝️ קוסמוי, תאילנד</div>
+        <div id="w-samui">טוען...</div>
+      </div>
+      <div class="wcard">
+        <div class="wcity">🏙️ בנגקוק, תאילנד</div>
+        <div id="w-bangkok">טוען...</div>
+      </div>
     </div>
   </div>
-  <div class="card">
-    <div class="ct">⏰ תזכורות קרובות</div>
+
+  <div class="card dash-clickable" onclick="navTo('notifications')" style="cursor:pointer" title="עבור להתראות">
+    <div class="ct">⏰ תזכורות קרובות <span style="font-size:12px;color:var(--textd);margin-right:auto">↗ לחץ לפרטים</span></div>
     <div id="remlist"></div>
   </div>
+
   <div class="card" style="border-color:rgba(59,130,246,.3)">
     <div class="ct">☁️ סנכרון Google Sheets</div>
     <p style="font-size:13px;color:var(--textm);margin-bottom:13px;line-height:1.6">כל השינויים (checkboxes, תקציב, הערות) יישמרו ב-Sheets שלך ויסתנכרנו בכל מכשיר.</p>
@@ -1038,6 +1085,14 @@ function showSec(id, btn) {
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('s-'+id).classList.add('active');
   btn.classList.add('active');
+}
+function navTo(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  const btn = [...document.querySelectorAll('.nb')].find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+id+"'"));
+  if(btn) btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ═══ COUNTDOWN ═══
@@ -1677,47 +1732,114 @@ function restoreHotels(){
 }
 
 // ═══ WEATHER ═══
+function wCode(c){
+  if(c===0)return{ic:'☀️',tx:'שמשי'};
+  if(c<=3)return{ic:'⛅',tx:'מעונן חלקית'};
+  if(c<=48)return{ic:'🌫️',tx:'ערפל'};
+  if(c<=67)return{ic:'🌧️',tx:'גשום'};
+  if(c<=77)return{ic:'❄️',tx:'שלג'};
+  return{ic:'⛈️',tx:'סופה'};
+}
+
 async function fetchWeather(){
   const locs=[
-    {id:'w-samui',   lat:9.5120, lon:100.0136, name:'Koh Samui'},
-    {id:'w-bangkok', lat:13.7563, lon:100.5018, name:'Bangkok'}
+    {id:'w-samui',  lat:9.5120, lon:100.0136, name:'Koh Samui'},
+    {id:'w-bangkok',lat:13.7563,lon:100.5018, name:'Bangkok'}
   ];
+  const dayNames=['א','ב','ג','ד','ה','ו','ש'];
+
   for(const l of locs){
     const el=document.getElementById(l.id);
     if(!el)continue;
-    // Try open-meteo first
     try{
-      const url=`https://api.open-meteo.com/v1/forecast?latitude=${l.lat}&longitude=${l.lon}&current=temperature_2m,weathercode,relative_humidity_2m,wind_speed_10m&timezone=Asia%2FBangkok`;
+      const url=`https://api.open-meteo.com/v1/forecast?latitude=${l.lat}&longitude=${l.lon}`
+        +`&current=temperature_2m,weathercode,relative_humidity_2m,wind_speed_10m,precipitation`
+        +`&hourly=temperature_2m,weathercode,precipitation_probability`
+        +`&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max`
+        +`&timezone=Asia%2FBangkok&forecast_days=7`;
       const r=await fetch(url);
-      if(!r.ok) throw new Error('status '+r.status);
+      if(!r.ok)throw new Error();
       const d=await r.json();
+
       const cur=d.current;
       const t=Math.round(cur.temperature_2m);
       const h=cur.relative_humidity_2m;
       const w=Math.round(cur.wind_speed_10m||0);
-      const c=cur.weathercode;
-      const ic=c===0?'☀️':c<=3?'⛅':c<=48?'🌫️':c<=67?'🌧️':c<=77?'❄️':'⛈️';
-      const desc=c===0?'שמשי':c<=3?'מעונן חלקית':c<=48?'ערפל':c<=67?'גשום':c<=77?'שלג':'סופה';
+      const rain=cur.precipitation||0;
+      const {ic,tx}=wCode(cur.weathercode);
       const now=new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
-      el.innerHTML=`<div class="wtemp">${ic} ${t}°C</div><div class="wdesc">${desc}</div><div class="wdet">לחות: ${h}% · רוח: ${w} km/h</div><div style="font-size:10px;color:var(--textd);margin-top:4px">עודכן: ${now}</div>`;
+
+      // Next 8 hours
+      const nowHour=new Date().getHours();
+      const hours=d.hourly;
+      const hourlyHTML=hours.time.slice(nowHour,nowHour+8).map((t,i)=>{
+        const idx=nowHour+i;
+        const hr=new Date(t).getHours();
+        const {ic:hi}=wCode(hours.weathercode[idx]);
+        const ht=Math.round(hours.temperature_2m[idx]);
+        const pp=hours.precipitation_probability[idx]||0;
+        return `<div class="wh-item">
+          <div class="wh-time">${String(hr).padStart(2,'0')}:00</div>
+          <div class="wh-icon">${hi}</div>
+          <div class="wh-temp">${ht}°</div>
+          ${pp>20?`<div class="wh-rain">💧${pp}%</div>`:''}
+        </div>`;
+      }).join('');
+
+      // 7-day forecast
+      const daily=d.daily;
+      const dailyHTML=daily.time.map((dt,i)=>{
+        const day=new Date(dt);
+        const dn=dayNames[day.getDay()];
+        const {ic:di}=wCode(daily.weathercode[i]);
+        const hi=Math.round(daily.temperature_2m_max[i]);
+        const lo=Math.round(daily.temperature_2m_min[i]);
+        return `<div class="wday-item">
+          <div class="wday-name">${dn}</div>
+          <div class="wday-icon">${di}</div>
+          <div class="wday-hi">${hi}°</div>
+          <div class="wday-lo">${lo}°</div>
+        </div>`;
+      }).join('');
+
+      el.innerHTML=`
+        <div class="wtemp">${ic} ${t}°C</div>
+        <div class="wdesc">${tx}</div>
+        <div class="wdet">לחות: ${h}% · רוח: ${w} km/h${rain>0?` · גשם: ${rain}mm`:''}</div>
+        <div style="font-size:10px;color:var(--textd);margin-top:4px">עודכן: ${now}</div>
+        <div class="whourly">${hourlyHTML}</div>
+        <div class="wday-row">${dailyHTML}</div>`;
+
     } catch(e){
-      // Fallback: wttr.in JSON API
       try{
+        // Fallback to wttr.in
         const r2=await fetch(`https://wttr.in/${encodeURIComponent(l.name)}?format=j1`);
-        if(!r2.ok) throw new Error();
+        if(!r2.ok)throw new Error();
         const d2=await r2.json();
         const cc=d2.current_condition[0];
-        const t=cc.temp_C;
-        const h=cc.humidity;
-        const w=cc.windspeedKmph;
-        const desc=cc.lang_he?.[0]?.value || cc.weatherDesc[0].value;
+        const t=cc.temp_C, h=cc.humidity, w=cc.windspeedKmph;
         const code=parseInt(cc.weatherCode);
-        const ic=code<=113?'☀️':code<=176?'⛅':code<=260?'🌫️':code<=350?'🌧️':'⛈️';
+        const {ic,tx}=wCode(code>200?67:code>100?3:0);
         const now=new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
-        el.innerHTML=`<div class="wtemp">${ic} ${t}°C</div><div class="wdesc">${desc}</div><div class="wdet">לחות: ${h}% · רוח: ${w} km/h</div><div style="font-size:10px;color:var(--textd);margin-top:4px">עודכן: ${now}</div>`;
+
+        // wttr 3-day
+        const dailyHTML=d2.weather.map(day=>{
+          const dt=new Date(day.date);
+          const dn=dayNames[dt.getDay()];
+          const hi=day.maxtempC, lo=day.mintempC;
+          const dc=parseInt(day.hourly[4]?.weatherCode||0);
+          const {ic:di}=wCode(dc>200?67:dc>100?3:0);
+          return `<div class="wday-item"><div class="wday-name">${dn}</div><div class="wday-icon">${di}</div><div class="wday-hi">${hi}°</div><div class="wday-lo">${lo}°</div></div>`;
+        }).join('');
+
+        el.innerHTML=`
+          <div class="wtemp">${ic} ${t}°C</div>
+          <div class="wdesc">${tx}</div>
+          <div class="wdet">לחות: ${h}% · רוח: ${w} km/h</div>
+          <div style="font-size:10px;color:var(--textd);margin-top:4px">עודכן: ${now}</div>
+          <div class="wday-row">${dailyHTML}</div>`;
       } catch(e2){
-        el.innerHTML=`<div style="color:var(--textd);font-size:12px;text-align:center;padding:10px 0">⚠️ לא ניתן לטעון מזג אוויר<br><span style="font-size:11px">בדוק חיבור לאינטרנט</span></div>
-        <div style="margin-top:8px;text-align:center"><a href="https://www.timeanddate.com/weather/thailand/${l.name.toLowerCase().replace(' ','-')}" target="_blank" style="font-size:12px;color:var(--blue)">פתח תחזית ←</a></div>`;
+        el.innerHTML=`<div style="color:var(--textd);font-size:12px;padding:10px 0;text-align:center">⚠️ לא ניתן לטעון<br><a href="https://www.timeanddate.com/weather/thailand/${l.name.toLowerCase().replace(' ','-')}" target="_blank" style="color:var(--blue);font-size:11px">פתח תחזית ←</a></div>`;
       }
     }
   }
