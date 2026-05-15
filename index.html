@@ -2113,4 +2113,8 @@ self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r
 `;
   const blob=new Blob([swCode],{type:'application/javascript'});
   const url=URL.createObjectURL(blob);
-  navigator.serviceWorker.register(url).c
+  navigator.serviceWorker.register(url).catch(()=>{});
+}
+</script>
+</body>
+</html>
