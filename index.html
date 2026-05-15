@@ -355,7 +355,8 @@ textarea.inp{min-height:56px;resize:vertical}
 .ephone:hover{background:rgba(239,68,68,.2)}
 .insph{background:var(--bg3);border:1px dashed var(--border2);border-radius:var(--rsm);padding:11px;margin-top:9px;font-size:12px;color:var(--textd);text-align:center}
 
-/* ── MODAL ── */
+.fdi-row{display:flex;gap:8px;font-size:13px;color:var(--textm);align-items:flex-start}
+.fdi-row strong{color:var(--text)}
 .modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:18px}
 .modal.show{display:flex}
 .mbox{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:26px;max-width:460px;width:100%}
@@ -497,6 +498,109 @@ textarea.inp{min-height:56px;resize:vertical}
 <!-- FLIGHTS -->
 <div id="s-flights" class="section">
   <div id="flights-render"></div>
+
+  <!-- INTERNAL FLIGHTS FARE -->
+  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:20px 0 12px">🎫 מה כלול — טיסות פנימיות (Bangkok Airways · Web Freedom)</div>
+  <div class="fcard">
+    <div class="fhdr">
+      <div class="froute">PG 406 · HKT → USM &nbsp;&amp;&nbsp; PG 142 · USM → BKK</div>
+      <span class="badge bb">Web Freedom</span>
+    </div>
+    <div class="fbody">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;margin-bottom:14px">
+        <div class="fdi-row"><span>🧳</span><div><strong>20 ק"ג מטען רשום</strong></div></div>
+        <div class="fdi-row"><span>💼</span><div><strong>תיק יד 1 × 7 ק"ג</strong></div></div>
+        <div class="fdi-row"><span>🍽️</span><div><strong>ארוחה על הטיסה</strong></div></div>
+        <div class="fdi-row"><span>💺</span><div><strong>Forward Zone Seat Selection</strong></div></div>
+        <div class="fdi-row"><span>🔄</span><div><strong>שינוי ללא עלות</strong></div></div>
+        <div class="fdi-row"><span>✈️</span><div><strong>Flyerbonus 100%</strong></div></div>
+      </div>
+      <div style="background:var(--redp);border:1px solid rgba(239,68,68,.25);border-radius:var(--rsm);padding:12px 14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px">❌ דמי ביטול — Bangkok Airways Web Freedom</div>
+        <div style="font-size:13px;color:var(--textm);display:flex;flex-direction:column;gap:5px">
+          <div>📅 <strong style="color:var(--text)">לפני יום הטיסה:</strong> ~$60 לטיסה + $10 דמי טיפול (לא מוחזרים)</div>
+          <div>📅 <strong style="color:var(--text)">ביום הטיסה ואחריו:</strong> ~$80 לטיסה + $10 דמי טיפול</div>
+          <div>🚫 <strong style="color:var(--text)">No-show:</strong> חל דמי no-show בנוסף</div>
+          <div style="font-size:11px;color:var(--textd);margin-top:4px">* הסכומים הם אומדן — הסכום המדויק תלוי במסלול. לפרטים: <a href="https://www.bangkokair.com/fare-conditions" target="_blank" style="color:var(--blue)">bangkokair.com ←</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ETIHAD FARE -->
+  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:20px 0 12px">🎫 מה כלול — Etihad Airways (Economy Deluxe)</div>
+  <div class="fcard">
+    <div class="fhdr">
+      <div class="froute">EY 598 · EY 416 · EY 403 · EY 597</div>
+      <span class="badge bt">Economy Deluxe</span>
+    </div>
+    <div class="fbody">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;margin-bottom:14px">
+        <div class="fdi-row"><span>🧳</span><div><strong>40 ק"ג מטען רשום</strong><br><span style="font-size:11px;color:var(--textd)">Weight concept — פיזור בין תיקים</span></div></div>
+        <div class="fdi-row"><span>💼</span><div><strong>תיק יד 1 × 7 ק"ג</strong><br><span style="font-size:11px;color:var(--textd)">+ פריט אישי עד 5 ק"ג</span></div></div>
+        <div class="fdi-row"><span>🔄</span><div><strong>שינוי ראשון חינם</strong><br><span style="font-size:11px;color:var(--textd)">הבא — בתשלום + הפרש מחיר</span></div></div>
+        <div class="fdi-row"><span>💰</span><div><strong>ביטול עם החזר כסף</strong><br><span style="font-size:11px;color:var(--textd)">ראה דמי ביטול למטה</span></div></div>
+        <div class="fdi-row"><span>💺</span><div><strong>בחירת מושב חינם</strong><br><span style="font-size:11px;color:var(--textd)">כולל extra legroom (subject to availability)</span></div></div>
+        <div class="fdi-row"><span>⭐</span><div><strong>Priority Access</strong><br><span style="font-size:11px;color:var(--textd)">צ'ק-אין, עלייה, מזוודות ראשונות</span></div></div>
+        <div class="fdi-row"><span>🛫</span><div><strong>5,938 tier miles לנוסע</strong></div></div>
+        <div class="fdi-row"><span>⬆️</span><div><strong>20% הנחה שדרוג במיילס</strong></div></div>
+      </div>
+      <div style="background:var(--redp);border:1px solid rgba(239,68,68,.25);border-radius:var(--rsm);padding:12px 14px">
+        <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px">❌ דמי ביטול — Etihad Economy Deluxe</div>
+        <div style="font-size:13px;color:var(--textm);display:flex;flex-direction:column;gap:5px">
+          <div>✅ <strong style="color:var(--text)">ביטול רגיל:</strong> החזר מלא — ללא דמי ביטול</div>
+          <div>⚠️ <strong style="color:var(--text)">No-show fee: $300</strong> — חל בנוסף אם לא הופעת לטיסה</div>
+          <div>🔄 <strong style="color:var(--text)">שינוי ראשון:</strong> חינם · שינויים נוספים: בתשלום + הפרש מחיר</div>
+          <div style="font-size:11px;color:var(--textd);margin-top:4px">* לפרטים המדויקים: <a href="https://www.etihad.com/en/manage" target="_blank" style="color:var(--blue)">etihad.com/manage ←</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANCELLATION CLOCKS -->
+  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:20px 0 12px">⏱️ שעוני ביטול</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+
+    <!-- ETIHAD CLOCK -->
+    <div class="fcard">
+      <div class="fhdr" style="background:var(--tealp)">
+        <div class="froute" style="font-size:13px">Etihad Airways</div>
+        <span class="badge bt">Economy Deluxe</span>
+      </div>
+      <div class="fbody" style="text-align:center">
+        <div style="font-size:12px;color:var(--textm);margin-bottom:8px">זמן שנשאר עד המראה</div>
+        <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;direction:ltr;margin-bottom:6px" id="clock-etihad">טוען...</div>
+        <div style="font-size:11px;color:var(--textd);margin-bottom:12px">EY 598 · 19 מאי 2026 · 20:10</div>
+        <div style="font-size:12px;color:var(--textm);background:var(--gp);border-radius:var(--rsm);padding:8px;margin-bottom:8px">
+          ✅ ביטול חינם בכל עת לפני הטיסה<br>
+          ⚠️ No-show fee: $300
+        </div>
+        <a class="btn btn-o" style="font-size:12px;padding:6px 14px" href="https://www.etihad.com/en/manage/refund" target="_blank">בקשת ביטול ←</a>
+      </div>
+    </div>
+
+    <!-- BANGKOK AIRWAYS CLOCK -->
+    <div class="fcard">
+      <div class="fhdr" style="background:var(--bluep)">
+        <div class="froute" style="font-size:13px">Bangkok Airways</div>
+        <span class="badge bb">Web Freedom</span>
+      </div>
+      <div class="fbody" style="text-align:center">
+        <div style="font-size:12px;color:var(--textm);margin-bottom:4px">עד PG 406 (הראשונה)</div>
+        <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;direction:ltr;margin-bottom:6px" id="clock-bkk1">טוען...</div>
+        <div style="font-size:11px;color:var(--textd);margin-bottom:8px">PG 406 · 25 מאי · 13:45</div>
+        <div style="font-size:12px;color:var(--textm);background:var(--redp);border-radius:var(--rsm);padding:8px;margin-bottom:4px">
+          📅 לפני יום הטיסה: ~$60 + $10<br>
+          📅 ביום ואחרי: ~$80 + $10
+        </div>
+        <div style="font-size:12px;color:var(--textm);margin-top:6px;margin-bottom:4px">עד PG 142 (השנייה)</div>
+        <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;direction:ltr;margin-bottom:6px" id="clock-bkk2">טוען...</div>
+        <div style="font-size:11px;color:var(--textd);margin-bottom:8px">PG 142 · 30 מאי · 13:50</div>
+        <a class="btn btn-o" style="font-size:12px;padding:6px 14px" href="https://www.bangkokair.com" target="_blank">Bangkok Airways ←</a>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- HOTELS -->
@@ -1944,6 +2048,28 @@ function loadLocalData(){
   if(raw) S=JSON.parse(raw);
 }
 
+// ═══ CANCELLATION CLOCKS ═══
+const CLOCK_FLIGHTS = [
+  { id: 'clock-etihad', date: new Date('2026-05-19T20:10:00'), label: 'EY 598' },
+  { id: 'clock-bkk1',   date: new Date('2026-05-25T13:45:00'), label: 'PG 406' },
+  { id: 'clock-bkk2',   date: new Date('2026-05-30T13:50:00'), label: 'PG 142' },
+];
+function updateCancelClocks() {
+  const now = new Date();
+  CLOCK_FLIGHTS.forEach(cf => {
+    const el = document.getElementById(cf.id);
+    if (!el) return;
+    const diff = cf.date - now;
+    if (diff <= 0) { el.textContent = '🛫 המריאה'; el.style.color = 'var(--textd)'; return; }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    el.textContent = `${d}d  ${String(h).padStart(2,'0')}h  ${String(m).padStart(2,'0')}m  ${String(s).padStart(2,'0')}s`;
+    el.style.color = d < 1 ? 'var(--red)' : d < 3 ? 'var(--coral)' : d < 7 ? 'var(--gold)' : 'var(--green)';
+  });
+}
+
 // ═══ INIT ═══
 async function init(){
   // URL is hardcoded — no setup needed on any device
@@ -1965,6 +2091,8 @@ async function init(){
 
   // countdown every second, weather every 10min
   setInterval(updateCountdown, 1000);
+  setInterval(updateCancelClocks, 1000);
+  updateCancelClocks();
   buildCustomHotels('koh');
   buildCustomHotels('bkk');
   buildPieChart();
