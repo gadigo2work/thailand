@@ -424,7 +424,7 @@ textarea.inp{min-height:56px;resize:vertical}
       <div class="hms-item"><div class="hms-num" id="hms-m">00</div><div class="hms-lbl">דקות</div></div>
       <div class="hms-item"><div class="hms-num" id="hms-s">00</div><div class="hms-lbl">שניות</div></div>
     </div>
-    <div class="date">✈️ שלישי, 19 מאי 2026 · 15:05 · TLV T3</div>
+    <div class="date">✈️ שלישי, 19 מאי 2026 · 20:10 · TLV → פוקט (HKT)</div>
   </div>
 
   <div class="dgrid">
@@ -905,36 +905,36 @@ const BUDGET = 27000;
 // ════════════════════════════════════════════════════════
 // FLIGHT CONFIG - edit here to update all flight info
 // ════════════════════════════════════════════════════════
-const FLIGHT_DATE = '2026-05-19T15:05:00'; // departure datetime - EDIT THIS
+const FLIGHT_DATE = '2026-05-19T20:10:00'; // departure datetime - EDIT THIS
 const FLIGHT = new Date(FLIGHT_DATE);
 
 const FLIGHTS = {
   outbound: {
     confId: 'conf-out',
-    route: '\u{1F1EE}\u{1F1F1} \u05EA\u05DC \u05D0\u05D1\u05D9\u05D1 \u2192 \u05D1\u05E0\u05D2\u05E7\u05D5\u05E7 \u{1F1F9}\u{1F1ED}',
+    route: '\u{1F1EE}\u{1F1F1} \u05EA\u05DC \u05D0\u05D1\u05D9\u05D1 \u2192 \u05E4\u05D5\u05E7\u05D8 \u{1F1F9}\u{1F1ED}',
     badgeCls: 'bb', badgeLabel: '\u05D4\u05DC\u05D5\u05DA',
-    totalDuration: '23:15', cabin: 'Economy',
+    totalDuration: '23:40', cabin: 'Economy',
     legs: [
       {
-        depTime: '15:05', depDate: '\u05E9\u05DC\u05D9\u05E9\u05D9 19 \u05DE\u05D0\u05D9',
-        depDateTime: '2026-05-19T15:05:00',
+        depTime: '20:10', depDate: '\u05E9\u05DC\u05D9\u05E9\u05D9 19 \u05DE\u05D0\u05D9',
+        depDateTime: '2026-05-19T20:10:00',
         depAirport: 'TLV', depAirportFull: 'Ben Gurion Airport',
         depTerminal: 'Terminal 3',
-        flight: 'EY 594', airline: 'Etihad Airways',
-        duration: '3h 10m', aircraft: 'Boeing 777-300ER',
+        flight: 'EY 598', airline: 'Etihad Airways',
+        duration: '3h 15m', aircraft: 'Boeing 777-300ER',
         amenities: ['TV','WIFI','Power','USB'],
       },
       {
-        connection: 'Abu Dhabi (AUH) · Terminal A · 1h 55m layover',
-        depTime: '21:10', depDate: '\u05E9\u05DC\u05D9\u05E9\u05D9 19 \u05DE\u05D0\u05D9',
+        connection: 'Abu Dhabi (AUH) · Terminal A · 2h 0m layover',
+        depTime: '02:25', depDate: '\u05E8\u05D1\u05D9\u05E2\u05D9 20 \u05DE\u05D0\u05D9',
         depAirport: 'AUH', depAirportFull: 'Zayed International Airport',
         depTerminal: 'Terminal A',
-        flight: 'EY 402', airline: 'Etihad Airways',
-        duration: '6h 35m', aircraft: 'Boeing 787-9 Dreamliner',
-        amenities: ['TV','WIFI','Power','USB'],
+        flight: 'EY 416', airline: 'Etihad Airways',
+        duration: '6h 50m', aircraft: 'Airbus A321LR',
+        amenities: ['TV','WIFI','USB'],
       },
     ],
-    arrTime: '06:45', arrAirport: 'BKK', arrDate: '20 May (Wed)',
+    arrTime: '12:15', arrAirport: 'HKT', arrDate: '20 May (Wed)', arrTerminal: 'Terminal D',
   },
   return: {
     confId: 'conf-ret',
@@ -943,17 +943,17 @@ const FLIGHTS = {
     totalDuration: '10:35', cabin: 'Economy',
     legs: [
       {
-        depTime: '09:15', depDate: '2 Jun (Tue)',
-        depDateTime: '2026-06-02T09:15:00',
+        depTime: '09:15', depDate: '3 Jun (Wed)',
+        depDateTime: '2026-06-03T09:15:00',
         depAirport: 'BKK', depAirportFull: 'Suvarnabhumi Airport',
         depTerminal: '',
         flight: 'EY 403', airline: 'Etihad Airways',
-        duration: '6h 20m', aircraft: 'Boeing 787-9 Dreamliner',
+        duration: '6h 20m', aircraft: 'Boeing 787-9',
         amenities: ['TV','WIFI','Power','USB'],
       },
       {
         connection: 'Abu Dhabi (AUH) · Terminal A · 1h 50m layover',
-        depTime: '14:25', depDate: '2 Jun (Tue)',
+        depTime: '14:25', depDate: '3 Jun (Wed)',
         depAirport: 'AUH', depAirportFull: 'Zayed International Airport',
         depTerminal: 'Terminal A',
         flight: 'EY 597', airline: 'Etihad Airways',
@@ -961,19 +961,36 @@ const FLIGHTS = {
         amenities: ['TV','WIFI','Power','USB'],
       },
     ],
-    arrTime: '16:50', arrAirport: 'TLV', arrDate: '2 Jun (Tue)', arrTerminal: 'Terminal 3',
+    arrTime: '16:50', arrAirport: 'TLV', arrDate: '3 Jun (Wed)', arrTerminal: 'Terminal 3',
   },
   internal: {
     confId: 'conf-int',
-    note: 'Bangkok Airways / Thai AirAsia · BKK to/from USM · ~80 min',
+    note: 'Bangkok Airways · HKT→USM (25 May) and USM→BKK (30 May)',
+    flights: [
+      {
+        route: 'Phuket (HKT) \u2192 Ko Samui (USM)',
+        date: 'Monday 25 May 2026',
+        dep: '13:45', arr: '14:40',
+        duration: '55 min', flight: 'PG 406',
+        airline: 'Bangkok Airways', aircraft: 'ATR72',
+        depTerminal: 'Terminal D',
+      },
+      {
+        route: 'Ko Samui (USM) \u2192 Bangkok (BKK)',
+        date: 'Saturday 30 May 2026',
+        dep: '13:50', arr: '15:05',
+        duration: '1h 15m', flight: 'PG 142',
+        airline: 'Bangkok Airways', aircraft: 'Airbus A319',
+      },
+    ],
     links: [
       { label:'Bangkok Airways', url:'https://www.bangkokair.com', cls:'btn-b' },
       { label:'AirAsia', url:'https://www.airasia.com', cls:'btn-o' },
     ],
   },
   checkin: {
-    opensDateTime: '2026-05-17T15:05:00',
-    opensLabel: 'Sunday 17 May 2026 at 15:05',
+    opensDateTime: '2026-05-17T20:10:00',
+    opensLabel: 'Sunday 17 May 2026 at 20:10',
   },
 };
 
@@ -1040,17 +1057,28 @@ function buildFlights() {
   container.innerHTML = `
     ${renderCard(FLIGHTS.outbound)}
     ${renderCard(FLIGHTS.return)}
-    <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">✈️ טיסה פנימית — קוסמוי ↔ בנגקוק</div>
-    <div class="int-placeholder">
-      <div style="font-size:15px;font-weight:600;color:var(--textm);margin-bottom:7px">🏝️ ${S['conf-int']?'הוזמנה ✅':'עדיין לא הוזמנה'}</div>
-      <div style="font-size:13px;color:var(--textd);margin-bottom:13px">${fi.note}</div>
-      <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
-        ${fi.links.map(l=>`<a class="btn ${l.cls}" href="${l.url}" target="_blank">${l.label} ←</a>`).join('')}
+    <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">✈️ טיסות פנימיות — Bangkok Airways</div>
+    ${fi.flights.map(f=>`
+    <div class="fcard">
+      <div class="fhdr">
+        <div class="froute">${f.route}</div>
+        <div style="display:flex;gap:7px"><span class="badge bg">פנימית</span><span class="badge bt">${f.airline}</span></div>
       </div>
-      <div class="confrow" style="margin-top:13px">
-        <div class="conflbl">🔖 מס' הזמנה:</div>
-        <input class="confinp" id="conf-int" placeholder="לאחר הזמנה..." oninput="saveData()">
+      <div class="fbody">
+        <div class="fleg">
+          <div class="ftc"><div class="ftime">${f.dep}</div><div class="fdate">${f.date}</div><div class="fairp">${f.route.split(' ')[0]}</div>${f.depTerminal?`<div class="fterm">${f.depTerminal}</div>`:''}</div>
+          <div class="flc"><div class="fdot"></div><div class="fline"></div><div style="font-size:13px">✈️</div><div class="fline"></div><div class="fdot" style="background:var(--gold)"></div></div>
+          <div class="fic"><div class="fcar">${f.flight} · ${f.airline}</div><div class="fdur">⏱️ ${f.duration}</div><div class="feq">${f.aircraft}</div></div>
+        </div>
+        <div class="fdr"><div class="fdi">🛬 ${f.arr}</div><div class="fdi">⏱️ ${f.duration}</div><div class="fdi">💺 Economy</div></div>
       </div>
+    </div>`).join('')}
+    <div class="confrow" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-bottom:14px">
+      <div class="conflbl">🔖 מס' הזמנה (Bangkok Airways):</div>
+      <input class="confinp" id="conf-int" placeholder="לאחר הזמנה..." oninput="saveData()">
+    </div>
+    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px">
+      ${fi.links.map(l=>`<a class="btn ${l.cls}" href="${l.url}" target="_blank">${l.label} ←</a>`).join('')}
     </div>
     <div class="card" style="border-color:rgba(59,130,246,.3)">
       <div class="ct">🌐 Check-in Online — Etihad</div>
@@ -1108,7 +1136,7 @@ const REMS = [
   {date:'2026-05-10',day:'10',mo:'מאי',title:'הזמינו SIM / eSIM תאילנדי',sub:'Airalo, Nomad — להזמין מראש',u:'ok'},
   {date:'2026-05-17',day:'17',mo:'מאי',title:'Check-in אונליין נפתח — Etihad',sub:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} · 48h before departure`,u:'urgent'},
   {date:'2026-05-17',day:'17',mo:'מאי',title:'ודאו שהמזוודות מוכנות',sub:'מגבלת משקל Etihad Economy: 23 ק"ג',u:'soon'},
-  {date:'2026-05-19',day:'19',mo:'מאי',title:'יום הטיסה!',sub:`Departure ${FLIGHTS.outbound.legs[0].depTime} · Arrive 3h early · Terminal 3`,u:'urgent'},
+  {date:'2026-05-19',day:'19',mo:'מאי',title:'יום הטיסה!',sub:`Departure ${FLIGHTS.outbound.legs[0].depTime} · Arrive 3h early · Terminal 3 → Phuket`,u:'urgent'},
 ];
 function buildRem() {
   const now = new Date();
@@ -2039,10 +2067,11 @@ function buildPieChart(){
 const NOTIF_EVENTS=[
   {id:'n-checkin',icon:'✈️',title:'Check-in Etihad!',body:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} - time to select seats and request Bassinet`,date:new Date(FLIGHTS.checkin.opensDateTime)},
   {id:'n-tdac',icon:'📄',title:'TDAC - fill entry form',body:'Fill the online form before entering Thailand',date:new Date('2026-05-16T09:00:00')},
-  {id:'n-flight',icon:'🛫',title:'Flight day!',body:`Departure ${FLIGHTS.outbound.legs[0].depTime} from TLV. Leave for airport 3h early`,date:new Date('2026-05-19T10:00:00')},
-  {id:'n-samui',icon:'🏝️',title:'Welcome to Koh Samui!',body:'Enjoy the private pool!',date:new Date('2026-05-20T14:00:00')},
-  {id:'n-bangkok',icon:'🏙️',title:'Moving to Bangkok today',body:'Do not forget checkout and get to airport on time',date:new Date('2026-05-28T08:00:00')},
-  {id:'n-return',icon:'🛬',title:'Flying home!',body:`Flight ${FLIGHTS.return.legs[0].flight} departs ${FLIGHTS.return.legs[0].depTime}. Be at airport by 07:00`,date:new Date('2026-06-02T06:00:00')},
+  {id:'n-flight',icon:'🛫',title:'Flight day! TLV → Phuket',body:`EY 598 departs ${FLIGHTS.outbound.legs[0].depTime}. Leave for airport by 17:00`,date:new Date('2026-05-19T15:00:00')},
+  {id:'n-phuket',icon:'🌴',title:'Welcome to Phuket!',body:'Landing HKT 12:15 Terminal D. Enjoy! 🏝️',date:new Date('2026-05-20T12:00:00')},
+  {id:'n-samui',icon:'🏝️',title:'Flying to Koh Samui today',body:'PG 406 departs 13:45 from HKT Terminal D',date:new Date('2026-05-25T12:00:00')},
+  {id:'n-bangkok',icon:'🏙️',title:'Flying to Bangkok today',body:'PG 142 departs 13:50 from USM',date:new Date('2026-05-30T12:00:00')},
+  {id:'n-return',icon:'🛬',title:'Flying home! BKK → TLV',body:`EY 403 departs 09:15. Be at airport by 07:00`,date:new Date('2026-06-03T06:00:00')},
 ];
 async function requestNotifPermission(){
   if(!('Notification' in window)){alert('הדפדפן שלך לא תומך בהתראות');return;}
