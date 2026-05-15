@@ -605,8 +605,29 @@ textarea.inp{min-height:56px;resize:vertical}
 
 <!-- HOTELS -->
 <div id="s-hotels" class="section">
+  <!-- PHUKET HEADER -->
+  <div style="background:var(--coralp);border:1px solid rgba(249,115,22,.2);border-radius:var(--rsm);padding:11px 15px;margin-bottom:14px;font-size:13px;color:var(--textm)">
+    🌴 <strong style="color:var(--coral)">פוקט — 20–25 מאי · 5 לילות</strong> · הגעה 20 מאי 12:15 · עזיבה 25 מאי 13:45
+  </div>
+  <div class="cust-h">
+    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ הוסף מלון בפוקט</div>
+    <div id="custom-hotels-phuket"></div>
+    <div class="igrid">
+      <div class="irow"><div class="lbl">שם המלון *</div><input class="inp inp-sm" id="ch-phuket-name" placeholder="שם המלון..."></div>
+      <div class="irow"><div class="lbl">מיקום / חוף</div><input class="inp inp-sm" id="ch-phuket-loc" placeholder="Patong, Karon, Kata..."></div>
+      <div class="irow"><div class="lbl">מחיר סה"כ (₪)</div><input class="inp inp-sm" id="ch-phuket-price" placeholder="0"></div>
+      <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" id="ch-phuket-conf" placeholder="BOOKING-XXX"></div>
+    </div>
+    <div class="irow"><div class="lbl">לינק Booking</div><input class="inp inp-sm" id="ch-phuket-link" placeholder="https://..."></div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-g" onclick="addCustomHotel('phuket')">+ הוסף מלון</button>
+      <a class="btn btn-o" href="https://www.booking.com/searchresults.html?ss=Phuket&checkin=2026-05-20&checkout=2026-05-25&group_adults=2&group_children=1&age=1&nflt=class%3D4%3Bclass%3D5" target="_blank">חיפוש ב-Booking ←</a>
+    </div>
+  </div>
+
+  <!-- KOH SAMUI HEADER -->
   <div style="background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:11px 15px;margin-bottom:18px;font-size:13px;color:var(--textm)">
-    🏝️ <strong style="color:var(--green)">קוסמוי — 20–28 מאי · 8 לילות</strong> · בחר מלון או הזן אחר. לחץ "בחר" ויפתחו שדות הזמנה.
+    🏝️ <strong style="color:var(--green)">קוסמוי — 25–30 מאי · 5 לילות</strong> · הגעה PG 406 · עזיבה PG 142
   </div>
 
   <!-- NH COLLECTION -->
@@ -628,7 +649,7 @@ textarea.inp{min-height:56px;resize:vertical}
       <div class="hfoot">
         <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~900–1,100 ₪</div><div class="nts">8 לילות: ~8,000 ₪</div></div>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <a class="btn btn-o" href="https://www.booking.com/hotel/th/nh-collection-samui-peace-resort.html?checkin=2026-05-20&checkout=2026-05-28&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
+          <a class="btn btn-o" href="https://www.booking.com/hotel/th/nh-collection-samui-peace-resort.html?checkin=2026-05-25&checkout=2026-05-30&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
           <button class="hsbtn un" id="shk1" onclick="selHotel('koh',1)">בחר מלון זה</button>
         </div>
       </div>
@@ -662,7 +683,7 @@ textarea.inp{min-height:56px;resize:vertical}
       <div class="hfoot">
         <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~750–900 ₪</div><div class="nts">8 לילות: ~6,800 ₪</div></div>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <a class="btn btn-o" href="https://www.booking.com/hotel/th/bandara-resort-spa.html?checkin=2026-05-20&checkout=2026-05-28&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
+          <a class="btn btn-o" href="https://www.booking.com/hotel/th/bandara-resort-spa.html?checkin=2026-05-25&checkout=2026-05-30&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
           <button class="hsbtn un" id="shk2" onclick="selHotel('koh',2)">בחר מלון זה</button>
         </div>
       </div>
@@ -695,7 +716,7 @@ textarea.inp{min-height:56px;resize:vertical}
       <div class="hfoot">
         <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~700–850 ₪</div><div class="nts">8 לילות: ~6,400 ₪</div></div>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <a class="btn btn-o" href="https://www.booking.com/hotel/th/fair-house-villas-spa.html?checkin=2026-05-20&checkout=2026-05-28&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
+          <a class="btn btn-o" href="https://www.booking.com/hotel/th/fair-house-villas-spa.html?checkin=2026-05-25&checkout=2026-05-30&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
           <button class="hsbtn un" id="shk3" onclick="selHotel('koh',3)">בחר מלון זה</button>
         </div>
       </div>
@@ -724,7 +745,7 @@ textarea.inp{min-height:56px;resize:vertical}
   </div>
 
   <!-- BKK HEADER -->
-  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">🏙️ בנגקוק — 28 מאי–3 יוני · 6 לילות</div>
+  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">🏙️ בנגקוק — 30 מאי–3 יוני · 4 לילות</div>
 
   <!-- HUA CHANG -->
   <div class="hoption" id="hbkk1">
@@ -740,7 +761,7 @@ textarea.inp{min-height:56px;resize:vertical}
       <div class="hfoot">
         <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~650 ₪</div><div class="nts">6 לילות: ~3,900 ₪</div></div>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <a class="btn btn-o" href="https://www.booking.com/hotel/th/hua-chang-heritage.html?checkin=2026-05-28&checkout=2026-06-03&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
+          <a class="btn btn-o" href="https://www.booking.com/hotel/th/hua-chang-heritage.html?checkin=2026-05-30&checkout=2026-06-03&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
           <button class="hsbtn un" id="shb1" onclick="selHotel('bkk',1)">בחר</button>
         </div>
       </div>
@@ -886,25 +907,31 @@ textarea.inp{min-height:56px;resize:vertical}
 <!-- BABY -->
 <div id="s-baby" class="section">
   <div class="bsect">
-    <div class="bshead">✈️ על הטיסה (~10 שעות עם עצירה)</div>
+    <div class="bshead">✈️ על הטיסה (~16 שעות עם עצירה)</div>
     <div class="bstip"><div>🛏️</div><div><strong>Bassinet (עריסת תינוק):</strong> בקשו מראש בניהול הזמנה ב-Etihad — שורה ראשונה עם מחיצה. חינם אבל מקומות מוגבלים!</div></div>
     <div class="bstip"><div>👂</div><div><strong>לחץ אוזניים:</strong> להניק / לתת בקבוק בהמראה ובנחיתה — הבליעה עוזרת. אטמי אוזניים לתינוקות — קחו!</div></div>
-    <div class="bstip"><div>🎒</div><div><strong>תיק יד לתינוקת:</strong> חיתולים ל-12+ שעות, בגד חלופי ×2, שמיכה, צעצועים שקטים, אוכל, תרופות חום.</div></div>
-    <div class="bstip"><div>⏰</div><div><strong>שינה:</strong> הטיסה יוצאת 20:10 — שעת שינה טבעית לגיל שנה וחצי. נסו לתזמן זאת לטובתכם.</div></div>
-    <div class="bstip"><div>🚿</div><div><strong>החתלה:</strong> ב-Boeing 777 יש changing table בשירותים. שאלו את הצוות היכן.</div></div>
+    <div class="bstip"><div>🎒</div><div><strong>תיק יד לתינוקת:</strong> חיתולים ל-16+ שעות, בגד חלופי ×3, שמיכה, צעצועים שקטים, אוכל, תרופות חום.</div></div>
+    <div class="bstip"><div>⏰</div><div><strong>שינה:</strong> הטיסה יוצאת 20:10 — שעת שינה טבעית. נסו לתזמן את שינת הלילה בטיסה הראשונה (TLV→AUH→HKT).</div></div>
+    <div class="bstip"><div>🚿</div><div><strong>החתלה:</strong> ב-Boeing 777 יש changing table בשירותים. שאלו את הצוות היכן. גם ב-A321LR ב-EY 416.</div></div>
   </div>
   <div class="bsect">
-    <div class="bshead">🏝️ בקוסמוי</div>
-    <div class="bstip"><div>🏊</div><div><strong>Gate בטיחות לבריכה:</strong> בקשו בצ'ק-אין! רוב המלונות מספקים אבל יש לבקש מראש.</div></div>
+    <div class="bshead">🌴 בפוקט (20–25 מאי)</div>
+    <div class="bstip"><div>🏖️</div><div><strong>חופים:</strong> Karon ו-Kata מומלצים לתינוקות — גלים קטנים יחסית. הימנעו מ-Patong בשעות שיא — עמוס ורועש.</div></div>
     <div class="bstip"><div>☀️</div><div><strong>שמש:</strong> SPF 50+ מינרלי. כובע עם שוליים רחבים. הימנעו מחשיפה ישירה 11:00–16:00.</div></div>
-    <div class="bstip"><div>🌊</div><div><strong>ים:</strong> חופשו חופים רדודים ושקטים — Bophut, Mae Nam, Bangrak. הימנעו מ-Chaweng בשעות שיא.</div></div>
     <div class="bstip"><div>🦟</div><div><strong>יתושים:</strong> קרם DEET-free לתינוקות. ספריי על בגדים. רשת יתושים על העריסה בלילה.</div></div>
-    <div class="bstip"><div>🏥</div><div><strong>רפואה:</strong> Bangkok Hospital Samui (+66 77 429 500) ו-Samui International Hospital — שניהם מצוינים.</div></div>
+    <div class="bstip"><div>🏥</div><div><strong>רפואה:</strong> Bangkok Hospital Phuket: +66 76 254 425 · Phuket International Hospital: +66 76 249 400</div></div>
+    <div class="bstip"><div>🚗</div><div><strong>תחבורה:</strong> Grab זמין בפוקט. מוניות ללא מד — הסכימו על מחיר מראש. לשייטים — ודאו שיש גלגל הצלה לתינוקת.</div></div>
   </div>
   <div class="bsect">
-    <div class="bshead">🏙️ בבנגקוק</div>
+    <div class="bshead">🏝️ בקוסמוי (25–30 מאי)</div>
+    <div class="bstip"><div>🏊</div><div><strong>Gate בטיחות לבריכה:</strong> בקשו בצ'ק-אין! רוב המלונות מספקים אבל יש לבקש מראש.</div></div>
+    <div class="bstip"><div>🌊</div><div><strong>ים:</strong> חופשו חופים רדודים ושקטים — Bophut, Mae Nam, Bangrak. הימנעו מ-Chaweng בשעות שיא.</div></div>
+    <div class="bstip"><div>🏥</div><div><strong>רפואה:</strong> Bangkok Hospital Samui: +66 77 429 500 · Samui International Hospital: +66 77 230 781</div></div>
+  </div>
+  <div class="bsect">
+    <div class="bshead">🏙️ בבנגקוק (30 מאי–3 יוני)</div>
     <div class="bstip"><div>🚗</div><div><strong>תחבורה:</strong> Grab עם מושב בטיחות — ציינו בהזמנה. BTS נגיש לעגלות — יש מעליות.</div></div>
-    <div class="bstip"><div>🌡️</div><div><strong>חום עירוני:</strong> בנגקוק חמה ולחה יותר מקוסמוי. קניונים ממוזגים = הצלה בשעות הצהריים.</div></div>
+    <div class="bstip"><div>🌡️</div><div><strong>חום עירוני:</strong> בנגקוק חמה ולחה יותר. קניונים ממוזגים = הצלה בשעות הצהריים.</div></div>
     <div class="bstip"><div>🍜</div><div><strong>אוכל לתינוקת:</strong> אורז לבן, אטריות, עוף בגריל — בטוח ומצוין. הימנעו מאוכל חריף.</div></div>
   </div>
 </div>
@@ -1253,20 +1280,21 @@ function buildRem() {
 // ═══ TODO ═══
 const TODOS = [
   {cat:'✈️ טיסות וכניסה', items:[
-    {id:'t-internal',tx:'טיסה פנימית קוסמוי ↔ בנגקוק',sb:'Bangkok Airways / AirAsia · BKK ↔ USM'},
+    {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · PG 142: USM→BKK 30 מאי'},
     {id:'t-tdac',tx:'TDAC — טופס כניסה לתאילנד',sb:'אונליין, חינם, עד 3 ימים לפני'},
-    {id:'t-checkin',tx:'Check-in אונליין — Etihad',sb:'18 מאי בשעה 20:10 (48 שעות לפני)'},
+    {id:'t-checkin',tx:'Check-in אונליין — Etihad',sb:'17 מאי בשעה 20:10 (48 שעות לפני)'},
     {id:'t-seats',tx:'בחירת מושבים + Bassinet',sb:'Etihad → ניהול הזמנה → בקשות מיוחדות'},
   ]},
   {cat:'🏨 לינה', items:[
-    {id:'t-h-koh',tx:'הזמנת מלון קוסמוי',sb:'20–28 מאי · pool villa + עריסה'},
-    {id:'t-h-bkk',tx:'הזמנת מלון בנגקוק',sb:'28 מאי–3 יוני'},
-    {id:'t-cot',tx:'בקשת עריסה (Baby Cot) — שני המלונות',sb:'לציין בהזמנה ולאשר עם המלון'},
+    {id:'t-h-phuket',tx:'הזמנת מלון פוקט',sb:'20–25 מאי · 5 לילות'},
+    {id:'t-h-koh',tx:'הזמנת מלון קוסמוי',sb:'25–30 מאי · 5 לילות · pool villa + עריסה'},
+    {id:'t-h-bkk',tx:'הזמנת מלון בנגקוק',sb:'30 מאי–3 יוני · 4 לילות'},
+    {id:'t-cot',tx:'בקשת עריסה (Baby Cot) — שלושת המלונות',sb:'לציין בהזמנה ולאשר עם המלון'},
     {id:'t-gate',tx:'Gate בטיחות לבריכה בקוסמוי',sb:'לבקש בצ\'ק-אין'},
   ]},
   {cat:'🛡️ ביטוח וניירת', items:[
     {id:'t-ins',tx:'ביטוח נסיעות — PassportCard',sb:'כיסוי רפואי מלא לכל המשפחה'},
-    {id:'t-pass',tx:'ודאו תוקף דרכונים',sb:'6+ חודשים מ-20 מאי 2026'},
+    {id:'t-pass',tx:'ודאו תוקף דרכונים',sb:'6+ חודשים מ-19 מאי 2026'},
     {id:'t-docscopy',tx:'צלמו דרכונים → שמרו בענן',sb:'Google Drive / WhatsApp לעצמכם'},
     {id:'t-bank',tx:'הודיעו לבנק על הנסיעה',sb:'למנוע חסימת כרטיס אשראי'},
   ]},
@@ -1276,20 +1304,21 @@ const TODOS = [
     {id:'t-mosq',tx:'קרם נגד יתושים לתינוקות',sb:'DEET-free — Picaridin / Citriodora'},
   ]},
   {cat:'📱 תקשורת וכסף', items:[
-    {id:'t-sim',tx:'SIM תאילנדי / eSIM',sb:'AIS / True Move · לקנות בשדה BKK'},
+    {id:'t-sim',tx:'SIM תאילנדי / eSIM',sb:'AIS / True Move · לקנות בשדה HKT או BKK'},
     {id:'t-grab',tx:'הורדת Grab לפני הנסיעה',sb:'App Store / Google Play'},
     {id:'t-cash',tx:'כסף מזומן להמרה ראשונה',sb:'אל תמירו בשדה — המתינו לכספומט'},
     {id:'t-card',tx:'כרטיס אשראי ללא עמלות המרה',sb:'Max / Visa Cal — בדקו מול החברה'},
   ]},
   {cat:'👶 תינוקת וציוד', items:[
-    {id:'t-stroller',tx:'עגלה קלה + נשאית מוכנות',sb:'נשאית מומלצת לבנגקוק'},
-    {id:'t-bfood',tx:'תכנון אוכל לתינוקת לטיסה',sb:'10+ שעות — תכנן מה מותר לעלות'},
+    {id:'t-stroller',tx:'עגלה קלה + נשאית מוכנות',sb:'נשאית מומלצת לבנגקוק ופוקט'},
+    {id:'t-bfood',tx:'תכנון אוכל לתינוקת לטיסה',sb:'16+ שעות — תכנן מה מותר לעלות'},
     {id:'t-bass',tx:'Bassinet על הטיסה — Etihad',sb:'שורה ראשונה עם מחיצה'},
     {id:'t-earp',tx:'אטמי אוזניים לתינוקות',sb:'לאיזון לחץ בהמראה ונחיתה'},
   ]},
   {cat:'🎫 אטרקציות', items:[
-    {id:'t-angthong',tx:'הזמנת טיול שייט Ang Thong',sb:'מומלץ להזמין מראש — GetYourGuide / ViatorThai'},
-    {id:'t-massage',tx:'הזמנת עיסוי בריזורט (אופציונלי)',sb:'לשריין מראש בספא המלון'},
+    {id:'t-phiphi',tx:'הזמנת שייט Phi Phi / James Bond Island',sb:'מומלץ להזמין מראש — GetYourGuide'},
+    {id:'t-angthong',tx:'הזמנת שייט Ang Thong Marine Park',sb:'מומלץ להזמין מראש — ViatorThai'},
+    {id:'t-massage',tx:'הזמנת עיסוי בריזורטים',sb:'לשריין מראש בספא המלון בקוסמוי ובבנגקוק'},
   ]},
 ];
 function getCustomTodos(catIdx) {
@@ -1361,88 +1390,100 @@ function updateProgress() {
 
 // ═══ ITINERARY ═══
 const ITIN = [
-  {n:1,date:'19 מאי',dn:'ג\'',city:'koh',title:'טיסה מישראל ✈️',blks:[
-    {tc:'tle',tl:'20:10',tt:'המראה מבן גוריון — EY598. הגיעו 3 שעות לפני!'},
+  // ── FLIGHT DAY ──
+  {n:1,date:'19 מאי',dn:'ג\'',city:'phuket',title:'טיסה מישראל ✈️',blks:[
+    {tc:'tle',tl:'20:10',tt:'המראה מבן גוריון — EY 598 · Boeing 777-300ER. הגיעו 3 שעות לפני!'},
+    {tc:'tld',tl:'00:25',tt:'נחיתה אבו דאבי (AUH). קונקשן 2 שעות → EY 416.'},
+    {tc:'tlm',tl:'02:25',tt:'המראה מאבו דאבי — EY 416 · Airbus A321LR.'},
   ]},
-  {n:2,date:'20 מאי',dn:'ד\'',city:'koh',title:'הגעה לקוסמוי 🏝️',blks:[
-    {tc:'tlm',tl:'12:10',tt:'נחיתה BKK. קונקשן לטיסה פנימית USM.'},
-    {tc:'tld',tl:'אחה"צ',tt:'הגעה לקוסמוי. העברה למלון. בריכה פרטית ראשונה!'},
-    {tc:'tle',tl:'ערב',tt:'ארוחת ערב קלה. שינה מוקדמת.'},
+  // ── PHUKET ──
+  {n:2,date:'20 מאי',dn:'ד\'',city:'phuket',title:'הגעה לפוקט 🌴',blks:[
+    {tc:'tlm',tl:'12:15',tt:'נחיתה פוקט (HKT) · Terminal D. העברה למלון.'},
+    {tc:'tld',tl:'אחה"צ',tt:'צ\'ק-אין, הסתגלות, בריכה. מנוחה — 10+ שעות טיסה מאחורינו.'},
+    {tc:'tle',tl:'ערב',tt:'ארוחת ערב קלה ליד המלון. שינה מוקדמת.'},
   ]},
-  {n:3,date:'21 מאי',dn:'ה\'',city:'koh',title:'יום כניסה לאווירה 🌊',blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'קפה, בריכה פרטית, ארוחת בוקר.'},
-    {tc:'tld',tl:'11:00–17:00',tt:'חוף קרוב. מים רדודים עם התינוקת. שינת צהריים.'},
-    {tc:'tle',tl:'ערב',tt:'שקיעה מהמרפסת + ארוחת ערב.'},
+  {n:3,date:'21 מאי',dn:'ה\'',city:'phuket',title:'יום כניסה לאווירה 🌊',blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה + ים. הסתגלות לחום.'},
+    {tc:'tld',tl:'11:00–17:00',tt:'חוף פטונג או קארון — מים חמים, חול לבן. שינת צהריים.'},
+    {tc:'tle',tl:'ערב',tt:'שוק לילה מקומי. Pad Thai ו-Mango Sticky Rice ראשון!'},
   ]},
-  {n:4,date:'22 מאי',dn:'ו\'',city:'koh',title:'⭐ Big Buddha 🙏',attr:true,blks:[
+  {n:4,date:'22 מאי',dn:'ו\'',city:'phuket',title:'⭐ Big Buddha + קייפ פרומתפ 🙏',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–10:00',tt:'ארוחת בוקר + בריכה.'},
+    {tc:'tld',tl:'10:00–14:00',tt:'Grab ל-Big Buddha (פסל 45 מ\' — הגדול בפוקט!). שוק אומנים + ארוחת צהריים.'},
+    {tc:'tle',tl:'17:00–19:00',tt:'כף Promthep — שקיעה מהמפורסמות בתאילנד. תמונות מושלמות!'},
+  ]},
+  {n:5,date:'23 מאי',dn:'ש\'',city:'phuket',title:'⭐ Old Town + ספא 🏛️',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה.'},
+    {tc:'tld',tl:'11:00–15:00',tt:'Phuket Old Town — ארכיטקטורה סינו-פורטוגלית, קפה ייחודי, Instagrammable!'},
+    {tc:'tle',tl:'15:00–19:00',tt:'עיסוי תאילנדי זוגי בספא (1–2 שעות, ~150–200 ₪). חזרה למלון.'},
+  ]},
+  {n:6,date:'24 מאי',dn:'א\'',city:'phuket',title:'⭐ שייט איים 🏝️',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–09:00',tt:'ארוחת בוקר מוקדמת + הכנה לטיול.'},
+    {tc:'tld',tl:'09:00–17:00',tt:'טיול שייט — Phi Phi Islands או James Bond Island. שנורקלינג, מים טורקיז, ארוחה.'},
+    {tc:'tle',tl:'ערב',tt:'בריכה + ארוחה בים ליד המלון.'},
+  ]},
+  {n:7,date:'25 מאי',dn:'ב\'',city:'phuket',title:'מעבר לקוסמוי 🏝️ → ✈️',blks:[
+    {tc:'tlm',tl:'08:00–12:00',tt:'ארוחת בוקר אחרונה בפוקט + צ\'ק-אאוט.'},
+    {tc:'tld',tl:'13:45–14:40',tt:'PG 406 · HKT → USM · ATR72 · 55 דקות. צ\'ק-אין מלון קוסמוי!'},
+    {tc:'tle',tl:'15:00+',tt:'הגעה. בריכה פרטית ראשונה בקוסמוי 🌴'},
+  ]},
+  // ── KOH SAMUI ──
+  {n:8,date:'26 מאי',dn:'ג\'',city:'koh',title:'יום כניסה לקוסמוי 🌊',blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה פרטית. קפה עם נוף לים.'},
+    {tc:'tld',tl:'11:00–17:00',tt:'חוף Bophut או Mae Nam — רדוד ושקט לתינוקת. שינת צהריים.'},
+    {tc:'tle',tl:'ערב',tt:'Fisherman\'s Village — שוק לילה, פירות ים, אווירה.'},
+  ]},
+  {n:9,date:'27 מאי',dn:'ד\'',city:'koh',title:'⭐ Big Buddha + Wat Plai Laem 🛕',attr:true,blks:[
     {tc:'tlm',tl:'08:00–11:00',tt:'בריכה + ארוחת בוקר.'},
-    {tc:'tld',tl:'11:00–14:00',tt:'מונית ל-Big Buddha (פסל 12 מ\'). שוק אומנים. ארוחת צהריים.'},
-    {tc:'tle',tl:'14:00+',tt:'חזרה. ים + בריכה + שקיעה.'},
+    {tc:'tld',tl:'11:00–15:00',tt:'Big Buddha קוסמוי (פסל 12 מ\') + Wat Plai Laem — צבעוני, על אגם, פסלים ענקיים.'},
+    {tc:'tle',tl:'15:00+',tt:'חזרה. ים + בריכה + שקיעה.'},
   ]},
-  {n:5,date:'23 מאי',dn:'ש\'',city:'koh',title:'יום בריכה + עיסוי 💆',blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה.'},
-    {tc:'tld',tl:'11:00–16:00',tt:'עיסוי תאילנדי זוגי (~120 ₪ ל-60 דק\'). ים + בריכה.'},
-    {tc:'tle',tl:'ערב',tt:'שוק לילה מקומי.'},
+  {n:10,date:'28 מאי',dn:'ה\'',city:'koh',title:'⭐ שייט Ang Thong ⛵',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–09:00',tt:'ארוחת בוקר + הכנה — כובעים, קרם, מים.'},
+    {tc:'tld',tl:'09:00–17:00',tt:'Ang Thong Marine Park — 42 איים, שנורקלינג, מגדל תצפית + ארוחה על הסירה.'},
+    {tc:'tle',tl:'ערב',tt:'בריכה + שקיעה מהמרפסת.'},
   ]},
-  {n:6,date:'24 מאי',dn:'א\'',city:'koh',title:'⭐ מפלי Na Muang 🌿',attr:true,blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + הכנה. כובעים, קרם, מים.'},
-    {tc:'tld',tl:'11:00–15:00',tt:'מונית למפלים (~20 דק\'). מים קרירים. ארוחת צהריים.'},
-    {tc:'tle',tl:'15:00+',tt:'חזרה. בריכה פרטית.'},
+  {n:11,date:'29 מאי',dn:'ו\'',city:'koh',title:'יום ים + עיסוי 💆',blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר ארוכה + בריכה פרטית.'},
+    {tc:'tld',tl:'11:00–16:00',tt:'יום ים מלא — חול, מים, שמש. לא מתכננים כלום!'},
+    {tc:'tle',tl:'16:00–19:00',tt:'עיסוי זוגי בספא המלון. ארוחת ערב מיוחדת.'},
   ]},
-  {n:7,date:'25 מאי',dn:'ב\'',city:'koh',title:'⭐ שייט Ang Thong ⛵',attr:true,blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + הכנה.'},
-    {tc:'tld',tl:'11:00–17:00',tt:'טיול סירה — Ang Thong Marine Park · 42 איים · שנורקלינג + ארוחה.'},
-    {tc:'tle',tl:'ערב',tt:'בריכה + שקיעה.'},
+  {n:12,date:'30 מאי',dn:'ש\'',city:'koh',title:'מעבר לבנגקוק 🏙️ → ✈️',blks:[
+    {tc:'tlm',tl:'08:00–12:00',tt:'ארוחת בוקר אחרונה + צ\'ק-אאוט מקוסמוי.'},
+    {tc:'tld',tl:'13:50–15:05',tt:'PG 142 · USM → BKK · Airbus A319 · 1h 15m.'},
+    {tc:'tle',tl:'15:30+',tt:'Grab למלון בנגקוק. צ\'ק-אין + חקירת הסביבה ראשונה.'},
   ]},
-  {n:8,date:'26 מאי',dn:'ג\'',city:'koh',title:'יום ים מלא 🏖️',blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר ארוכה + בריכה.'},
-    {tc:'tld',tl:'11:00–18:00',tt:'יום ים שלם. חול, מים, שמש. לא מתכננים כלום.'},
-    {tc:'tle',tl:'ערב',tt:'מסעדת פירות ים על הים.'},
+  // ── BANGKOK ──
+  {n:13,date:'31 מאי',dn:'א\'',city:'bkk',title:'⭐ שוק Chatuchak + MBK 🛒',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר במלון.'},
+    {tc:'tld',tl:'11:00–15:00',tt:'Chatuchak Weekend Market — 15,000 דוכנים! BTS Mo Chit.'},
+    {tc:'tle',tl:'15:00–19:00',tt:'MBK Center ממוזג. Pad Thai + Mango Sticky Rice ברחוב.'},
   ]},
-  {n:9,date:'27 מאי',dn:'ד\'',city:'koh',title:'⭐ Wat Plai Laem 🛕',attr:true,blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה.'},
-    {tc:'tld',tl:'11:00–14:00',tt:'Wat Plai Laem — צבעוני, על אגם, פסלים ענקיים.'},
-    {tc:'tle',tl:'14:00+',tt:'ים + בריכה. ערב: שוק לאמאי.'},
+  {n:14,date:'1 יוני',dn:'ב\'',city:'bkk',title:'⭐ Grand Palace + שיט + Asiatique 🏯',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–09:30',tt:'ארוחת בוקר + Grab ל-Grand Palace.'},
+    {tc:'tld',tl:'09:30–15:00',tt:'Grand Palace + Wat Pho (בודהה שוכב ענק). שיט ב-Chao Phraya.'},
+    {tc:'tle',tl:'18:00–21:00',tt:'Asiatique The Riverfront — קניות + ארוחת ערב על הנהר + גלגל ענק.'},
   ]},
-  {n:10,date:'28 מאי',dn:'ה\'',city:'koh',title:"כפר הדייגים + מעבר לבנגקוק 🏙️",blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר אחרונה + צ\'ק-אאוט.'},
-    {tc:'tld',tl:'11:00–14:00',tt:"Fisherman's Village בבופוט — פירות ים, קניות."},
-    {tc:'tle',tl:'אחה"צ',tt:'טיסה USM → BKK. צ\'ק-אין מלון בנגקוק.'},
+  {n:15,date:'2 יוני',dn:'ג\'',city:'bkk',title:'⭐ Siam Paragon + Platinum + ספא 🛍️',attr:true,blks:[
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + Grab למרכז.'},
+    {tc:'tld',tl:'11:00–17:00',tt:'Siam Paragon + Platinum Fashion Mall (בגדי ילדים בזול!) + CentralWorld.'},
+    {tc:'tle',tl:'17:00–20:00',tt:'עיסוי + ארוחה מיוחדת. אריזת מזוודות!'},
   ]},
-  {n:11,date:'29 מאי',dn:'ו\'',city:'bkk',title:'⭐ שוק Chatuchak 🛒',attr:true,blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר.'},
-    {tc:'tld',tl:'11:00–15:00',tt:'Chatuchak — 15,000 דוכנים! BTS Mo Chit.'},
-    {tc:'tle',tl:'15:00+',tt:'MBK ממוזג. Pad Thai ברחוב.'},
-  ]},
-  {n:12,date:'30 מאי',dn:'ש\'',city:'bkk',title:'⭐ Grand Palace + שיט 🏯',attr:true,blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר.'},
-    {tc:'tld',tl:'11:00–16:00',tt:'Grand Palace + Wat Pho. שיט ב-Chao Phraya לאסיאטיק.'},
-    {tc:'tle',tl:'ערב',tt:'ארוחת ערב על הנהר.'},
-  ]},
-  {n:13,date:'31 מאי',dn:'א\'',city:'bkk',title:'⭐ Siam Paragon + Platinum 🛍️',attr:true,blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר.'},
-    {tc:'tld',tl:'11:00–17:00',tt:'Siam Paragon + Platinum Fashion Mall (בגדי ילדים בזול!).'},
-    {tc:'tle',tl:'ערב',tt:'עיסוי + ארוחה מיוחדת. אריזת מזוודות!'},
-  ]},
-  {n:14,date:'1 יוני',dn:'ב\'',city:'bkk',title:'קניות אחרונות + שדה 🏠',blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + צ\'ק-אאוט.'},
-    {tc:'tld',tl:'11:00–16:00',tt:'CentralWorld — קניות + ארוחת צהריים פינאלית.'},
-    {tc:'tle',tl:'ערב',tt:'יציאה לשדה Suvarnabhumi. EY403 → 09:15 למחרת.'},
-  ]},
-  {n:15,date:'3 יוני',dn:'ד\'',city:'bkk',title:'חזרה לישראל 🇮🇱',blks:[
-    {tc:'tlm',tl:'09:15',tt:'המראה — EY403.'},
-    {tc:'tld',tl:'12:35',tt:'נחיתה AUH. קונקשן → EY597.'},
-    {tc:'tle',tl:'16:50',tt:'נחיתה בן גוריון! ברוכים השבים 🌴'},
+  {n:16,date:'3 יוני',dn:'ד\'',city:'bkk',title:'חזרה לישראל 🇮🇱 ✈️',blks:[
+    {tc:'tlm',tl:'06:00',tt:'יציאה מוקדמת לשדה Suvarnabhumi — לפחות 3 שעות לפני.'},
+    {tc:'tld',tl:'09:15',tt:'המראה — EY 403 · Boeing 787-9 → אבו דאבי.'},
+    {tc:'tle',tl:'16:50',tt:'נחיתה בן גוריון · Terminal 3. ברוכים השבים! 🌴'},
   ]},
 ];
-let kohDiv=false, bkkDiv=false;
+let phuketDiv=false, kohDiv=false, bkkDiv=false;
 function buildItin() {
-  kohDiv=false; bkkDiv=false;
+  phuketDiv=false; kohDiv=false; bkkDiv=false;
   const customDays=getCustomDays();
   const allBuiltin=ITIN.filter(d=>!S['del-day-'+d.n]);
   document.getElementById('itin-container').innerHTML = [
     ...allBuiltin.map(day=>{
       let div='';
+      if(day.city==='phuket'&&!phuketDiv){phuketDiv=true;div='<div class="cdiv">🌴 פוקט</div>';}
       if(day.city==='koh'&&!kohDiv){kohDiv=true;div='<div class="cdiv">🏝️ קוסמוי</div>';}
       if(day.city==='bkk'&&!bkkDiv){bkkDiv=true;div='<div class="cdiv">🏙️ בנגקוק</div>';}
       const done=S['dd-'+day.n]; const note=S['dn-'+day.n]||'';
@@ -1503,21 +1544,22 @@ function buildItin() {
   ].join('');
 }
 function togDay(n){const el=document.getElementById('dc-'+n);if(el)el.classList.toggle('exp');}
-function togDD(n){S['dd-'+n]=!S['dd-'+n];saveData();kohDiv=false;bkkDiv=false;buildItin();}
+function togDD(n){S['dd-'+n]=!S['dd-'+n];saveData();phuketDiv=false;kohDiv=false;bkkDiv=false;buildItin();}
 function saveDN(n,v){S['dn-'+n]=v;saveData();}
 
 // ═══ BUDGET ═══
 const BCATS=[
   {id:'b-fl',em:'✈️',nm:'טיסות Etihad',est:'~10,000 ₪',col:'#3b82f6'},
-  {id:'b-int',em:'🏝️',nm:'טיסה פנימית',est:'~1,800 ₪',col:'#14b8a6'},
-  {id:'b-hkoh',em:'🌴',nm:'מלון קוסמוי (8 לילות)',est:'~7,000–8,000 ₪',col:'#22c55e'},
-  {id:'b-hbkk',em:'🏙️',nm:'מלון בנגקוק (6 לילות)',est:'~3,500 ₪',col:'#a855f7'},
-  {id:'b-food',em:'🍜',nm:'אוכל',est:'~2,500 ₪',col:'#f97316'},
-  {id:'b-trans',em:'🚗',nm:'תחבורה מקומית',est:'~800 ₪',col:'#f59e0b'},
+  {id:'b-int',em:'🏝️',nm:'טיסות פנימיות Bangkok Airways',est:'~1,800 ₪',col:'#14b8a6'},
+  {id:'b-hphuket',em:'🌴',nm:'מלון פוקט (5 לילות)',est:'~4,000–6,000 ₪',col:'#f97316'},
+  {id:'b-hkoh',em:'🏝️',nm:'מלון קוסמוי (5 לילות)',est:'~5,000–6,000 ₪',col:'#22c55e'},
+  {id:'b-hbkk',em:'🏙️',nm:'מלון בנגקוק (4 לילות)',est:'~2,500–3,000 ₪',col:'#a855f7'},
+  {id:'b-food',em:'🍜',nm:'אוכל',est:'~2,500 ₪',col:'#f59e0b'},
+  {id:'b-trans',em:'🚗',nm:'תחבורה מקומית',est:'~800 ₪',col:'#64748b'},
   {id:'b-shop',em:'🛍️',nm:'קניות',est:'~2,000 ₪',col:'#ef4444'},
-  {id:'b-act',em:'⛵',nm:'ספא + אטרקציות',est:'~1,000 ₪',col:'#ec4899'},
+  {id:'b-act',em:'⛵',nm:'ספא + אטרקציות',est:'~1,500 ₪',col:'#ec4899'},
   {id:'b-ins',em:'🛡️',nm:'ביטוח נסיעות',est:'~600 ₪',col:'#8b5cf6'},
-  {id:'b-misc',em:'🎲',nm:'שונות / בלתי צפוי',est:'~800 ₪',col:'#64748b'},
+  {id:'b-misc',em:'🎲',nm:'שונות / בלתי צפוי',est:'~800 ₪',col:'#475569'},
 ];
 function buildBudget(){
   const customs=getCustomBudget();
@@ -1786,7 +1828,8 @@ function setItinView(v){
 function buildCalendar(){
   const container=document.getElementById('cal-container');
   const days=['א','ב','ג','ד','ה','ו','ש'];
-  // Build May and June 2026
+  // Map day numbers to actual dates (day 1 = May 19)
+  const tripStart = new Date(2026,4,19); // May 19
   let html='';
   ['2026-05','2026-06'].forEach(ym=>{
     const [y,m]=ym.split('-').map(Number);
@@ -1799,21 +1842,27 @@ function buildCalendar(){
     for(let i=0;i<firstDay;i++)html+=`<div></div>`;
     for(let d=1;d<=daysInMonth;d++){
       const dateStr=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      const tripDay=ITIN.find(it=>{
-        const itDate=new Date(2026,4,19+it.n-1);
-        return itDate.getMonth()===m-1&&itDate.getDate()===d;
-      });
+      const thisDate=new Date(y,m-1,d);
+      const dayNum=Math.round((thisDate-tripStart)/86400000)+1;
+      const tripDay=ITIN.find(it=>it.n===dayNum);
       const customDay=getCustomDays().find(cd=>cd.date===dateStr);
       const done=tripDay&&S['dd-'+tripDay.n];
       const isToday=new Date().toISOString().slice(0,10)===dateStr;
+      const cityColor=tripDay?.city==='phuket'?'var(--coral)':tripDay?.city==='koh'?'var(--green)':tripDay?.city==='bkk'?'var(--purple)':'var(--green)';
       html+=`<div class="cal-day ${tripDay||customDay?'active-trip':''} ${done?'done-day':''} ${isToday?'today':''}">
         <div class="cal-day-num">${d}${isToday?' •':''}</div>
-        ${tripDay?`<div class="cal-event" onclick="setItinView('list');setTimeout(()=>{const el=document.getElementById('dc-${tripDay.n}');if(el){el.classList.add('exp');el.scrollIntoView({behavior:'smooth'});}},100)">${done?'✅ ':''}${tripDay.title.replace(/⭐/,'').trim().slice(0,20)}</div>`:''}
-        ${customDay?`<div class="cal-event">${customDay.title.slice(0,20)}</div>`:''}
+        ${tripDay?`<div class="cal-event" style="color:${cityColor};background:${cityColor}22" onclick="setItinView('list');setTimeout(()=>{const el=document.getElementById('dc-${tripDay.n}');if(el){el.classList.add('exp');el.scrollIntoView({behavior:'smooth'});}},100)">${done?'✅ ':''}${tripDay.title.replace(/⭐/,'').trim().slice(0,18)}</div>`:''}
+        ${customDay?`<div class="cal-event">${customDay.title.slice(0,18)}</div>`:''}
       </div>`;
     }
     html+=`</div><div style="height:16px"></div>`;
   });
+  // Legend
+  html+=`<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--textm);margin-top:4px">
+    <div><span style="color:var(--coral)">●</span> פוקט</div>
+    <div><span style="color:var(--green)">●</span> קוסמוי</div>
+    <div><span style="color:var(--purple)">●</span> בנגקוק</div>
+  </div>`;
   container.innerHTML=html;
 }
 function selHotel(dest,num){
@@ -2017,7 +2066,7 @@ function applyState(){
   ['conf-out','conf-ret','conf-int'].forEach(id=>{const el=document.getElementById(id);if(el&&S[id])el.value=S[id];});
   restoreHotels(); calcBudget();
   buildTodo(); buildItin(); buildBudget(); buildPack(); updateProgress();
-  buildCustomHotels('koh'); buildCustomHotels('bkk'); buildFlights();
+  buildCustomHotels('phuket'); buildCustomHotels('koh'); buildCustomHotels('bkk'); buildFlights();
 }
 
 async function loadFromSheets(){
@@ -2093,6 +2142,7 @@ async function init(){
   setInterval(updateCountdown, 1000);
   setInterval(updateCancelClocks, 1000);
   updateCancelClocks();
+  buildCustomHotels('phuket');
   buildCustomHotels('koh');
   buildCustomHotels('bkk');
   buildPieChart();
