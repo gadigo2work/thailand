@@ -745,32 +745,42 @@ textarea.inp{min-height:56px;resize:vertical}
   </div>
 
   <!-- BKK HEADER -->
-  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">🏙️ בנגקוק — 30 מאי–4 יוני · 5 לילות</div>
+  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">🏙️ בנגקוק — 31 מאי–4 יוני · 4 לילות</div>
 
-  <!-- HUA CHANG -->
-  <div class="hoption" id="hbkk1">
+  <!-- CENTARA GRAND — BOOKED -->
+  <div class="hoption" id="hbkk1" style="border-color:rgba(34,197,94,.4)">
     <div class="hhdr">
-      <div><div class="hname">Hua Chang Heritage Hotel ★★★★</div><div class="hloc">📍 מרכז בנגקוק · BTS Siam</div></div>
-      <span class="badge bb">🛒 ליד הקניונים</span>
+      <div>
+        <div class="hname">Centara Grand & Bangkok Convention Centre ★★★★★</div>
+        <div class="hloc">📍 CentralWorld · BTS Chidlom/Siam</div>
+      </div>
+      <span class="badge bg">✅ הוזמן!</span>
     </div>
     <div class="hbody">
       <div class="hfeats">
-        <div class="hf">📍 2 דקות מ-BTS Siam</div><div class="hf">🛒 הליכה ל-MBK, Siam Paragon</div>
-        <div class="hf">🏊 בריכה + ספא</div><div class="hf">🛏️ חדר משפחה + עריסה</div>
+        <div class="hf">🛏️ Deluxe Hollywood Room</div>
+        <div class="hf">📅 31 מאי – 4 יוני 2026 · 4 לילות</div>
+        <div class="hf">👨‍👩‍👧 2 Adults + 1 Child</div>
+        <div class="hf">🏷️ Stay 3, Pay 2 — קופון: 2602STAYPAY</div>
+        <div class="hf">🛒 ל-Siam Paragon, Platinum, CentralWorld</div>
+        <div class="hf">🏊 בריכה + ספא + מסעדות</div>
       </div>
       <div class="hfoot">
-        <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~650 ₪</div><div class="nts">6 לילות: ~3,900 ₪</div></div>
-        <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <a class="btn btn-o" href="https://www.booking.com/hotel/th/hua-chang-heritage.html?checkin=2026-05-30&checkout=2026-06-04&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
-          <button class="hsbtn un" id="shb1" onclick="selHotel('bkk',1)">בחר</button>
+        <div class="hpr">
+          <div class="per">ממוצע ללילה</div>
+          <div class="tot">฿ 6,486</div>
+          <div class="nts">סה"כ: ฿ 25,944.61 (כולל מיסים)</div>
         </div>
       </div>
-      <div class="bkst" id="bbkk1" style="display:none">
-        <div class="bkst-t">📋 פרטי הזמנה</div>
+      <div style="background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:12px;margin-top:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">📋 פרטי הזמנה</div>
         <div class="igrid">
-          <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="BOOKING-XXX" data-key="bkk1-conf" oninput="saveData()"></div>
-          <div class="irow"><div class="lbl">סכום ששולם (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="bkk1-price" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="יתקבל אחרי תשלום" data-key="bkk1-conf" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">עלות בבאט (฿)</div><input class="inp inp-sm" value="25944.61" data-key="bkk1-price-thb" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">עלות בשקלים (₪)</div><input class="inp inp-sm" type="number" placeholder="להמיר לפי שער" data-key="bkk1-price" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">קופון</div><input class="inp inp-sm" value="2602STAYPAY" data-key="bkk1-coupon" oninput="saveData()"></div>
         </div>
+        <a class="btn btn-o" style="margin-top:8px" href="https://www.centarahotelsresorts.com/centaragrand/cgcw/" target="_blank">אתר Centara Grand ←</a>
       </div>
     </div>
   </div>
@@ -1461,7 +1471,7 @@ const TODOS = [
   {cat:'🏨 לינה', items:[
     {id:'t-h-phuket',tx:'הזמנת מלון פוקט',sb:'20–25 מאי · 5 לילות'},
     {id:'t-h-koh',tx:'הזמנת מלון קוסמוי',sb:'25–30 מאי · 5 לילות · pool villa + עריסה'},
-    {id:'t-h-bkk',tx:'הזמנת מלון בנגקוק',sb:'30 מאי–4 יוני · 5 לילות'},
+    {id:'t-h-bkk',tx:'✅ מלון בנגקוק — Centara Grand הוזמן',sb:'31 מאי–4 יוני · Deluxe Hollywood · ฿25,944.61 (כולל מיסים)'},
     {id:'t-cot',tx:'בקשת עריסה (Baby Cot) — שלושת המלונות',sb:'לציין בהזמנה ולאשר עם המלון'},
     {id:'t-gate',tx:'Gate בטיחות לבריכה בקוסמוי',sb:'לבקש בצ\'ק-אין'},
   ]},
@@ -1639,7 +1649,7 @@ const ITIN = [
   ]},
   {n:15,date:'2 יוני',dn:'ג\'',city:'bkk',title:'⭐ Siam Paragon + Platinum + ספא 🛍️',attr:true,blks:[
     {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + Grab למרכז.'},
-    {tc:'tld',tl:'11:00–17:00',tt:'Siam Paragon + Platinum Fashion Mall (בגדי ילדים בזול!) + CentralWorld.'},
+    {tc:'tld',tl:'11:00–17:00',tt:'Siam Paragon + Platinum Fashion Mall (בגדי ילדים בזול!) + CentralWorld — ממש ליד המלון!'},
     {tc:'tle',tl:'17:00–20:00',tt:'עיסוי + ארוחה מיוחדת. אריזת מזוודות!'},
   ]},
   {n:16,date:'3 יוני',dn:'ד\'',city:'bkk',title:'חזרה לישראל 🇮🇱 ✈️',blks:[
@@ -1726,7 +1736,7 @@ const BCATS=[
   {id:'b-int',em:'🏝️',nm:'טיסות פנימיות Bangkok Airways',est:'~1,800 ₪',col:'#14b8a6'},
   {id:'b-hphuket',em:'🌴',nm:'מלון פוקט (5 לילות)',est:'~4,000–6,000 ₪',col:'#f97316'},
   {id:'b-hkoh',em:'🏝️',nm:'מלון קוסמוי (5 לילות)',est:'~5,000–6,000 ₪',col:'#22c55e'},
-  {id:'b-hbkk',em:'🏙️',nm:'מלון בנגקוק (5 לילות)',est:'~2,500–3,000 ₪',col:'#a855f7'},
+  {id:'b-hbkk',em:'🏙️',nm:'מלון בנגקוק — Centara Grand (4 לילות)',est:'฿25,945 (~2,700 ₪)',col:'#a855f7'},
   {id:'b-food',em:'🍜',nm:'אוכל',est:'~2,500 ₪',col:'#f59e0b'},
   {id:'b-trans',em:'🚗',nm:'תחבורה מקומית',est:'~800 ₪',col:'#64748b'},
   {id:'b-shop',em:'🛍️',nm:'קניות',est:'~2,000 ₪',col:'#ef4444'},
@@ -2401,9 +2411,9 @@ function exportICS() {
       'Bangkok Airways PG 122 · Airbus A319\\nDepart 13:50 · Arrive 15:05',
       new Date('2026-05-31T07:15:00'), new Date('2026-05-31T10:30:00'), 'Ko Samui Airport USM'),
     // Bangkok stay
-    icsEvent('bkk-stay', '🏙️ Bangkok — 4 Nights',
+    icsEvent('bkk-stay', '🏙️ Bangkok — Centara Grand (4 Nights)',
       'Days 13–16 of trip\\nCheck in: 30 May · Check out: 3 Jun',
-      new Date('2026-05-30T16:00:00'), new Date('2026-06-04T09:00:00'), 'Bangkok, Thailand'),
+      new Date('2026-05-31T15:00:00'), new Date('2026-06-04T09:00:00'), 'Bangkok, Thailand'),
     // Return flight prep
     icsEvent('returnprep', '🧳 Head to Suvarnabhumi Airport — BKK',
       'EK 375 departs 09:55 · Be at airport by 06:30',
@@ -2649,7 +2659,7 @@ const SEARCH_INDEX=[
   {section:'🏨 מלונות',text:'NH Collection Samui Peace Resort Bophut pool villa beachfront',nav:'hotels'},
   {section:'🏨 מלונות',text:'Bandara Spa Resort Pool Villas Samui Kids Club',nav:'hotels'},
   {section:'🏨 מלונות',text:'Fair House Villas Spa Mae Nam Beach',nav:'hotels'},
-  {section:'🏨 מלונות',text:'Hua Chang Heritage Hotel Bangkok BTS Siam',nav:'hotels'},
+  {section:'🏨 מלונות',text:'Centara Grand CentralWorld Bangkok Deluxe Hollywood',nav:'hotels'},
   {section:'✈️ טיסות',text:`Emirates ${FLIGHTS.outbound.legs.map(l=>l.flight).join(' ')} ${FLIGHTS.return.legs.map(l=>l.flight).join(' ')} Abu Dhabi Bangkok TLV BKK`,nav:'flights'},
   {section:'💰 תקציב',text:'תקציב הוצאות כסף שקל',nav:'budget'},
   {section:'💱 המרה',text:'המרה שקל דולר באט THB ILS USD',nav:'currency'},
