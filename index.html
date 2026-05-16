@@ -64,7 +64,7 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-h
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
 
 /* SYNC */
-#sync{position:fixed;top:10px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);padding:5px 14px;border-radius:100px;font-size:12px;color:var(--textm);z-index:999;display:flex;align-items:center;gap:6px;pointer-events:none;transition:all .3s}
+#sync{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);padding:5px 14px;border-radius:100px;font-size:12px;color:var(--textm);z-index:50;display:flex;align-items:center;gap:6px;pointer-events:none;transition:all .3s}
 #sync.saving{color:var(--gold);border-color:var(--gold)}
 #sync.saved{color:var(--green);border-color:var(--green)}
 #sync.err{color:var(--red);border-color:var(--red)}
@@ -489,29 +489,44 @@ textarea.inp{min-height:56px;resize:vertical}
   <!-- QUICK CURRENCY WIDGET -->
   <div class="card">
     <div class="ct">💱 המרה מהירה</div>
-    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:10px">
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;margin-bottom:10px">
       <div>
-        <div style="font-size:11px;color:var(--textd);margin-bottom:4px">הכנס סכום</div>
-        <div style="display:flex;gap:6px">
-          <input id="qc-amount" type="number" placeholder="100" oninput="quickConv()"
-            style="flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:10px 12px;font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--text);outline:none;width:100%">
-        </div>
+        <div style="font-size:11px;color:var(--textd);margin-bottom:4px">Amount</div>
+        <input id="qc-amount" type="number" placeholder="100" oninput="quickConv()"
+          style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:10px 12px;font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;color:var(--text);outline:none;transition:border-color .2s"
+          onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'">
       </div>
-      <div style="text-align:center">
-        <select id="qc-from" onchange="quickConv()"
-          style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px;font-family:'Heebo',sans-serif;font-size:13px;color:var(--text);outline:none;cursor:pointer">
-          <option value="ils">₪ ILS</option>
-          <option value="usd">$ USD</option>
-          <option value="thb">฿ THB</option>
-        </select>
-        <div style="font-size:18px;color:var(--textd);margin-top:4px">→</div>
+      <div style="text-align:center;padding-bottom:2px">
+        <button onclick="swapCurrency()" title="Swap"
+          style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px;color:var(--textm);transition:all .2s"
+          onmouseover="this.style.borderColor='var(--green)';this.style.color='var(--green)'"
+          onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--textm)'">⇄</button>
       </div>
       <div>
-        <div style="font-size:11px;color:var(--textd);margin-bottom:4px">תוצאה</div>
-        <div id="qc-result" style="font-family:'Rubik',sans-serif;font-size:26px;font-weight:700;color:var(--green)">—</div>
-        <div id="qc-rate" style="font-size:11px;color:var(--textd);margin-top:2px"></div>
+        <div style="font-size:11px;color:var(--textd);margin-bottom:4px">Result</div>
+        <div id="qc-result" style="font-family:'Rubik',sans-serif;font-size:26px;font-weight:700;color:var(--green);min-height:44px;display:flex;align-items:center">—</div>
       </div>
     </div>
+    <div style="display:grid;grid-template-columns:1fr 36px 1fr;gap:10px;align-items:center;margin-bottom:8px">
+      <select id="qc-from" onchange="quickConv()"
+        style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px 10px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);outline:none;cursor:pointer;width:100%">
+        <option value="ils">🇮🇱 ₪ Israeli Shekel</option>
+        <option value="usd">🇺🇸 $ US Dollar</option>
+        <option value="thb">🇹🇭 ฿ Thai Baht</option>
+        <option value="eur">🇪🇺 € Euro</option>
+        <option value="gbp">🇬🇧 £ British Pound</option>
+      </select>
+      <div style="text-align:center;font-size:14px;color:var(--textd)">→</div>
+      <select id="qc-to" onchange="quickConv()"
+        style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px 10px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);outline:none;cursor:pointer;width:100%">
+        <option value="thb" selected>🇹🇭 ฿ Thai Baht</option>
+        <option value="ils">🇮🇱 ₪ Israeli Shekel</option>
+        <option value="usd">🇺🇸 $ US Dollar</option>
+        <option value="eur">🇪🇺 € Euro</option>
+        <option value="gbp">🇬🇧 £ British Pound</option>
+      </select>
+    </div>
+    <div id="qc-rate" style="font-size:11px;color:var(--textd)"></div>
   </div>
 
   <!-- CALENDAR EXPORT -->
@@ -1330,18 +1345,48 @@ function updateCountdown() {
 
 // ═══ REMINDERS ═══
 const REMS = [
-  {date:'2026-05-01',day:'01',mo:'מאי',title:'בקשת מושב Bassinet ב-Etihad',sub:'ניהול הזמנה → Special Requests',u:'ok'},
-  {date:'2026-05-10',day:'10',mo:'מאי',title:'הזמינו SIM / eSIM תאילנדי',sub:'Airalo, Nomad — להזמין מראש',u:'ok'},
-  {date:'2026-05-17',day:'17',mo:'מאי',title:'Check-in אונליין נפתח — Etihad',sub:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} · 48h before departure`,u:'urgent'},
-  {date:'2026-05-17',day:'17',mo:'מאי',title:'ודאו שהמזוודות מוכנות',sub:'מגבלת משקל Etihad Economy: 23 ק"ג',u:'soon'},
-  {date:'2026-05-19',day:'19',mo:'מאי',title:'יום הטיסה!',sub:`Departure ${FLIGHTS.outbound.legs[0].depTime} · Arrive 3h early · Terminal 3 → Phuket`,u:'urgent'},
+  {date:'2026-05-01',day:'01',mo:'מאי',title:'בקשת מושב Bassinet ב-Etihad',sub:'ניהול הזמנה → Special Requests',u:'ok',
+    gcal:{start:'20260501T090000',end:'20260501T093000',text:'Request Bassinet — Etihad',details:'etihad.com/manage → Special Requests → Bassinet'}},
+  {date:'2026-05-10',day:'10',mo:'מאי',title:'הזמינו SIM / eSIM תאילנדי',sub:'Airalo, Nomad — להזמין מראש',u:'ok',
+    gcal:{start:'20260510T090000',end:'20260510T093000',text:'Order Thailand SIM/eSIM',details:'airalo.com or nomadinternet.com — order before trip'}},
+  {date:'2026-05-16',day:'16',mo:'מאי',title:'TDAC — טופס כניסה לתאילנד',sub:'אונליין, חינם, עד 3 ימים לפני',u:'soon',
+    gcal:{start:'20260516T090000',end:'20260516T093000',text:'Fill TDAC Thailand Entry Form',details:'Complete online — free, takes 5 min'}},
+  {date:'2026-05-17',day:'17',mo:'מאי',title:'Check-in אונליין נפתח — Etihad',sub:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} · 48h before departure`,u:'urgent',
+    gcal:{start:'20260517T201000',end:'20260517T211000',text:'Etihad Online Check-in Opens — EY 598',details:'etihad.com/manage — select seats & confirm Bassinet'}},
+  {date:'2026-05-17',day:'17',mo:'מאי',title:'ודאו שהמזוודות מוכנות',sub:'מגבלת משקל Etihad Economy Deluxe: 40 ק"ג + תינוקת 10 ק"ג',u:'soon',
+    gcal:{start:'20260517T100000',end:'20260517T110000',text:'Pack & Weigh Suitcases',details:'Etihad Economy Deluxe: 40kg per adult + 10kg infant'}},
+  {date:'2026-05-19',day:'19',mo:'מאי',title:'יום הטיסה! 🛫',sub:`EY 598 departs ${FLIGHTS.outbound.legs[0].depTime} · Leave home by 17:00 · Terminal 3`,u:'urgent',
+    gcal:{start:'20260519T170000',end:'20260519T201000',text:'✈️ Flight Day! TLV → Phuket',details:'EY 598 departs 20:10 from Terminal 3 → AUH → HKT\nLeave home by 17:00'}},
 ];
+
+function gcalLink(ev) {
+  const base = 'https://calendar.google.com/calendar/render?action=TEMPLATE';
+  const p = new URLSearchParams({
+    text: ev.gcal.text,
+    dates: `${ev.gcal.start}/${ev.gcal.end}`,
+    details: ev.gcal.details || '',
+    ctz: 'Asia/Jerusalem',
+  });
+  return `${base}&${p.toString()}`;
+}
+
 function buildRem() {
   const now = new Date();
-  const list = REMS.filter(r=>new Date(r.date)>=now).slice(0,5);
+  const list = REMS.filter(r=>new Date(r.date)>=now).slice(0,6);
   document.getElementById('remlist').innerHTML = list.length
-    ? list.map(r=>`<div class="rem-item r-${r.u}"><div class="rem-date"><div class="rd">תאר'</div><div class="dd">${r.day}</div><div class="mm">${r.mo}</div></div><div class="rem-info"><div class="rt">${r.title}</div><div class="rs">${r.sub}</div></div></div>`).join('')
-    : '<div style="font-size:13px;color:var(--textd)">אין תזכורות קרובות</div>';
+    ? list.map(r=>`
+        <div class="rem-item r-${r.u}">
+          <div class="rem-date"><div class="rd">תאר'</div><div class="dd">${r.day}</div><div class="mm">${r.mo}</div></div>
+          <div class="rem-info" style="flex:1">
+            <div class="rt">${r.title}</div>
+            <div class="rs">${r.sub}</div>
+          </div>
+          <a href="${gcalLink(r)}" target="_blank" title="Add to Google Calendar"
+            style="flex-shrink:0;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--blue);text-decoration:none;background:var(--bluep);padding:4px 9px;border-radius:100px;white-space:nowrap">
+            📅 +Cal
+          </a>
+        </div>`).join('')
+    : '<div style="font-size:13px;color:var(--textd)">No upcoming reminders</div>';
 }
 
 // ═══ TODO ═══
@@ -2166,28 +2211,55 @@ function loadLocalData(){
 }
 
 // ═══ QUICK CURRENCY WIDGET ═══
+// All rates stored as "how many of this currency = 1 USD"
+function getCurrencyRates() {
+  // rates.ILS = THB per ILS, rates.USD = THB per USD
+  const thbPerUsd = rates.USD;       // e.g. 34.5
+  const thbPerIls = rates.ILS;       // e.g. 10.5
+  const ilsPerUsd = thbPerUsd / thbPerIls;
+  // Approximate EUR and GBP via USD (fallback if not fetched)
+  const thbPerEur = thbPerUsd * (window.rateEUR || 1.08);
+  const thbPerGbp = thbPerUsd * (window.rateGBP || 1.27);
+  return { ils: thbPerIls, usd: thbPerUsd, thb: 1, eur: thbPerEur, gbp: thbPerGbp };
+}
+const CURRENCY_SYMBOLS = { ils:'₪', usd:'$', thb:'฿', eur:'€', gbp:'£' };
+const CURRENCY_NAMES = { ils:'ILS', usd:'USD', thb:'THB', eur:'EUR', gbp:'GBP' };
+
 function quickConv() {
-  const amount = parseFloat(document.getElementById('qc-amount').value) || 0;
+  const amount = parseFloat(document.getElementById('qc-amount').value);
   const from = document.getElementById('qc-from').value;
+  const to = document.getElementById('qc-to').value;
   const res = document.getElementById('qc-result');
   const rateEl = document.getElementById('qc-rate');
-  if (!amount) { res.textContent = '—'; rateEl.textContent = ''; return; }
-  let result, rateText;
-  if (from === 'ils') {
-    result = (amount * rates.ILS).toFixed(0);
-    res.textContent = '฿' + Number(result).toLocaleString();
-    rateText = `1 ₪ = ${rates.ILS.toFixed(2)} THB`;
-  } else if (from === 'usd') {
-    result = (amount * rates.USD).toFixed(0);
-    res.textContent = '฿' + Number(result).toLocaleString();
-    rateText = `1 $ = ${rates.USD.toFixed(2)} THB`;
-  } else if (from === 'thb') {
-    const ilsResult = (amount / rates.ILS).toFixed(2);
-    const usdResult = (amount / rates.USD).toFixed(2);
-    res.textContent = `₪${ilsResult}`;
-    rateText = `also $${usdResult} · 1 THB = ₪${(1/rates.ILS).toFixed(4)}`;
-  }
-  rateEl.textContent = rateText;
+  if (!amount || isNaN(amount)) { res.textContent = '—'; rateEl.textContent = ''; return; }
+  const r = getCurrencyRates();
+  // Convert: from → THB → to
+  const inThb = amount * r[from];
+  const result = inThb / r[to];
+  const unitRate = r[from] / r[to];
+  const sym = CURRENCY_SYMBOLS;
+  res.textContent = `${sym[to]}${result >= 1000 ? result.toLocaleString('en',{maximumFractionDigits:0}) : result.toFixed(2)}`;
+  rateEl.textContent = `1 ${CURRENCY_NAMES[from]} = ${sym[to]}${unitRate.toFixed(4)} ${CURRENCY_NAMES[to]}`;
+}
+
+function swapCurrency() {
+  const fromEl = document.getElementById('qc-from');
+  const toEl = document.getElementById('qc-to');
+  const tmp = fromEl.value;
+  fromEl.value = toEl.value;
+  toEl.value = tmp;
+  quickConv();
+}
+
+// Fetch EUR and GBP rates too for the widget
+async function fetchExtraRates() {
+  try {
+    const r = await fetch('https://api.frankfurter.app/latest?from=USD&to=EUR,GBP');
+    const d = await r.json();
+    window.rateEUR = 1 / d.rates.EUR; // USD per EUR → invert to get USD value of 1 EUR
+    window.rateGBP = 1 / d.rates.GBP;
+    quickConv();
+  } catch(e) { /* use fallback */ }
 }
 
 // ═══ ICS CALENDAR EXPORT ═══
@@ -2452,7 +2524,7 @@ async function init(){
   // Load local first for instant render
   loadLocalData();
   buildTodo(); buildItin(); buildBudget(); buildPack(); buildRem(); buildFlights();
-  updateCountdown(); fetchWeather(); fetchRates(); updateProgress();
+  updateCountdown(); fetchWeather(); fetchRates(); fetchExtraRates(); updateProgress();
   setTimeout(applyState, 80);
 
   // Then load from Sheets and re-render if connected
