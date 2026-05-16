@@ -1693,6 +1693,19 @@ function buildBudget(){
     <div class="add-item-row" style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)">
       <input class="add-item-inp" id="b-add-name" placeholder="+ הוסף קטגוריה..." onkeydown="if(event.key==='Enter')addBudgetRow()">
       <button class="add-item-btn" onclick="addBudgetRow()">+</button>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0 4px;border-top:2px solid var(--border2);margin-top:4px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-size:18px">💰</div>
+        <div>
+          <div style="font-size:14px;font-weight:700">סה"כ שולם</div>
+          <div style="font-size:11px;color:var(--textd)">מתוך תקציב 27,000 ₪</div>
+        </div>
+      </div>
+      <div style="text-align:left">
+        <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:900" id="b-total-line">0 ₪</div>
+        <div style="font-size:11px;color:var(--textd)" id="b-total-pct">0% מהתקציב</div>
+      </div>
     </div>`;
   calcBudget();
   setTimeout(buildPieChart,50);
@@ -1703,10 +1716,19 @@ function calcBudget(){
   const customs=getCustomBudget();
   const sp=[...builtinRows,...customs].reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
   const lft=BUDGET-sp;
+  const pct=Math.round(sp/BUDGET*100);
   document.getElementById('b-spent').textContent=sp.toLocaleString()+' ₪';
   const el=document.getElementById('b-left');
   el.textContent=(lft<0?'-':'')+Math.abs(lft).toLocaleString()+' ₪';
   el.style.color=lft>=0?'var(--green)':'var(--red)';
+  // Update total line
+  const tl=document.getElementById('b-total-line');
+  const tp=document.getElementById('b-total-pct');
+  if(tl){
+    tl.textContent=sp.toLocaleString()+' ₪';
+    tl.style.color=lft<0?'var(--red)':lft<BUDGET*0.1?'var(--gold)':'var(--green)';
+  }
+  if(tp) tp.textContent=`${pct}% מהתקציב · נשאר ${lft<0?'חריגה של ':''}${Math.abs(lft).toLocaleString()} ₪`;
 }
 
 // ═══ CURRENCY ═══
