@@ -567,7 +567,7 @@ textarea.inp{min-height:56px;resize:vertical}
   <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:20px 0 12px">🎫 מה כלול — טיסות פנימיות (Bangkok Airways · Web Freedom)</div>
   <div class="fcard">
     <div class="fhdr">
-      <div class="froute">PG 406 · HKT → USM &nbsp;&amp;&nbsp; PG 142 · USM → BKK</div>
+      <div class="froute">PG 406 · HKT → USM &nbsp;&amp;&nbsp; PG 122 · USM → BKK</div>
       <span class="badge bb">Web Freedom</span>
     </div>
     <div class="fbody">
@@ -675,9 +675,9 @@ textarea.inp{min-height:56px;resize:vertical}
           📅 לפני יום הטיסה: ~$60 + $10<br>
           📅 ביום ואחרי: ~$80 + $10
         </div>
-        <div style="font-size:12px;color:var(--textm);margin-top:6px;margin-bottom:4px">עד PG 142 (השנייה)</div>
+        <div style="font-size:12px;color:var(--textm);margin-top:6px;margin-bottom:4px">עד PG 122 (השנייה)</div>
         <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;direction:ltr;margin-bottom:6px" id="clock-bkk2">טוען...</div>
-        <div style="font-size:11px;color:var(--textd);margin-bottom:8px">PG 142 · 30 מאי · 13:50</div>
+        <div style="font-size:11px;color:var(--textd);margin-bottom:8px">PG 122 · 31 מאי · 09:15</div>
         <a class="btn btn-o" style="font-size:12px;padding:6px 14px" href="https://www.bangkokair.com" target="_blank">Bangkok Airways ←</a>
       </div>
     </div>
@@ -709,7 +709,7 @@ textarea.inp{min-height:56px;resize:vertical}
 
   <!-- KOH SAMUI HEADER -->
   <div style="background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:11px 15px;margin-bottom:18px;font-size:13px;color:var(--textm)">
-    🏝️ <strong style="color:var(--green)">קוסמוי — 25–30 מאי · 5 לילות</strong> · הגעה PG 406 · עזיבה PG 142
+    🏝️ <strong style="color:var(--green)">קוסמוי — 25–30 מאי · 5 לילות</strong> · הגעה PG 406 · עזיבה PG 122
   </div>
 
   <!-- NH COLLECTION -->
@@ -1182,18 +1182,19 @@ const FLIGHTS = {
     flights: [
       {
         route: 'Phuket (HKT) \u2192 Ko Samui (USM)',
-        date: 'Monday 25 May 2026',
+        date: 'Tuesday 26 May 2026',
         dep: '13:45', arr: '14:40',
         duration: '55 min', flight: 'PG 406',
         airline: 'Bangkok Airways', aircraft: 'ATR72',
-        depTerminal: 'Terminal D',
+        depTerminal: 'Terminal D', fare: 'Web Freedom',
       },
       {
         route: 'Ko Samui (USM) \u2192 Bangkok (BKK)',
-        date: 'Saturday 30 May 2026',
-        dep: '13:50', arr: '15:05',
-        duration: '1h 15m', flight: 'PG 142',
+        date: 'Sunday 31 May 2026',
+        dep: '09:15', arr: '10:30',
+        duration: '1h 15m', flight: 'PG 122',
         airline: 'Bangkok Airways', aircraft: 'Airbus A319',
+        fare: 'Blue Ribbon',
       },
     ],
     links: [
@@ -1207,7 +1208,7 @@ const FLIGHTS = {
   },
 };
 
-function renderLeg(leg, isLast) {
+function renderLeg(leg, isLast, arrTime, arrAirport) {
   const amIcons = {'TV':'📺','WIFI':'📶','Power':'🔌','USB':'🔋'};
   return `
     ${leg.connection ? `<div class="fcnx">🔄 <strong>${leg.connection}</strong></div>` : ''}
@@ -1230,6 +1231,11 @@ function renderLeg(leg, isLast) {
         <div class="fdur">⏱️ ${leg.duration}</div>
         <div class="feq">${leg.aircraft}</div>
         <div class="fams">${leg.amenities.map(a=>`<span class="fam">${amIcons[a]||''} ${a}</span>`).join('')}</div>
+        ${isLast ? `<div style="margin-top:8px;padding:7px 10px;background:var(--gp);border:1px solid rgba(34,197,94,.25);border-radius:var(--rsm);font-size:13px">
+          🛬 <strong style="color:var(--green)">Lands ${arrTime}</strong> · ${arrAirport}
+        </div>` : `<div style="margin-top:8px;padding:6px 10px;background:var(--goldp);border:1px solid rgba(245,158,11,.2);border-radius:var(--rsm);font-size:12px;color:var(--gold)">
+          🛬 Arrives ${leg.connection?.match(/\d{1,2}:\d{2}/)?.[0]||''} · ${leg.connection?.split('·')[0]?.trim()||'connecting'}
+        </div>`}
       </div>
     </div>`;
 }
@@ -1247,15 +1253,28 @@ function buildFlights() {
           <span class="badge bt">Emirates</span>
         </div>
       </div>
-      <div class="fbody">
-        ${f.legs.map((leg,i)=>renderLeg(leg, i===f.legs.length-1)).join('')}
-        <div class="fdr">
-          <div class="fdi">🛬 ${f.arrTime} · ${f.arrAirport}</div>
-          <div class="fdi">📅 ${f.arrDate}</div>
-          ${f.arrTerminal?`<div class="fdi">🏠 ${f.arrTerminal}</div>`:''}
-          <div class="fdi">⏱️ ${f.totalDuration}</div>
-          <div class="fdi">💺 ${f.cabin}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(34,197,94,.06);border-bottom:1px solid var(--border)">
+        <div style="text-align:center">
+          <div style="font-size:11px;color:var(--textd)">DEPARTS</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--text)">${f.legs[0].depTime}</div>
+          <div style="font-size:11px;color:var(--textm)">${f.legs[0].depAirport} · ${f.legs[0].depDate}</div>
         </div>
+        <div style="text-align:center;flex:1">
+          <div style="font-size:11px;color:var(--textd)">${f.legs.length > 1 ? 'via ' + f.legs[1].depAirport : 'nonstop'} · ${f.totalDuration}</div>
+          <div style="height:1px;background:var(--border2);margin:4px 16px;position:relative">
+            <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:14px">✈️</div>
+          </div>
+          <div style="font-size:11px;color:var(--textm)">${f.cabin}</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:11px;color:var(--textd)">ARRIVES</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--green)">${f.arrTime}</div>
+          <div style="font-size:11px;color:var(--textm)">${f.arrAirport} · ${f.arrDate}</div>
+          ${f.arrTerminal ? `<div style="font-size:10px;color:var(--textd)">${f.arrTerminal}</div>` : ''}
+        </div>
+      </div>
+      <div class="fbody">
+        ${f.legs.map((leg,i)=>renderLeg(leg, i===f.legs.length-1, f.arrTime, f.arrAirport)).join('')}
         <div class="confrow">
           <div class="conflbl">🔖 מס' הזמנה:</div>
           <input class="confinp" id="${f.confId}" placeholder="PNR..." oninput="saveData()">
@@ -1275,15 +1294,31 @@ function buildFlights() {
     <div class="fcard">
       <div class="fhdr">
         <div class="froute">${f.route}</div>
-        <div style="display:flex;gap:7px"><span class="badge bg">פנימית</span><span class="badge bt">${f.airline}</span></div>
+        <div style="display:flex;gap:7px"><span class="badge bg">פנימית</span><span class="badge bt">${f.airline}</span>${f.fare?`<span class="badge bo">${f.fare}</span>`:''}</div>
       </div>
-      <div class="fbody">
-        <div class="fleg">
-          <div class="ftc"><div class="ftime">${f.dep}</div><div class="fdate">${f.date}</div><div class="fairp">${f.route.split(' ')[0]}</div>${f.depTerminal?`<div class="fterm">${f.depTerminal}</div>`:''}</div>
-          <div class="flc"><div class="fdot"></div><div class="fline"></div><div style="font-size:13px">✈️</div><div class="fline"></div><div class="fdot" style="background:var(--gold)"></div></div>
-          <div class="fic"><div class="fcar">${f.flight} · ${f.airline}</div><div class="fdur">⏱️ ${f.duration}</div><div class="feq">${f.aircraft}</div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(34,197,94,.06);border-bottom:1px solid var(--border)">
+        <div style="text-align:center">
+          <div style="font-size:11px;color:var(--textd)">DEPARTS</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--text)">${f.dep}</div>
+          <div style="font-size:11px;color:var(--textm)">${f.route.split(' ')[0]} · ${f.date}</div>
+          ${f.depTerminal?`<div style="font-size:10px;color:var(--textd)">${f.depTerminal}</div>`:''}
         </div>
-        <div class="fdr"><div class="fdi">🛬 ${f.arr}</div><div class="fdi">⏱️ ${f.duration}</div><div class="fdi">💺 Economy</div></div>
+        <div style="text-align:center;flex:1">
+          <div style="font-size:11px;color:var(--textd)">nonstop · ${f.duration}</div>
+          <div style="height:1px;background:var(--border2);margin:4px 16px;position:relative">
+            <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:14px">✈️</div>
+          </div>
+          <div style="font-size:11px;color:var(--textm)">${f.flight} · ${f.aircraft}</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:11px;color:var(--textd)">ARRIVES</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--green)">${f.arr}</div>
+          <div style="font-size:11px;color:var(--textm)">${f.route.split('\u2192')[1]?.trim().split(' ')[0]||''}</div>
+        </div>
+      </div>
+      <div class="fbody" style="padding:12px 20px">
+        <div class="fcar">${f.flight} · ${f.airline} · ${f.aircraft}</div>
+        <div class="fdur" style="margin-top:4px">⏱️ ${f.duration} · ${f.date}</div>
       </div>
     </div>`).join('')}
     <div class="confrow" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-bottom:14px">
@@ -1392,7 +1427,7 @@ function buildRem() {
 // ═══ TODO ═══
 const TODOS = [
   {cat:'✈️ טיסות וכניסה', items:[
-    {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · PG 142: USM→BKK 30 מאי'},
+    {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · PG 122: USM→BKK 30 מאי'},
     {id:'t-tdac',tx:'TDAC — טופס כניסה לתאילנד',sb:'אונליין, חינם, עד 3 ימים לפני'},
     {id:'t-checkin',tx:'Check-in אונליין — Emirates',sb:'17 מאי בשעה 18:05 (48 שעות לפני)'},
     {id:'t-seats',tx:'בחירת מושבים + Bassinet',sb:'Emirates → ניהול הזמנה → בקשות מיוחדות'},
@@ -1536,7 +1571,7 @@ const ITIN = [
   ]},
   {n:7,date:'25 מאי',dn:'ב\'',city:'phuket',title:'מעבר לקוסמוי 🏝️ → ✈️',blks:[
     {tc:'tlm',tl:'08:00–12:00',tt:'ארוחת בוקר אחרונה בפוקט + צ\'ק-אאוט.'},
-    {tc:'tld',tl:'13:45–14:40',tt:'PG 406 · HKT → USM · ATR72 · 55 דקות. צ\'ק-אין מלון קוסמוי!'},
+    {tc:'tld',tl:'13:45–14:40',tt:'PG 406 · HKT → USM · ATR72 · 55 דקות · 13:45→14:40. צ\'ק-אין מלון קוסמוי!'},
     {tc:'tle',tl:'15:00+',tt:'הגעה. בריכה פרטית ראשונה בקוסמוי 🌴'},
   ]},
   // ── KOH SAMUI ──
@@ -1562,7 +1597,7 @@ const ITIN = [
   ]},
   {n:12,date:'30 מאי',dn:'ש\'',city:'koh',title:'מעבר לבנגקוק 🏙️ → ✈️',blks:[
     {tc:'tlm',tl:'08:00–12:00',tt:'ארוחת בוקר אחרונה + צ\'ק-אאוט מקוסמוי.'},
-    {tc:'tld',tl:'13:50–15:05',tt:'PG 142 · USM → BKK · Airbus A319 · 1h 15m.'},
+    {tc:'tld',tl:'09:15–10:30',tt:'PG 122 · USM → BKK · Airbus A319 · 1h 15m.'},
     {tc:'tle',tl:'15:30+',tt:'Grab למלון בנגקוק. צ\'ק-אין + חקירת הסביבה ראשונה.'},
   ]},
   // ── BANGKOK ──
@@ -2336,9 +2371,9 @@ function exportICS() {
       'Days 8–12 of trip\\nCheck in: 25 May · Check out: 30 May',
       new Date('2026-05-25T15:00:00'), new Date('2026-05-30T12:00:00'), 'Koh Samui, Thailand'),
     // Internal flight 2
-    icsEvent('pg142', '✈️ PG 142 USM → BKK (Bangkok)',
-      'Bangkok Airways PG 142 · Airbus A319\\nDepart 13:50 · Arrive 15:05',
-      new Date('2026-05-30T11:50:00'), new Date('2026-05-30T15:05:00'), 'Ko Samui Airport USM'),
+    icsEvent('pg142', '✈️ PG 122 USM → BKK (Bangkok)',
+      'Bangkok Airways PG 122 · Airbus A319\\nDepart 13:50 · Arrive 15:05',
+      new Date('2026-05-31T07:15:00'), new Date('2026-05-31T10:30:00'), 'Ko Samui Airport USM'),
     // Bangkok stay
     icsEvent('bkk-stay', '🏙️ Bangkok — 4 Nights',
       'Days 13–16 of trip\\nCheck in: 30 May · Check out: 3 Jun',
@@ -2517,8 +2552,8 @@ function buildToday() {
 }
 const CLOCK_FLIGHTS = [
   { id: 'clock-emirates', date: new Date('2026-05-19T18:05:00'), label: 'EK 2471' },
-  { id: 'clock-bkk1',   date: new Date('2026-05-25T13:45:00'), label: 'PG 406' },
-  { id: 'clock-bkk2',   date: new Date('2026-05-30T13:50:00'), label: 'PG 142' },
+  { id: 'clock-bkk1',   date: new Date('2026-05-26T13:45:00'), label: 'PG 406' },
+  { id: 'clock-bkk2',   date: new Date('2026-05-31T09:15:00'), label: 'PG 122' },
 ];
 function updateCancelClocks() {
   const now = new Date();
@@ -2667,7 +2702,7 @@ const NOTIF_EVENTS=[
   {id:'n-flight',icon:'🛫',title:'Flight day! TLV → Phuket',body:`EK 2471 departs ${FLIGHTS.outbound.legs[0].depTime}. Leave for airport by 17:00`,date:new Date('2026-05-19T15:00:00')},
   {id:'n-phuket',icon:'🌴',title:'Welcome to Phuket!',body:'Landing HKT 12:15 Terminal D. Enjoy! 🏝️',date:new Date('2026-05-20T12:00:00')},
   {id:'n-samui',icon:'🏝️',title:'Flying to Koh Samui today',body:'PG 406 departs 13:45 from HKT Terminal D',date:new Date('2026-05-25T12:00:00')},
-  {id:'n-bangkok',icon:'🏙️',title:'Flying to Bangkok today',body:'PG 142 departs 13:50 from USM',date:new Date('2026-05-30T12:00:00')},
+  {id:'n-bangkok',icon:'🏙️',title:'Flying to Bangkok today',body:'PG 122 departs 13:50 from USM',date:new Date('2026-05-31T12:00:00')},
   {id:'n-return',icon:'🛬',title:'Flying home! BKK → TLV',body:`EK 375 departs 09:55. Be at airport by 07:00`,date:new Date('2026-06-04T07:00:00')},
 ];
 async function requestNotifPermission(){
