@@ -387,6 +387,7 @@ textarea.inp{min-height:56px;resize:vertical}
   <button class="nb active" onclick="showSec('dashboard',this)">🏠 דשבורד</button>
   <button class="nb" onclick="showSec('todo',this)">✅ משימות</button>
   <button class="nb" onclick="showSec('flights',this)">✈️ טיסות</button>
+  <button class="nb" onclick="showSec('today',this)">📍 Today</button>
   <button class="nb" onclick="showSec('hotels',this)">🏨 מלונות</button>
   <button class="nb" onclick="showSec('itinerary',this)">📅 לו"ז</button>
   <button class="nb" onclick="showSec('budget',this)">💰 תקציב</button>
@@ -484,6 +485,54 @@ textarea.inp{min-height:56px;resize:vertical}
       <span id="shurl-disp" style="font-size:12px;color:var(--textd)"></span>
     </div>
   </div>
+
+  <!-- QUICK CURRENCY WIDGET -->
+  <div class="card">
+    <div class="ct">💱 המרה מהירה</div>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:10px">
+      <div>
+        <div style="font-size:11px;color:var(--textd);margin-bottom:4px">הכנס סכום</div>
+        <div style="display:flex;gap:6px">
+          <input id="qc-amount" type="number" placeholder="100" oninput="quickConv()"
+            style="flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:10px 12px;font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--text);outline:none;width:100%">
+        </div>
+      </div>
+      <div style="text-align:center">
+        <select id="qc-from" onchange="quickConv()"
+          style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px;font-family:'Heebo',sans-serif;font-size:13px;color:var(--text);outline:none;cursor:pointer">
+          <option value="ils">₪ ILS</option>
+          <option value="usd">$ USD</option>
+          <option value="thb">฿ THB</option>
+        </select>
+        <div style="font-size:18px;color:var(--textd);margin-top:4px">→</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--textd);margin-bottom:4px">תוצאה</div>
+        <div id="qc-result" style="font-family:'Rubik',sans-serif;font-size:26px;font-weight:700;color:var(--green)">—</div>
+        <div id="qc-rate" style="font-size:11px;color:var(--textd);margin-top:2px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALENDAR EXPORT -->
+  <div class="card" style="border-color:rgba(34,197,94,.25)">
+    <div class="ct">🗓️ Export to Calendar</div>
+    <p style="font-size:13px;color:var(--textm);margin-bottom:13px;line-height:1.6">
+      Download an <strong style="color:var(--text)">.ics file</strong> with all trip events — flights, hotels, internal flights, check-in reminders — and import into Google Calendar, Apple Calendar, or Outlook. Works on every device, notifications are native.
+    </p>
+    <div style="display:flex;gap:9px;flex-wrap:wrap">
+      <button class="btn btn-g" onclick="exportICS()">📅 Download Calendar (.ics)</button>
+      <a class="btn btn-o" href="https://calendar.google.com" target="_blank">Open Google Calendar ←</a>
+    </div>
+    <div style="font-size:11px;color:var(--textd);margin-top:10px">
+      💡 After downloading: double-click the file (Mac/Windows) or go to Google Calendar → Settings → Import
+    </div>
+  </div>
+</div>
+
+<!-- TODAY -->
+<div id="s-today" class="section">
+  <div id="today-render"></div>
 </div>
 
 <!-- TODO -->
@@ -1626,6 +1675,7 @@ async function fetchRates(){
     const d2=await r2.json(); rates.USD=d2.rates.THB;
     document.getElementById('rate-usd').textContent=`שער: 1 $ = ${rates.USD.toFixed(2)} THB · עודכן עכשיו`;
     document.getElementById('rate-thb-usd').textContent=`שער: 1 THB = ${(1/rates.USD).toFixed(4)} $`;
+    quickConv();
   }catch(e){
     document.getElementById('rate-ils').textContent=`שער משוער: 1 ₪ ≈ ${rates.ILS} THB`;
     document.getElementById('rate-usd').textContent=`שער משוער: 1 $ ≈ ${rates.USD} THB`;
@@ -2115,7 +2165,262 @@ function loadLocalData(){
   if(raw) S=JSON.parse(raw);
 }
 
-// ═══ CANCELLATION CLOCKS ═══
+// ═══ QUICK CURRENCY WIDGET ═══
+function quickConv() {
+  const amount = parseFloat(document.getElementById('qc-amount').value) || 0;
+  const from = document.getElementById('qc-from').value;
+  const res = document.getElementById('qc-result');
+  const rateEl = document.getElementById('qc-rate');
+  if (!amount) { res.textContent = '—'; rateEl.textContent = ''; return; }
+  let result, rateText;
+  if (from === 'ils') {
+    result = (amount * rates.ILS).toFixed(0);
+    res.textContent = '฿' + Number(result).toLocaleString();
+    rateText = `1 ₪ = ${rates.ILS.toFixed(2)} THB`;
+  } else if (from === 'usd') {
+    result = (amount * rates.USD).toFixed(0);
+    res.textContent = '฿' + Number(result).toLocaleString();
+    rateText = `1 $ = ${rates.USD.toFixed(2)} THB`;
+  } else if (from === 'thb') {
+    const ilsResult = (amount / rates.ILS).toFixed(2);
+    const usdResult = (amount / rates.USD).toFixed(2);
+    res.textContent = `₪${ilsResult}`;
+    rateText = `also $${usdResult} · 1 THB = ₪${(1/rates.ILS).toFixed(4)}`;
+  }
+  rateEl.textContent = rateText;
+}
+
+// ═══ ICS CALENDAR EXPORT ═══
+function icsDate(d) {
+  // Format: YYYYMMDDTHHMMSS
+  return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'').slice(0,15)+'Z';
+}
+function icsEvent(uid, summary, description, start, end, location='') {
+  return [
+    'BEGIN:VEVENT',
+    `UID:${uid}@thailand2026`,
+    `DTSTAMP:${icsDate(new Date())}`,
+    `DTSTART:${icsDate(start)}`,
+    `DTEND:${icsDate(end)}`,
+    `SUMMARY:${summary}`,
+    description ? `DESCRIPTION:${description.replace(/\n/g,'\\n')}` : '',
+    location ? `LOCATION:${location}` : '',
+    'END:VEVENT'
+  ].filter(Boolean).join('\r\n');
+}
+function exportICS() {
+  const events = [
+    // Check-in reminder
+    icsEvent('checkin', '⚠️ Etihad Check-in Opens — EY 598',
+      'Online check-in opens for EY 598 TLV→HKT\\nGo to: etihad.com/manage',
+      new Date('2026-05-17T20:10:00'), new Date('2026-05-17T21:10:00'), 'etihad.com'),
+    // TDAC
+    icsEvent('tdac', '📄 Fill TDAC Thailand Entry Form',
+      'Complete online before entering Thailand\\nFree & takes ~5 min',
+      new Date('2026-05-16T09:00:00'), new Date('2026-05-16T09:30:00')),
+    // Flight day prep
+    icsEvent('flightprep', '🧳 Leave for Airport — TLV',
+      'EY 598 departs 20:10 from Terminal 3\\nLeave home by 17:00',
+      new Date('2026-05-19T17:00:00'), new Date('2026-05-19T18:00:00'), 'Ben Gurion Airport, TLV'),
+    // Outbound flight
+    icsEvent('ey598', '✈️ EY 598 TLV → AUH',
+      'Etihad EY 598 · Boeing 777-300ER · Economy Deluxe\\nTerminal 3 · Bassinet requested',
+      new Date('2026-05-19T20:10:00'), new Date('2026-05-20T00:25:00'), 'Ben Gurion Airport, TLV'),
+    icsEvent('ey416', '✈️ EY 416 AUH → HKT (Phuket)',
+      'Etihad EY 416 · Airbus A321LR · Economy Deluxe\\nTerminal A → Phuket Terminal D',
+      new Date('2026-05-20T02:25:00'), new Date('2026-05-20T12:15:00'), 'Zayed International Airport, AUH'),
+    // Phuket stay
+    icsEvent('phuket-stay', '🌴 Phuket — 5 Nights',
+      'Days 2–7 of trip\\nCheck in: 20 May · Check out: 25 May',
+      new Date('2026-05-20T14:00:00'), new Date('2026-05-25T12:00:00'), 'Phuket, Thailand'),
+    // Internal flight 1
+    icsEvent('pg406', '✈️ PG 406 HKT → USM (Koh Samui)',
+      'Bangkok Airways PG 406 · ATR72\\nTerminal D → Ko Samui Airport\\nDepart 13:45 · Arrive 14:40',
+      new Date('2026-05-25T11:45:00'), new Date('2026-05-25T14:40:00'), 'Phuket Airport HKT Terminal D'),
+    // Koh Samui stay
+    icsEvent('samui-stay', '🏝️ Koh Samui — 5 Nights',
+      'Days 8–12 of trip\\nCheck in: 25 May · Check out: 30 May',
+      new Date('2026-05-25T15:00:00'), new Date('2026-05-30T12:00:00'), 'Koh Samui, Thailand'),
+    // Internal flight 2
+    icsEvent('pg142', '✈️ PG 142 USM → BKK (Bangkok)',
+      'Bangkok Airways PG 142 · Airbus A319\\nDepart 13:50 · Arrive 15:05',
+      new Date('2026-05-30T11:50:00'), new Date('2026-05-30T15:05:00'), 'Ko Samui Airport USM'),
+    // Bangkok stay
+    icsEvent('bkk-stay', '🏙️ Bangkok — 4 Nights',
+      'Days 13–16 of trip\\nCheck in: 30 May · Check out: 3 Jun',
+      new Date('2026-05-30T16:00:00'), new Date('2026-06-03T08:00:00'), 'Bangkok, Thailand'),
+    // Return flight prep
+    icsEvent('returnprep', '🧳 Head to Suvarnabhumi Airport — BKK',
+      'EY 403 departs 09:15 · Be at airport by 06:30',
+      new Date('2026-06-03T06:00:00'), new Date('2026-06-03T07:00:00'), 'Suvarnabhumi Airport, Bangkok'),
+    // Return flights
+    icsEvent('ey403', '✈️ EY 403 BKK → AUH',
+      'Etihad EY 403 · Boeing 787-9 · Economy Deluxe',
+      new Date('2026-06-03T09:15:00'), new Date('2026-06-03T12:35:00'), 'Suvarnabhumi Airport, BKK'),
+    icsEvent('ey597', '✈️ EY 597 AUH → TLV — Home! 🇮🇱',
+      'Etihad EY 597 · Boeing 777-300ER · Economy Deluxe\\nArrives Terminal 3',
+      new Date('2026-06-03T14:25:00'), new Date('2026-06-03T16:50:00'), 'Zayed International Airport, AUH'),
+  ];
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Thailand 2026 Trip Manager//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'X-WR-CALNAME:🌴 Thailand 2026',
+    'X-WR-TIMEZONE:Asia/Jerusalem',
+    ...events,
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'Thailand2026.ics'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ═══ TODAY VIEW ═══
+function buildToday() {
+  const container = document.getElementById('today-render');
+  if (!container) return;
+
+  const now = new Date();
+  const tripStart = new Date('2026-05-19T20:10:00');
+  const tripEnd = new Date('2026-06-03T16:50:00');
+  const msPerDay = 86400000;
+
+  // Find today's trip day number
+  const dayNum = Math.floor((now - tripStart) / msPerDay) + 1;
+  const todayDay = ITIN.find(d => d.n === dayNum);
+
+  // Before trip
+  if (now < tripStart) {
+    const daysLeft = Math.ceil((tripStart - now) / msPerDay);
+    container.innerHTML = `
+      <div class="card" style="text-align:center;padding:32px 20px">
+        <div style="font-size:48px;margin-bottom:12px">✈️</div>
+        <div style="font-family:'Rubik',sans-serif;font-size:36px;font-weight:900;color:var(--green)">${daysLeft}</div>
+        <div style="font-size:16px;color:var(--textm);margin-bottom:20px">days until the trip!</div>
+        <div style="font-size:14px;color:var(--textd)">The "Today" view will activate on May 19, 2026</div>
+        <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-g" onclick="navTo('itinerary')">📅 View Itinerary ↗</button>
+          <button class="btn btn-o" onclick="exportICS()">🗓️ Export to Calendar</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // After trip
+  if (now > tripEnd) {
+    container.innerHTML = `
+      <div class="card" style="text-align:center;padding:32px 20px">
+        <div style="font-size:48px;margin-bottom:12px">🏠</div>
+        <div style="font-family:'Rubik',sans-serif;font-size:24px;font-weight:700;color:var(--green)">ברוכים השבים!</div>
+        <div style="font-size:14px;color:var(--textm);margin-top:8px">The trip is over. We hope it was amazing! 🌴</div>
+        <div style="margin-top:20px"><button class="btn btn-g" onclick="navTo('itinerary')">📅 View Memories ↗</button></div>
+      </div>`;
+    return;
+  }
+
+  // During trip — no matching day
+  if (!todayDay) {
+    container.innerHTML = `<div class="card"><div class="ct">📍 Today</div><div style="font-size:13px;color:var(--textm)">No itinerary entry for today. Check the full itinerary.</div><button class="btn btn-g" onclick="navTo('itinerary')">📅 Go to Itinerary ↗</button></div>`;
+    return;
+  }
+
+  // During trip — show today's plan
+  const city = todayDay.city === 'phuket' ? '🌴 Phuket' : todayDay.city === 'koh' ? '🏝️ Koh Samui' : '🏙️ Bangkok';
+  const cityColor = todayDay.city === 'phuket' ? 'var(--coral)' : todayDay.city === 'koh' ? 'var(--green)' : 'var(--purple)';
+  const done = S['dd-'+todayDay.n];
+  const note = S['dn-'+todayDay.n] || '';
+  const starRating = S['star-'+todayDay.n] || 0;
+  const starLabels = ['','😞','😐','😊','😄','🤩'];
+
+  // Time of day greeting
+  const hour = now.getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+  // Next event from timeline
+  const upcoming = todayDay.blks.find(b => {
+    if (!b.tl || b.tl.includes('–') || b.tl.includes('+') || b.tl.includes('ב') || b.tl.includes('ע')) return false;
+    const parts = b.tl.split(':');
+    if (parts.length < 2) return false;
+    const eventHour = parseInt(parts[0]);
+    return eventHour > hour;
+  });
+
+  container.innerHTML = `
+    <div class="card" style="border-color:${cityColor};background:linear-gradient(135deg,var(--bg2),var(--bg3))">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:13px;color:var(--textm)">${greeting}! ${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</div>
+        <span style="font-size:13px;font-weight:700;color:${cityColor}">${city}</span>
+      </div>
+      <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;margin-bottom:16px">
+        ${done?'✅ ':''} Day ${todayDay.n} — ${S['day-title-'+todayDay.n]||todayDay.title}
+      </div>
+      ${todayDay.attr?'<div class="attrtag" style="margin-bottom:12px">⭐ Featured attraction today</div>':''}
+      <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px">
+        ${todayDay.blks.map(b=>`
+          <div style="display:flex;gap:10px;padding:9px 12px;background:var(--bg3);border-radius:var(--rsm);font-size:13px">
+            <div style="flex-shrink:0;font-size:11px;font-weight:700;width:80px;color:${b.tc==='tlm'?'var(--gold)':b.tc==='tld'?'var(--green)':'var(--blue)'}">${b.tl}</div>
+            <div style="color:var(--textm)">${b.tt}</div>
+          </div>`).join('')}
+      </div>
+      ${upcoming ? `<div style="background:var(--goldp);border:1px solid rgba(245,158,11,.2);border-radius:var(--rsm);padding:10px 14px;margin-bottom:14px;font-size:13px">
+        ⏰ <strong style="color:var(--gold)">Next:</strong> ${upcoming.tl} — ${upcoming.tt}
+      </div>` : ''}
+    </div>
+
+    <div class="card">
+      <div class="ct">📝 Today's Notes</div>
+      <textarea class="dnotes" placeholder="How's it going? Recommendations?" style="margin-bottom:10px"
+        oninput="saveDN(${todayDay.n},this.value)">${note}</textarea>
+      <div style="font-size:12px;color:var(--textd);margin-bottom:6px">Rate today:</div>
+      <div class="stars-row" id="today-stars">
+        ${[1,2,3,4,5].map(i=>`<span class="star ${starRating>=i?'lit':''}" onclick="setRating(${todayDay.n},${i});buildToday()">⭐</span>`).join('')}
+      </div>
+      ${starRating ? `<div class="rating-label">${starLabels[starRating]} Day ${starRating}/5</div>` : ''}
+      <button class="ddonebtn" style="margin-top:12px" onclick="togDD(${todayDay.n});buildToday()">
+        ${done ? '✅ Marked complete' : '○ Mark day as done'}
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="ct">🌤️ Weather Today</div>
+      <div class="wrow" style="grid-template-columns:1fr ${todayDay.city==='phuket'?'':todayDay.city==='koh'?'':''}">
+        ${todayDay.city==='phuket'?'<div class="wcard"><div class="wcity">🌴 Phuket</div><div id="today-weather">'+document.getElementById('w-phuket')?.innerHTML+'</div></div>':''}
+        ${todayDay.city==='koh'?'<div class="wcard"><div class="wcity">🏝️ Koh Samui</div><div id="today-weather">'+document.getElementById('w-samui')?.innerHTML+'</div></div>':''}
+        ${todayDay.city==='bkk'?'<div class="wcard"><div class="wcity">🏙️ Bangkok</div><div id="today-weather">'+document.getElementById('w-bangkok')?.innerHTML+'</div></div>':''}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ct">🚗 Quick Links — Today</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${todayDay.city==='phuket'?`
+          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Phuket+Old+Town" target="_blank">🗺️ Old Town</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Big+Buddha+Phuket" target="_blank">🗺️ Big Buddha</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Cape+Promthep+Phuket" target="_blank">🌅 Promthep</a>
+        `:''}
+        ${todayDay.city==='koh'?`
+          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Fisherman+Village+Bophut+Koh+Samui" target="_blank">🗺️ Fisherman's Village</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Big+Buddha+Koh+Samui" target="_blank">🗺️ Big Buddha</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Ang+Thong+Marine+Park" target="_blank">⛵ Ang Thong</a>
+        `:''}
+        ${todayDay.city==='bkk'?`
+          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Grand+Palace+Bangkok" target="_blank">🗺️ Grand Palace</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Chatuchak+Market+Bangkok" target="_blank">🛒 Chatuchak</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Siam+Paragon+Bangkok" target="_blank">🛍️ Siam Paragon</a>
+        `:''}
+        <a class="btn btn-o" href="tel:1669">🚑 Emergency 1669</a>
+      </div>
+    </div>`;
+}
 const CLOCK_FLIGHTS = [
   { id: 'clock-etihad', date: new Date('2026-05-19T20:10:00'), label: 'EY 598' },
   { id: 'clock-bkk1',   date: new Date('2026-05-25T13:45:00'), label: 'PG 406' },
@@ -2167,6 +2472,8 @@ async function init(){
   initNotifications();
   initTheme();
   registerSW();
+  buildToday();
+  quickConv();
 }
 document.addEventListener('DOMContentLoaded',init);
 // ═══ THEME TOGGLE ═══
