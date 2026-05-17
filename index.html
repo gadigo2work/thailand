@@ -1059,29 +1059,39 @@ const FLIGHTS = {
       {
         depTime: '18:05', depDate: '\u05E9\u05DC\u05D9\u05E9\u05D9 19 \u05DE\u05D0\u05D9',
         depDateTime: '2026-05-19T18:05:00',
-        depAirport: 'TLV', depAirportFull: 'Tel Aviv Airport',
-        depTerminal: '',
-        flight: 'EK 2471', airline: 'flydubai (operated for Emirates)',
-        duration: '3h 45m', aircraft: 'Boeing 737 MAX (7M8)',
+        depAirport: 'TLV', depAirportFull: 'Tel Aviv Airport (Ben Gurion)',
+        depTerminal: 'Terminal 3 / International',
+        flight: 'EK 2471 / FZ 1126', airline: 'flydubai (operated for Emirates)',
+        duration: '3h 45m', aircraft: 'Boeing 737 MAX 8',
         amenities: ['TV','WIFI','USB'],
+        seats: 'Seat selection included (Economy Flex)',
+        meal: 'Meal included · In-flight entertainment included',
+        baggage: {adult:'30 kg checked + 1×7 kg hand baggage', infant:'10 kg checked · No cabin bag'},
+        rebooking: 'Rebooking permitted',
+        fareType: 'flydubai Economy Flex',
+        note: '⚠️ flydubai operates from Terminal 2 or 3 at DXB — check terminal on ticket close to departure via Manage a Booking',
       },
       {
-        connection: 'Dubai (DXB) · 3h 45m layover · change aircraft',
+        connection: 'Dubai (DXB) · Terminal 3 · 3h 45m layover · change aircraft',
         depTime: '02:35', depDate: '\u05E8\u05D1\u05D9\u05E2\u05D9 20 \u05DE\u05D0\u05D9',
         depAirport: 'DXB', depAirportFull: 'Dubai International Airport',
-        depTerminal: '',
+        depTerminal: 'Terminal 3',
         flight: 'EK 378', airline: 'Emirates',
-        duration: '6h 25m', aircraft: 'Boeing 777',
+        duration: '6h 25m', aircraft: 'Boeing 777-300ER',
         amenities: ['TV','WIFI','Power','USB'],
+        seats: 'Noy: 23F · Gadi: 23G (Regular seats)',
+        meal: 'À la carte meal (dining menu)',
+        baggage: {adult:'30 kg checked + 1×7 kg cabin', infant:'10 kg checked + 1×5 kg cabin'},
+        infantMeal: 'Baby meal ✅ (pre-ordered · cannot change)',
       },
     ],
-    arrTime: '12:00', arrAirport: 'HKT', arrDate: '20 May (Wed)',
+    arrTime: '12:00', arrAirport: 'HKT', arrDate: '20 May (Wed)', arrTerminal: 'International Terminal',
   },
   return: {
     confId: 'conf-ret',
     route: '\u{1F1F9}\u{1F1ED} \u05D1\u05E0\u05D2\u05E7\u05D5\u05E7 \u2192 \u05EA\u05DC \u05D0\u05D1\u05D9\u05D1 \u{1F1EE}\u{1F1F1}',
     badgeCls: 'bc', badgeLabel: '\u05D7\u05D6\u05D5\u05E8',
-    totalDuration: '12:20', cabin: 'Economy Flex',
+    totalDuration: '12:20', cabin: 'Business Special',
     legs: [
       {
         depTime: '09:55', depDate: '4 Jun (Thu)',
@@ -1089,20 +1099,30 @@ const FLIGHTS = {
         depAirport: 'BKK', depAirportFull: 'Suvarnabhumi Airport',
         depTerminal: '',
         flight: 'EK 375', airline: 'Emirates',
-        duration: '6h 5m', aircraft: 'Airbus A380',
-        amenities: ['TV','WIFI','Power','USB'],
+        duration: '6h 5m', aircraft: 'Airbus A380-800',
+        amenities: ['TV','WIFI','Power','USB','Lie-flat 💺'],
+        seats: 'Noy: 20F · Gadi: 19G (Business Special — cannot change)',
+        meal: 'À la carte meal + Wine list',
+        baggage: {adult:'40 kg checked + 2×7 kg cabin', infant:'10 kg checked + 1×5 kg cabin'},
+        infantMeal: 'Baby meal ✅ (pre-ordered · cannot change)',
       },
       {
-        connection: 'Dubai (DXB) · 2h 45m layover · change aircraft',
+        connection: 'Dubai (DXB) · Terminal 3 · 2h 45m layover · change aircraft',
         depTime: '15:45', depDate: '4 Jun (Thu)',
         depAirport: 'DXB', depAirportFull: 'Dubai International Airport',
-        depTerminal: '',
-        flight: 'EK 2470', airline: 'flydubai (operated for Emirates)',
-        duration: '3h 30m', aircraft: 'Boeing 737 MAX (7M9)',
+        depTerminal: 'Terminal 3',
+        flight: 'EK 2470 / FZ 1125', airline: 'flydubai (operated for Emirates)',
+        duration: '3h 30m', aircraft: 'Boeing 737 MAX 9',
         amenities: ['TV','WIFI','USB'],
+        seats: 'Seat selection included (Economy Flex)',
+        meal: 'Meal included · In-flight entertainment included',
+        baggage: {adult:'40 kg checked + 1×7 kg hand baggage', infant:'10 kg checked · No cabin bag'},
+        rebooking: 'Rebooking permitted',
+        fareType: 'flydubai Economy Flex',
+        note: '⚠️ flydubai operates from Terminal 2 or 3 at DXB — check terminal on ticket close to departure via Manage a Booking',
       },
     ],
-    arrTime: '18:15', arrAirport: 'TLV', arrDate: '4 Jun (Thu)',
+    arrTime: '18:15', arrAirport: 'TLV', arrDate: '4 Jun (Thu)', arrTerminal: 'Terminal 3 / International',
   },
   internal: {
     confId: 'conf-int',
@@ -1158,7 +1178,26 @@ function renderLeg(leg, isLast, arrTime, arrAirport) {
         <div class="fcar">${leg.flight} · ${leg.airline}</div>
         <div class="fdur">⏱️ ${leg.duration}</div>
         <div class="feq">${leg.aircraft}</div>
-        <div class="fams">${leg.amenities.map(a=>`<span class="fam">${amIcons[a]||''} ${a}</span>`).join('')}</div>
+        <div class="fams">${leg.amenities.map(a=>`<span class="fam">${amIcons[a]||'✈️'} ${a}</span>`).join('')}</div>
+        ${leg.seats ? `<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px">
+          ${leg.fareType ? `<div style="font-size:11px;font-weight:700;color:var(--textd);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">${leg.fareType}</div>` : ''}
+          <div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">
+            💺 <strong style="color:var(--text)">Seats:</strong> ${leg.seats}
+          </div>
+          <div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">
+            🍽️ <strong style="color:var(--text)">Meal:</strong> ${leg.meal}
+            ${leg.infantMeal ? `<span style="display:block;margin-top:3px;color:var(--blue)">👶 ${leg.infantMeal}</span>` : ''}
+          </div>
+          <div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">
+            🧳 <strong style="color:var(--text)">Baggage/adult:</strong> ${leg.baggage?.adult||''}
+            <span style="display:block;font-size:11px;color:var(--textd)">👶 Infant: ${leg.baggage?.infant||''}</span>
+          </div>
+          ${leg.rebooking ? `<div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">🔄 <strong style="color:var(--text)">Rebooking:</strong> ${leg.rebooking}</div>` : ''}
+        </div>` : leg.baggage ? `<div style="margin-top:8px;font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">
+          🧳 <strong style="color:var(--text)">Baggage/adult:</strong> ${leg.baggage?.adult||''}
+          <span style="display:block;font-size:11px;color:var(--textd)">👶 Infant: ${leg.baggage?.infant||''}</span>
+        </div>` : ''}
+        ${leg.note ? `<div style="margin-top:8px;padding:7px 10px;background:var(--goldp);border:1px solid rgba(245,158,11,.25);border-radius:var(--rsm);font-size:12px;color:var(--gold)">${leg.note}</div>` : ''}
         ${isLast ? `<div style="margin-top:8px;padding:7px 10px;background:var(--gp);border:1px solid rgba(34,197,94,.25);border-radius:var(--rsm);font-size:13px">
           🛬 <strong style="color:var(--green)">Lands ${arrTime}</strong> · ${arrAirport}
         </div>` : `<div style="margin-top:8px;padding:6px 10px;background:var(--goldp);border:1px solid rgba(245,158,11,.2);border-radius:var(--rsm);font-size:12px;color:var(--gold)">
@@ -1201,46 +1240,59 @@ function buildFlights() {
     </div>`;
 
   // Shared fare info blocks
-  const emiratesFareBlock = `
+  const emiratesFareBlock = (cabin) => {
+    const isBiz = cabin === 'Business Special';
+    return `
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-      <div style="font-size:12px;font-weight:700;color:var(--textm);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">🎫 What's included — Emirates Economy Flex</div>
+      <div style="font-size:12px;font-weight:700;color:var(--textm);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">🎫 What's included — Emirates ${cabin}</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
         <div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;text-align:center">
           <div style="font-size:10px;color:var(--textd);margin-bottom:3px">👤 Per Adult</div>
-          <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:900;color:var(--green)">30 kg</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:900;color:var(--green)">${isBiz?'40':'30'} kg</div>
           <div style="font-size:11px;color:var(--textm);font-weight:600">checked bag</div>
           <div style="font-size:22px;margin-top:6px">🧳</div>
         </div>
         <div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;text-align:center">
           <div style="font-size:10px;color:var(--textd);margin-bottom:3px">👤 Per Adult</div>
-          <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:900;color:var(--teal)">7 kg</div>
-          <div style="font-size:11px;color:var(--textm);font-weight:600">cabin bag</div>
-          <div style="font-size:22px;margin-top:6px">🎒</div>
-          <div style="font-size:10px;color:var(--textd);margin-top:4px">55×38×22 cm<br>e.g. backpack ✅</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:900;color:var(--teal)">${isBiz?'7+7':'7'} kg</div>
+          <div style="font-size:11px;color:var(--textm);font-weight:600">${isBiz?'2 cabin bags':'cabin bag'}</div>
+          <div style="font-size:22px;margin-top:6px">${isBiz?'🎒💼':'🎒'}</div>
+          <div style="font-size:10px;color:var(--textd);margin-top:4px">${isBiz?'Briefcase (45×35×20) + cabin bag (55×38×22)':'55×38×22 cm · backpack ✅'}</div>
         </div>
         <div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;text-align:center">
           <div style="font-size:10px;color:var(--textd);margin-bottom:3px">👶 Infant</div>
-          <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:900;color:var(--blue)">10 kg</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:900;color:var(--blue)">10 kg</div>
           <div style="font-size:11px;color:var(--textm);font-weight:600">checked bag</div>
           <div style="font-size:22px;margin-top:6px">🧳</div>
           <div style="font-size:10px;color:var(--textd);margin-top:4px">+ 5 kg diaper bag 👜</div>
         </div>
       </div>
-      <div style="font-size:12px;color:var(--textm);background:var(--goldp);border:1px solid rgba(245,158,11,.2);border-radius:var(--rsm);padding:10px;margin-bottom:8px">
-        ⚠️ <strong style="color:var(--gold)">Economy: 1 cabin bag only</strong> — Emirates does not allow a separate personal item in Economy. Your backpack (up to 7 kg, 55×38×22 cm) is your one cabin bag.
+      ${isBiz ? `<div style="background:var(--goldp);border:1px solid rgba(245,158,11,.2);border-radius:var(--rsm);padding:10px;margin-bottom:8px;font-size:12px">
+        <div style="font-weight:700;color:var(--gold);margin-bottom:6px">⚠️ Business Special — Key restrictions</div>
+        <div style="color:var(--textm);display:flex;flex-direction:column;gap:4px">
+          <div>✅ <strong style="color:var(--text)">Lie-flat seat on A380</strong> · Full onboard Business service & dining</div>
+          <div>✅ <strong style="color:var(--text)">Priority boarding</strong></div>
+          <div>❌ <strong style="color:var(--text)">No lounge access</strong> — 2h 45m layover in Dubai terminal only</div>
+          <div>❌ <strong style="color:var(--text)">No advance seat selection</strong> — only when check-in opens 48h before</div>
+          <div>❌ <strong style="color:var(--text)">No chauffeur service · No miles upgrade to First Class</strong></div>
+        </div>
+      </div>` : `<div style="background:var(--goldp);border:1px solid rgba(245,158,11,.2);border-radius:var(--rsm);padding:10px;margin-bottom:8px;font-size:12px;color:var(--gold)">
+        ⚠️ <strong>Economy: 1 cabin bag only</strong> — backpack (up to 7 kg, 55×38×22 cm) is your one cabin bag. No separate personal item.
         <div style="font-size:11px;color:var(--textd);margin-top:4px">Source: <a href="https://www.emirates.com/us/english/before-you-fly/baggage/cabin-baggage-rules/" target="_blank" style="color:var(--blue)">emirates.com/cabin-baggage-rules ←</a></div>
-      </div>
+      </div>`}
       <div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:10px;margin-bottom:8px;display:flex;flex-direction:column;gap:4px">
         <div>🛒 <strong style="color:var(--text)">Stroller / carry-cot: free</strong> — checked into hold at no charge</div>
         <div style="font-size:11px;color:var(--textd)">Source: <a href="https://www.emirates.com/us/english/before-you-fly/families/travelling-with-infants/" target="_blank" style="color:var(--blue)">emirates.com/travelling-with-infants ←</a></div>
       </div>
       <div style="background:var(--redp);border:1px solid rgba(239,68,68,.2);border-radius:var(--rsm);padding:10px;font-size:12px;color:var(--textm);display:flex;flex-direction:column;gap:3px">
-        <div style="font-weight:700;color:var(--red);margin-bottom:4px">💳 Fare conditions (from your ticket)</div>
-        <div>🔄 Change: <strong style="color:var(--text)">$75/person</strong> + fare diff · 💰 Refund: <strong style="color:var(--text)">$125/person</strong></div>
+        <div style="font-weight:700;color:var(--red);margin-bottom:4px">💳 Fare conditions${isBiz?' — Business Special (non-refundable)':' — Economy Flex (from your ticket)'}</div>
+        ${isBiz ? `<div>🔄 Change: <strong style="color:var(--text)">$400/person</strong> + fare difference</div>
+        <div>🚫 Refund: <strong style="color:var(--red)">NOT allowed</strong> — non-refundable fare</div>` :
+        `<div>🔄 Change: <strong style="color:var(--text)">$75/person</strong> + fare diff · 💰 Refund: <strong style="color:var(--text)">$125/person</strong></div>
         <div>🚫 No-show → change: <strong style="color:var(--text)">$150</strong> · No-show → refund: <strong style="color:var(--text)">$250</strong></div>
-        <div style="font-size:11px;color:var(--textd);margin-top:2px">Max stay: 4 months · Unlimited stopovers</div>
+        <div style="font-size:11px;color:var(--textd);margin-top:2px">Max stay: 4 months · Unlimited stopovers</div>`}
       </div>
-    </div>`;
+    </div>`; };
 
   const bkkFareBlock = (fare) => `
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
@@ -1302,10 +1354,10 @@ function buildFlights() {
       <div id="${fid}" style="display:none">
         <div class="fbody">
           ${f.legs.map((leg,i)=>renderLeg(leg, i===f.legs.length-1, f.arrTime, f.arrAirport)).join('')}
-          ${emiratesFareBlock}
+          ${emiratesFareBlock(f.cabin)}
           <div class="confrow" style="margin-top:14px">
             <div class="conflbl">🔖 מס' הזמנה:</div>
-            <input class="confinp" id="${f.confId}" placeholder="PNR..." oninput="saveData()">
+            <input class="confinp" id="${f.confId}" placeholder="HSKRKS" oninput="saveData()">
           </div>
         </div>
       </div>
@@ -1421,7 +1473,7 @@ const REMS = [
   {date:'2026-05-10',day:'10',mo:'מאי',title:'הזמינו SIM / eSIM תאילנדי',sub:'Airalo, Nomad — להזמין מראש',u:'ok',
     gcal:{start:'20260510T090000',end:'20260510T093000',text:'Order Thailand SIM/eSIM',details:'airalo.com or nomadinternet.com — order before trip'}},
   {date:'2026-05-16',day:'16',mo:'מאי',title:'TDAC — טופס כניסה לתאילנד',sub:'אונליין, חינם, עד 3 ימים לפני',u:'soon',
-    gcal:{start:'20260516T090000',end:'20260516T093000',text:'Fill TDAC Thailand Entry Form',details:'Complete online — free, takes 5 min'}},
+    gcal:{start:'20260516T090000',end:'20260516T093000',text:'Fill TDAC Thailand Entry Form',details:'All non-Thai nationals MUST apply before arriving. Complete within 3 days of travel.\nhttps://tdac.immigration.go.th/arrival-card/#/home'}},
   {date:'2026-05-17',day:'17',mo:'מאי',title:'Check-in אונליין נפתח — Emirates',sub:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} · 48h before departure`,u:'urgent',
     gcal:{start:'20260517T180500',end:'20260517T191000',text:'Emirates Online Check-in Opens — EK 2471',details:'emirates.com/manage — select seats & confirm Bassinet'}},
   {date:'2026-05-17',day:'17',mo:'מאי',title:'ודאו שהמזוודות מוכנות',sub:'מגבלת משקל Emirates Economy Flex: 30 ק"ג + תינוקת 10 ק"ג',u:'soon',
@@ -1464,7 +1516,7 @@ function buildRem() {
 const TODOS = [
   {cat:'✈️ טיסות וכניסה', items:[
     {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · PG 122: USM→BKK 30 מאי'},
-    {id:'t-tdac',tx:'TDAC — טופס כניסה לתאילנד',sb:'אונליין, חינם, עד 3 ימים לפני'},
+    {id:'t-tdac',tx:'📄 TDAC — Thailand Digital Arrival Card',sb:'חובה! אונליין בחינם · עד 3 ימים לפני הנסיעה · tdac.immigration.go.th'},
     {id:'t-checkin',tx:'Check-in אונליין — Emirates',sb:'17 מאי בשעה 18:05 (48 שעות לפני)'},
     {id:'t-seats',tx:'בחירת מושבים + Bassinet',sb:'Emirates → ניהול הזמנה → בקשות מיוחדות'},
   ]},
@@ -1732,7 +1784,7 @@ function saveDN(n,v){S['dn-'+n]=v;saveData();}
 
 // ═══ BUDGET ═══
 const BCATS=[
-  {id:'b-fl',em:'✈️',nm:'טיסות Emirates',est:'~8,200 ₪ (~$2,228)',col:'#3b82f6'},
+  {id:'b-fl',em:'✈️',nm:'טיסות Emirates',est:'~13,500 ₪ (~$3,735)',col:'#3b82f6'},
   {id:'b-int',em:'🏝️',nm:'טיסות פנימיות Bangkok Airways',est:'~1,800 ₪',col:'#14b8a6'},
   {id:'b-hphuket',em:'🌴',nm:'מלון פוקט (5 לילות)',est:'~4,000–6,000 ₪',col:'#f97316'},
   {id:'b-hkoh',em:'🏝️',nm:'מלון קוסמוי (5 לילות)',est:'~5,000–6,000 ₪',col:'#22c55e'},
@@ -2380,7 +2432,7 @@ function exportICS() {
       'Online check-in opens for EK 2471/EK 378 TLV→HKT\\nGo to: emirates.com/manage',
       new Date('2026-05-17T20:10:00'), new Date('2026-05-17T21:10:00'), 'etihad.com'),
     // TDAC
-    icsEvent('tdac', '📄 Fill TDAC Thailand Entry Form',
+    icsEvent('tdac', '📄 TDAC — Thailand Digital Arrival Card (mandatory!)',
       'Complete online before entering Thailand\\nFree & takes ~5 min',
       new Date('2026-05-16T09:00:00'), new Date('2026-05-16T09:30:00')),
     // Flight day prep
