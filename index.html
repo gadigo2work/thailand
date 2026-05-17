@@ -1063,6 +1063,7 @@ const FLIGHTS = {
         depTerminal: 'Terminal 3 / International',
         flight: 'EK 2471 / FZ 1126', airline: 'flydubai (operated for Emirates)',
         duration: '3h 45m', aircraft: 'Boeing 737 MAX 8',
+        arrTime: '22:50', arrAirport: 'DXB', arrDate: 'Tue 19 May', arrTerminal: 'Terminal 3',
         amenities: ['TV','WIFI','USB'],
         seats: 'Seat selection included (Economy Flex)',
         meal: 'Meal included · In-flight entertainment included',
@@ -1078,6 +1079,7 @@ const FLIGHTS = {
         depTerminal: 'Terminal 3',
         flight: 'EK 378', airline: 'Emirates',
         duration: '6h 25m', aircraft: 'Boeing 777-300ER',
+        arrTime: '12:00', arrAirport: 'HKT', arrDate: 'Wed 20 May', arrTerminal: 'International Terminal',
         amenities: ['TV','WIFI','Power','USB'],
         seats: 'Noy: 23F · Gadi: 23G (Regular seats)',
         meal: 'À la carte meal (dining menu)',
@@ -1100,6 +1102,7 @@ const FLIGHTS = {
         depTerminal: '',
         flight: 'EK 375', airline: 'Emirates',
         duration: '6h 5m', aircraft: 'Airbus A380-800',
+        arrTime: '13:00', arrAirport: 'DXB', arrDate: 'Thu 4 Jun', arrTerminal: 'Terminal 3',
         amenities: ['TV','WIFI','Power','USB','Lie-flat 💺'],
         seats: 'Noy: 20F · Gadi: 19G (Business Special — cannot change)',
         meal: 'À la carte meal + Wine list',
@@ -1113,6 +1116,7 @@ const FLIGHTS = {
         depTerminal: 'Terminal 3',
         flight: 'EK 2470 / FZ 1125', airline: 'flydubai (operated for Emirates)',
         duration: '3h 30m', aircraft: 'Boeing 737 MAX 9',
+        arrTime: '18:15', arrAirport: 'TLV', arrDate: 'Thu 4 Jun', arrTerminal: 'Terminal 3 / International',
         amenities: ['TV','WIFI','USB'],
         seats: 'Seat selection included (Economy Flex)',
         meal: 'Meal included · In-flight entertainment included',
@@ -1156,54 +1160,59 @@ const FLIGHTS = {
   },
 };
 
-function renderLeg(leg, isLast, arrTime, arrAirport) {
-  const amIcons = {'TV':'📺','WIFI':'📶','Power':'🔌','USB':'🔋'};
+function renderLeg(leg, isLast, finalArrTime, finalArrAirport) {
+  // Use leg-specific arrival if available, else fall back to flight arrival
+  const legArr = leg.arrTime || (isLast ? finalArrTime : '');
+  const legArrAirport = leg.arrAirport || (isLast ? finalArrAirport : '');
+  const legArrDate = leg.arrDate || '';
+  const legArrTerm = leg.arrTerminal || '';
+
+  // Compact info pills — only show what's relevant
+  const pills = [];
+  if (leg.seats)     pills.push({ icon:'💺', val: leg.seats });
+  if (leg.meal)      pills.push({ icon:'🍽️', val: leg.meal + (leg.infantMeal ? ` · 👶 ${leg.infantMeal}` : '') });
+  if (leg.baggage)   pills.push({ icon:'🧳', val: `Adult: ${leg.baggage.adult}` + (leg.baggage.infant ? ` · 👶 ${leg.baggage.infant}` : '') });
+  if (leg.rebooking) pills.push({ icon:'🔄', val: `Rebooking: ${leg.rebooking}` });
+
   return `
     ${leg.connection ? `<div class="fcnx">🔄 <strong>${leg.connection}</strong></div>` : ''}
-    <div class="fleg">
-      <div class="ftc">
-        <div class="ftime">${leg.depTime}</div>
-        <div class="fdate">${leg.depDate}</div>
-        <div class="fairp">${leg.depAirport} — ${leg.depAirportFull}</div>
-        ${leg.depTerminal ? `<div class="fterm">${leg.depTerminal}</div>` : ''}
-      </div>
-      <div class="flc">
-        <div class="fdot" style="background:${leg.connection?'var(--gold)':'var(--green)'}"></div>
-        <div class="fline"></div>
-        <div style="font-size:13px">✈️</div>
-        <div class="fline"></div>
-        <div class="fdot" style="background:${isLast?'var(--green)':'var(--gold)'}"></div>
-      </div>
-      <div class="fic">
-        <div class="fcar">${leg.flight} · ${leg.airline}</div>
-        <div class="fdur">⏱️ ${leg.duration}</div>
-        <div class="feq">${leg.aircraft}</div>
-        <div class="fams">${leg.amenities.map(a=>`<span class="fam">${amIcons[a]||'✈️'} ${a}</span>`).join('')}</div>
-        ${leg.seats ? `<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px">
-          ${leg.fareType ? `<div style="font-size:11px;font-weight:700;color:var(--textd);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">${leg.fareType}</div>` : ''}
-          <div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">
-            💺 <strong style="color:var(--text)">Seats:</strong> ${leg.seats}
+    <div style="padding:14px 20px;border-bottom:1px solid var(--border)">
+
+      <!-- DEP → ARR bar -->
+      <div style="display:flex;align-items:center;direction:ltr;gap:10px;margin-bottom:12px">
+        <div style="text-align:left;min-width:72px">
+          <div style="font-size:10px;color:var(--textd);text-transform:uppercase;letter-spacing:.5px">Departs</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:24px;font-weight:800;color:var(--text);line-height:1.1">${leg.depTime}</div>
+          <div style="font-size:12px;font-weight:700;color:var(--textm)">${leg.depAirport}</div>
+          ${leg.depTerminal ? `<div style="font-size:10px;color:var(--textd)">${leg.depTerminal}</div>` : ''}
+          <div style="font-size:10px;color:var(--textd)">${leg.depDate}</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+          <div style="font-size:11px;color:var(--textd)">${leg.flight}</div>
+          <div style="width:100%;display:flex;align-items:center;gap:4px">
+            <div style="flex:1;height:1px;background:var(--border2)"></div>
+            <div style="font-size:14px">✈️</div>
           </div>
-          <div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">
-            🍽️ <strong style="color:var(--text)">Meal:</strong> ${leg.meal}
-            ${leg.infantMeal ? `<span style="display:block;margin-top:3px;color:var(--blue)">👶 ${leg.infantMeal}</span>` : ''}
-          </div>
-          <div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">
-            🧳 <strong style="color:var(--text)">Baggage/adult:</strong> ${leg.baggage?.adult||''}
-            <span style="display:block;font-size:11px;color:var(--textd)">👶 Infant: ${leg.baggage?.infant||''}</span>
-          </div>
-          ${leg.rebooking ? `<div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">🔄 <strong style="color:var(--text)">Rebooking:</strong> ${leg.rebooking}</div>` : ''}
-        </div>` : leg.baggage ? `<div style="margin-top:8px;font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:7px 10px">
-          🧳 <strong style="color:var(--text)">Baggage/adult:</strong> ${leg.baggage?.adult||''}
-          <span style="display:block;font-size:11px;color:var(--textd)">👶 Infant: ${leg.baggage?.infant||''}</span>
-        </div>` : ''}
-        ${leg.note ? `<div style="margin-top:8px;padding:7px 10px;background:var(--goldp);border:1px solid rgba(245,158,11,.25);border-radius:var(--rsm);font-size:12px;color:var(--gold)">${leg.note}</div>` : ''}
-        ${isLast ? `<div style="margin-top:8px;padding:7px 10px;background:var(--gp);border:1px solid rgba(34,197,94,.25);border-radius:var(--rsm);font-size:13px">
-          🛬 <strong style="color:var(--green)">Lands ${arrTime}</strong> · ${arrAirport}
-        </div>` : `<div style="margin-top:8px;padding:6px 10px;background:var(--goldp);border:1px solid rgba(245,158,11,.2);border-radius:var(--rsm);font-size:12px;color:var(--gold)">
-          🛬 Arrives ${leg.connection?.match(/\d{1,2}:\d{2}/)?.[0]||''} · ${leg.connection?.split('·')[0]?.trim()||'connecting'}
-        </div>`}
+          <div style="font-size:10px;color:var(--textd)">${leg.aircraft} · ${leg.duration}</div>
+        </div>
+        <div style="text-align:right;min-width:72px">
+          <div style="font-size:10px;color:var(--textd);text-transform:uppercase;letter-spacing:.5px">Arrives</div>
+          <div style="font-family:'Rubik',sans-serif;font-size:24px;font-weight:800;color:${isLast?'var(--green)':'var(--coral)'};line-height:1.1">${legArr}</div>
+          <div style="font-size:12px;font-weight:700;color:var(--textm)">${legArrAirport}</div>
+          ${legArrTerm ? `<div style="font-size:10px;color:var(--textd)">${legArrTerm}</div>` : ''}
+          ${legArrDate ? `<div style="font-size:10px;color:var(--textd)">${legArrDate}</div>` : ''}
+        </div>
       </div>
+
+      <!-- Compact info grid -->
+      ${pills.length ? `<div style="display:flex;flex-direction:column;gap:5px">
+        ${pills.map(p=>`<div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:6px 10px;line-height:1.4">
+          <span style="flex-shrink:0">${p.icon}</span><span>${p.val}</span>
+        </div>`).join('')}
+      </div>` : ''}
+
+      <!-- flydubai terminal warning -->
+      ${leg.note ? `<div style="margin-top:8px;padding:7px 10px;background:var(--goldp);border-left:3px solid var(--gold);border-radius:var(--rsm);font-size:11px;color:var(--gold)">${leg.note}</div>` : ''}
     </div>`;
 }
 
