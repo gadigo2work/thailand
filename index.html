@@ -607,21 +607,43 @@ textarea.inp{min-height:56px;resize:vertical}
 <div id="s-hotels" class="section">
   <!-- PHUKET HEADER -->
   <div style="background:var(--coralp);border:1px solid rgba(249,115,22,.2);border-radius:var(--rsm);padding:11px 15px;margin-bottom:14px;font-size:13px;color:var(--textm)">
-    🌴 <strong style="color:var(--coral)">פוקט — 20–25 מאי · 5 לילות</strong> · הגעה 20 מאי 12:15 · עזיבה 25 מאי 13:45
+    🌴 <strong style="color:var(--coral)">Phuket — 20–22 May · 2 nights</strong> · Arrival 20 May 12:00 · Checkout 22 May 12:00
   </div>
-  <div class="cust-h">
-    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ הוסף מלון בפוקט</div>
-    <div id="custom-hotels-phuket"></div>
-    <div class="igrid">
-      <div class="irow"><div class="lbl">שם המלון *</div><input class="inp inp-sm" id="ch-phuket-name" placeholder="שם המלון..."></div>
-      <div class="irow"><div class="lbl">מיקום / חוף</div><input class="inp inp-sm" id="ch-phuket-loc" placeholder="Patong, Karon, Kata..."></div>
-      <div class="irow"><div class="lbl">מחיר סה"כ (₪)</div><input class="inp inp-sm" id="ch-phuket-price" placeholder="0"></div>
-      <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" id="ch-phuket-conf" placeholder="BOOKING-XXX"></div>
+
+  <!-- KATATHANI — BOOKED -->
+  <div class="hoption" id="hphuket1" style="border-color:rgba(34,197,94,.4)">
+    <div class="hhdr">
+      <div>
+        <div class="hname">Katathani Phuket Beach Resort ★★★★★</div>
+        <div class="hloc">📍 Kata Beach, Phuket · SHA Extra Plus certified</div>
+      </div>
+      <span class="badge bg">✅ Confirmed!</span>
     </div>
-    <div class="irow"><div class="lbl">לינק Booking</div><input class="inp inp-sm" id="ch-phuket-link" placeholder="https://..."></div>
-    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-g" onclick="addCustomHotel('phuket')">+ הוסף מלון</button>
-      <a class="btn btn-o" href="https://www.booking.com/searchresults.html?ss=Phuket&checkin=2026-05-20&checkout=2026-05-25&group_adults=2&group_children=1&age=1&nflt=class%3D4%3Bclass%3D5" target="_blank">חיפוש ב-Booking ←</a>
+    <div class="hbody">
+      <div class="hfeats">
+        <div class="hf">📅 Check-in: Wed 20 May from 14:00</div>
+        <div class="hf">📅 Checkout: Fri 22 May until 12:00 · 2 nights</div>
+        <div class="hf">👨‍👩‍👧 2 Adults + 1 Child</div>
+        <div class="hf">🚗 Airport transfer included — Large people carrier · 20 May 12:00 · $27</div>
+        <div class="hf">🏖️ Kata Beach — calm waves, great for families</div>
+        <div class="hf">⭐ SHA Extra Plus certified</div>
+      </div>
+      <div class="hfoot">
+        <div class="hpr">
+          <div class="per">Total stay</div>
+          <div class="tot">US$ 387</div>
+          <div class="nts">+ $27 airport transfer · Both confirmed ✅</div>
+        </div>
+      </div>
+      <div style="background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:12px;margin-top:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">📋 Booking details</div>
+        <div class="igrid">
+          <div class="irow"><div class="lbl">Booking ref</div><input class="inp inp-sm" placeholder="From confirmation email" data-key="phuket1-conf" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">Total cost (₪)</div><input class="inp inp-sm" type="number" placeholder="Convert from USD" data-key="phuket1-price" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">Transfer ref</div><input class="inp inp-sm" placeholder="Transfer booking ref" data-key="phuket1-transfer" oninput="saveData()"></div>
+        </div>
+        <a class="btn btn-o" style="margin-top:8px" href="https://www.katathani.com" target="_blank">Katathani Resort website ←</a>
+      </div>
     </div>
   </div>
 
@@ -698,38 +720,6 @@ textarea.inp{min-height:56px;resize:vertical}
   </div>
 
   <!-- FAIR HOUSE -->
-  <div class="hoption" id="hkoh3">
-    <div class="hhdr">
-      <div><div class="hname">Fair House Villas & Spa ★★★★½</div><div class="hloc">📍 Mae Nam Beach · הכי שקט ופרטי</div></div>
-      <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="badge bg">🌿 שקט</span><span class="badge bt">🏊 Pool Villa</span></div>
-    </div>
-    <div class="hbody">
-      <div class="hfeats">
-        <div class="hf">🏊 Beachfront Pool Villa + נוף ים</div><div class="hf">🌊 Mae Nam — חוף רדוד ושקט</div>
-        <div class="hf">🌿 גנים טרופיים ענקיים</div><div class="hf">🚤 SUP חינם לאורחים</div>
-        <div class="hf">🚌 שאטל חינם לצ'אוונג</div><div class="hf">⭐ "extraordinary — best I've stayed"</div>
-      </div>
-      <div class="hpc">
-        <div class="hpro"><div class="pcth">✅ יתרונות</div><div class="pci">הכי פרטי מבין השלוש</div><div class="pci">Pool villa ממש על הים</div></div>
-        <div class="hcon"><div class="pcth">⚠️ לדעת</div><div class="pci">צריך Grab לכל יציאה</div><div class="pci">אין Kids Club</div></div>
-      </div>
-      <div class="hfoot">
-        <div class="hpr"><div class="per">אומדן ללילה</div><div class="tot">~700–850 ₪</div><div class="nts">8 לילות: ~6,400 ₪</div></div>
-        <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <a class="btn btn-o" href="https://www.booking.com/hotel/th/fair-house-villas-spa.html?checkin=2026-05-25&checkout=2026-05-30&group_adults=2&group_children=1&age=1" target="_blank">Booking ←</a>
-          <button class="hsbtn un" id="shk3" onclick="selHotel('koh',3)">בחר מלון זה</button>
-        </div>
-      </div>
-      <div class="bkst" id="bkoh3" style="display:none">
-        <div class="bkst-t">📋 פרטי הזמנה</div>
-        <div class="igrid">
-          <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="BOOKING-XXX" data-key="koh3-conf" oninput="saveData()"></div>
-          <div class="irow"><div class="lbl">סכום ששולם (₪)</div><input class="inp inp-sm" type="number" placeholder="0" data-key="koh3-price" oninput="saveData()"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- CUSTOM KOH -->
   <div class="cust-h">
     <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ הוסף מלון בקוסמוי</div>
@@ -1530,7 +1520,7 @@ const TODOS = [
     {id:'t-seats',tx:'בחירת מושבים + Bassinet',sb:'Emirates → ניהול הזמנה → בקשות מיוחדות'},
   ]},
   {cat:'🏨 לינה', items:[
-    {id:'t-h-phuket',tx:'הזמנת מלון פוקט',sb:'20–25 מאי · 5 לילות'},
+    {id:'t-h-phuket',tx:'✅ Phuket Hotel — Katathani Booked',sb:'20–22 May · 2 nights · Kata Beach · $387 + $27 transfer'},
     {id:'t-h-koh',tx:'הזמנת מלון קוסמוי',sb:'25–30 מאי · 5 לילות · pool villa + עריסה'},
     {id:'t-h-bkk',tx:'✅ מלון בנגקוק — Centara Grand הוזמן',sb:'31 מאי–4 יוני · Deluxe Hollywood · ฿25,944.61 (כולל מיסים)'},
     {id:'t-cot',tx:'בקשת עריסה (Baby Cot) — שלושת המלונות',sb:'לציין בהזמנה ולאשר עם המלון'},
@@ -1795,7 +1785,7 @@ function saveDN(n,v){S['dn-'+n]=v;saveData();}
 const BCATS=[
   {id:'b-fl',em:'✈️',nm:'טיסות Emirates',est:'~13,500 ₪ (~$3,735)',col:'#3b82f6'},
   {id:'b-int',em:'🏝️',nm:'טיסות פנימיות Bangkok Airways',est:'~1,800 ₪',col:'#14b8a6'},
-  {id:'b-hphuket',em:'🌴',nm:'מלון פוקט (5 לילות)',est:'~4,000–6,000 ₪',col:'#f97316'},
+  {id:'b-hphuket',em:'🌴',nm:'Katathani Phuket Beach Resort (2 nights)',est:'~1,500 ₪ (~$414 inc. transfer)',col:'#f97316'},
   {id:'b-hkoh',em:'🏝️',nm:'מלון קוסמוי (5 לילות)',est:'~5,000–6,000 ₪',col:'#22c55e'},
   {id:'b-hbkk',em:'🏙️',nm:'מלון בנגקוק — Centara Grand (4 לילות)',est:'฿25,945 (~2,700 ₪)',col:'#a855f7'},
   {id:'b-food',em:'🍜',nm:'אוכל',est:'~2,500 ₪',col:'#f59e0b'},
@@ -1816,10 +1806,21 @@ function buildBudget(){
       const isCustom=!!c.custom;
       return `<div class="brow">
         <div class="bem">${c.em}</div>
-        <div class="bname"><div class="bnt">${c.nm}</div>${c.est?`<div class="best">אומדן: ${c.est}</div>`:''}</div>
+        <div class="bname">
+          <input class="bnt-inp" value="${S['bnm-'+c.id]||c.nm}" placeholder="Category name"
+            oninput="S['bnm-'+this.dataset.id]=this.value;saveData()" data-id="${c.id}"
+            style="background:transparent;border:none;border-bottom:1px solid transparent;font-size:14px;font-weight:600;color:var(--text);font-family:inherit;width:100%;outline:none;padding:0;cursor:text"
+            onfocus="this.style.borderBottomColor='var(--border2)'"
+            onblur="this.style.borderBottomColor='transparent'">
+          <input class="best-inp" value="${S['best-'+c.id]||c.est||''}" placeholder="Estimate..."
+            oninput="S['best-'+this.dataset.id]=this.value;saveData()" data-id="${c.id}"
+            style="background:transparent;border:none;border-bottom:1px solid transparent;font-size:11px;color:var(--textd);font-family:inherit;width:100%;outline:none;padding:0;margin-top:2px;cursor:text"
+            onfocus="this.style.borderBottomColor='var(--border2)'"
+            onblur="this.style.borderBottomColor='transparent'">
+        </div>
         <div class="bbar"><div class="bbar-bg"><div class="bbar-f" style="width:${pct}%;background:${c.col}"></div></div></div>
         <input class="binp" type="number" placeholder="0 ₪" value="${v}" oninput="updBudget('${c.id}',this.value)">
-        <div class="del-btn" onclick="delBudgetRow('${c.id}',${isCustom})" title="מחק">×</div>
+        <div class="del-btn" onclick="delBudgetRow('${c.id}',${isCustom})" title="Delete">×</div>
       </div>`;
     }).join('')}
     <div class="add-item-row" style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)">
@@ -2456,9 +2457,9 @@ function exportICS() {
       'Emirates EK 378 · Boeing 777 · Economy Flex\\nTerminal A → Phuket Terminal D',
       new Date('2026-05-20T02:35:00'), new Date('2026-05-20T12:15:00'), 'Zayed International Airport, AUH'),
     // Phuket stay
-    icsEvent('phuket-stay', '🌴 Phuket — 5 Nights',
+    icsEvent('phuket-stay', '🌴 Katathani Phuket Beach Resort',
       'Days 2–7 of trip\\nCheck in: 20 May · Check out: 25 May',
-      new Date('2026-05-20T14:00:00'), new Date('2026-05-25T12:00:00'), 'Phuket, Thailand'),
+      new Date('2026-05-20T14:00:00'), new Date('2026-05-22T12:00:00'), 'Phuket, Thailand'),
     // Internal flight 1
     icsEvent('pg406', '✈️ PG 406 HKT → USM (Koh Samui)',
       'Bangkok Airways PG 406 · ATR72\\nTerminal D → Ko Samui Airport\\nDepart 13:45 · Arrive 14:40',
@@ -2719,7 +2720,7 @@ const SEARCH_INDEX=[
   ...ITIN.map(d=>({section:'📅 לו"ז',text:d.title+' '+d.date+' '+d.blks.map(b=>b.tt).join(' '),nav:'itinerary'})),
   {section:'🏨 מלונות',text:'NH Collection Samui Peace Resort Bophut pool villa beachfront',nav:'hotels'},
   {section:'🏨 מלונות',text:'Bandara Spa Resort Pool Villas Samui Kids Club',nav:'hotels'},
-  {section:'🏨 מלונות',text:'Fair House Villas Spa Mae Nam Beach',nav:'hotels'},
+  {section:'🏨 מלונות',text:'Katathani Phuket Beach Resort Kata Beach SHA Extra Plus',nav:'hotels'},
   {section:'🏨 מלונות',text:'Centara Grand CentralWorld Bangkok Deluxe Hollywood',nav:'hotels'},
   {section:'✈️ טיסות',text:`Emirates ${FLIGHTS.outbound.legs.map(l=>l.flight).join(' ')} ${FLIGHTS.return.legs.map(l=>l.flight).join(' ')} Abu Dhabi Bangkok TLV BKK`,nav:'flights'},
   {section:'💰 תקציב',text:'תקציב הוצאות כסף שקל',nav:'budget'},
