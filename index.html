@@ -420,13 +420,13 @@ textarea.inp{min-height:56px;resize:vertical}
 <div id="s-dashboard" class="section active">
   <div class="countdown">
     <div class="days" id="days-count">—</div>
-    <div class="sub">ימים עד לטיסה</div>
+    <div class="sub" id="countdown-sub">days until departure</div>
     <div class="hms">
-      <div class="hms-item"><div class="hms-num" id="hms-h">00</div><div class="hms-lbl">שעות</div></div>
-      <div class="hms-item"><div class="hms-num" id="hms-m">00</div><div class="hms-lbl">דקות</div></div>
-      <div class="hms-item"><div class="hms-num" id="hms-s">00</div><div class="hms-lbl">שניות</div></div>
+      <div class="hms-item"><div class="hms-num" id="hms-h">00</div><div class="hms-lbl">hrs</div></div>
+      <div class="hms-item"><div class="hms-num" id="hms-m">00</div><div class="hms-lbl">min</div></div>
+      <div class="hms-item"><div class="hms-num" id="hms-s">00</div><div class="hms-lbl">sec</div></div>
     </div>
-    <div class="date">✈️ שלישי, 19 מאי 2026 · 18:05 · TLV → פוקט (HKT) via Dubai</div>
+    <div class="date" id="countdown-label">✈️ Tuesday, 19 May 2026 · 18:05 · TLV → Phuket (HKT) via Dubai</div>
   </div>
 
   <div class="dgrid">
@@ -562,45 +562,6 @@ textarea.inp{min-height:56px;resize:vertical}
 <!-- FLIGHTS -->
 <div id="s-flights" class="section">
   <div id="flights-render"></div>
-
-  <!-- CANCELLATION CLOCKS -->
-  <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:20px 0 12px">⏱️ Cancellation Clocks</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-    <div class="fcard">
-      <div class="fhdr" style="background:var(--tealp)">
-        <div class="froute" style="font-size:13px">Emirates</div>
-        <span class="badge bt">Economy Flex</span>
-      </div>
-      <div class="fbody" style="text-align:center">
-        <div style="font-size:12px;color:var(--textm);margin-bottom:8px">Time until departure</div>
-        <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;direction:ltr;margin-bottom:6px" id="clock-emirates">Loading...</div>
-        <div style="font-size:11px;color:var(--textd);margin-bottom:12px">EK 2471 · 19 May 2026 · 18:05</div>
-        <div style="font-size:12px;color:var(--textm);background:var(--bg3);border-radius:var(--rsm);padding:8px;margin-bottom:8px">
-          🔄 Change: <strong>$75/person</strong> · 💰 Refund: <strong>$125/person</strong><br>
-          🚫 No-show refund: <strong>$250/person</strong>
-        </div>
-        <a class="btn btn-o" style="font-size:12px;padding:6px 14px" href="https://www.emirates.com/us/english/manage-booking/refund-request/" target="_blank">Request refund ←</a>
-      </div>
-    </div>
-    <div class="fcard">
-      <div class="fhdr" style="background:var(--bluep)">
-        <div class="froute" style="font-size:13px">Bangkok Airways</div>
-        <span class="badge bb">Web Freedom / Blue Ribbon</span>
-      </div>
-      <div class="fbody" style="text-align:center">
-        <div style="font-size:12px;color:var(--textm);margin-bottom:4px">Until PG 406</div>
-        <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;direction:ltr;margin-bottom:4px" id="clock-bkk1">Loading...</div>
-        <div style="font-size:11px;color:var(--textd);margin-bottom:10px">PG 406 · 26 May · 13:45</div>
-        <div style="font-size:12px;color:var(--textm);margin-bottom:4px">Until PG 122</div>
-        <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;direction:ltr;margin-bottom:4px" id="clock-bkk2">Loading...</div>
-        <div style="font-size:11px;color:var(--textd);margin-bottom:10px">PG 122 · 31 May · 09:15</div>
-        <div style="font-size:12px;color:var(--textm);background:var(--redp);border-radius:var(--rsm);padding:8px;margin-bottom:8px">
-          📅 Before flight day: ~$60 + $10 · 📅 On/after: ~$80 + $10
-        </div>
-        <a class="btn btn-o" style="font-size:12px;padding:6px 14px" href="https://www.bangkokair.com/fare-conditions" target="_blank">Fare conditions ←</a>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- HOTELS -->
@@ -1448,21 +1409,54 @@ function navTo(id) {
 }
 
 // ═══ COUNTDOWN ═══
+const RETURN_FLIGHT = new Date('2026-06-04T09:55:00'); // EK 375 BKK → TLV
+
 function updateCountdown() {
-  const diff = FLIGHT - new Date();
-  if (diff <= 0) {
-    document.getElementById('days-count').textContent = '🛫';
-    ['hms-h','hms-m','hms-s'].forEach(id=>document.getElementById(id).textContent='00');
+  const now = new Date();
+  const subEl = document.getElementById('countdown-sub');
+  const lblEl = document.getElementById('countdown-label');
+  const daysEl = document.getElementById('days-count');
+
+  // Phase 3: back home
+  if (now >= RETURN_FLIGHT) {
+    daysEl.textContent = '🏠';
+    daysEl.style.color = 'var(--blue)';
+    ['hms-h','hms-m','hms-s'].forEach(id => document.getElementById(id).textContent = '00');
+    if (subEl) subEl.textContent = 'Welcome home!';
+    if (lblEl) lblEl.textContent = '🇮🇱 Back in Israel · Trip complete!';
     return;
   }
+
+  // Phase 2: outbound departed, counting to return
+  if (now >= FLIGHT) {
+    const diff = RETURN_FLIGHT - now;
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    daysEl.textContent = days;
+    daysEl.style.color = 'var(--coral)';
+    document.getElementById('hms-h').textContent = String(hours).padStart(2,'0');
+    document.getElementById('hms-m').textContent = String(mins).padStart(2,'0');
+    document.getElementById('hms-s').textContent = String(secs).padStart(2,'0');
+    if (subEl) subEl.textContent = '🌴 In Thailand — days until return flight';
+    if (lblEl) lblEl.textContent = '✈️ EK 375 · Thursday, 4 Jun 2026 · 09:55 · BKK → TLV via Dubai';
+    return;
+  }
+
+  // Phase 1: counting to outbound
+  const diff = FLIGHT - now;
   const days = Math.floor(diff / 86400000);
   const hours = Math.floor((diff % 86400000) / 3600000);
   const mins = Math.floor((diff % 3600000) / 60000);
   const secs = Math.floor((diff % 60000) / 1000);
-  document.getElementById('days-count').textContent = days;
+  daysEl.textContent = days;
+  daysEl.style.color = 'var(--green)';
   document.getElementById('hms-h').textContent = String(hours).padStart(2,'0');
   document.getElementById('hms-m').textContent = String(mins).padStart(2,'0');
   document.getElementById('hms-s').textContent = String(secs).padStart(2,'0');
+  if (subEl) subEl.textContent = 'days until departure';
+  if (lblEl) lblEl.textContent = '✈️ Tuesday, 19 May 2026 · 18:05 · TLV → Phuket (HKT) via Dubai';
 }
 
 // ═══ REMINDERS ═══
@@ -1819,7 +1813,14 @@ function buildBudget(){
             onblur="this.style.borderBottomColor='transparent'">
         </div>
         <div class="bbar"><div class="bbar-bg"><div class="bbar-f" style="width:${pct}%;background:${c.col}"></div></div></div>
-        <input class="binp" type="number" placeholder="0 ₪" value="${v}" oninput="updBudget('${c.id}',this.value)">
+        <input class="binp" type="number" placeholder="0 ₪" value="${v}"
+          oninput="updBudget('${c.id}',this.value)"
+          id="binp-${c.id}"
+          ${S['lock-'+c.id]?'disabled style="opacity:.5"':''}>
+        <button onclick="toggleBudgetLock('${c.id}')" title="${S['lock-'+c.id]?'Unlock to edit':'Lock price'}"
+          style="background:none;border:none;cursor:pointer;font-size:16px;padding:0 4px;color:var(--textd);flex-shrink:0">
+          ${S['lock-'+c.id]?'🔒':'🔓'}
+        </button>
         <div class="del-btn" onclick="delBudgetRow('${c.id}',${isCustom})" title="Delete">×</div>
       </div>`;
     }).join('')}
@@ -1844,6 +1845,11 @@ function buildBudget(){
   setTimeout(buildPieChart,50);
 }
 function updBudget(id,v){S[id]=v;saveData();calcBudget();}
+function toggleBudgetLock(id){
+  S['lock-'+id] = !S['lock-'+id];
+  saveData();
+  buildBudget();
+}
 function calcBudget(){
   const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
   const customs=getCustomBudget();
@@ -2648,26 +2654,11 @@ function buildToday() {
       </div>
     </div>`;
 }
-const CLOCK_FLIGHTS = [
-  { id: 'clock-emirates', date: new Date('2026-05-19T18:05:00'), label: 'EK 2471' },
-  { id: 'clock-bkk1',   date: new Date('2026-05-26T13:45:00'), label: 'PG 406' },
-  { id: 'clock-bkk2',   date: new Date('2026-05-31T09:15:00'), label: 'PG 122' },
-];
-function updateCancelClocks() {
-  const now = new Date();
-  CLOCK_FLIGHTS.forEach(cf => {
-    const el = document.getElementById(cf.id);
-    if (!el) return;
-    const diff = cf.date - now;
-    if (diff <= 0) { el.textContent = '🛫 Departed'; el.style.color = 'var(--textd)'; return; }
     const d = Math.floor(diff / 86400000);
     const h = Math.floor((diff % 86400000) / 3600000);
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
-    el.textContent = `${d}d  ${String(h).padStart(2,'0')}h  ${String(m).padStart(2,'0')}m  ${String(s).padStart(2,'0')}s`;
-    el.style.color = d < 1 ? 'var(--red)' : d < 3 ? 'var(--coral)' : d < 7 ? 'var(--gold)' : 'var(--green)';
-  });
-}
+
 
 // ═══ INIT ═══
 async function init(){
@@ -2690,8 +2681,6 @@ async function init(){
 
   // countdown every second, weather every 10min
   setInterval(updateCountdown, 1000);
-  setInterval(updateCancelClocks, 1000);
-  updateCancelClocks();
   buildCustomHotels('phuket');
   buildCustomHotels('koh');
   buildCustomHotels('bkk');
