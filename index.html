@@ -281,18 +281,22 @@ textarea.inp{min-height:56px;resize:vertical}
 .bsc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;text-align:center}
 .bsnum{font-family:'Rubik',sans-serif;font-size:24px;font-weight:700;line-height:1}
 .bslbl{font-size:12px;color:var(--textm);margin-top:3px}
-.brow{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid var(--border)}
+.bgroup{border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.bgroup-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);cursor:pointer;gap:8px;user-select:none}
+.bgroup-body{padding:0 14px}
+.brow{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--border)}
 .brow:last-child{border-bottom:none}
 .bem{font-size:18px;flex-shrink:0;width:26px;text-align:center}
-.bname{flex:1}
+.bname{flex:1;min-width:0;overflow:hidden}
 .bnt{font-size:14px}
 .best{font-size:11px;color:var(--textd);margin-top:1px}
 .bbar{width:70px}
 .bbar-bg{background:var(--bg3);border-radius:100px;height:6px;overflow:hidden}
 .bbar-f{height:6px;border-radius:100px;transition:width .4s}
-.binp{width:100px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:6px 9px;font-family:'Rubik',sans-serif;font-size:14px;font-weight:600;color:var(--text);outline:none;transition:border-color .2s;text-align:left}
+.binp{width:80px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:6px 9px;font-family:'Rubik',sans-serif;font-size:14px;font-weight:600;color:var(--text);outline:none;transition:border-color .2s;text-align:left}
 .binp:focus{border-color:var(--green)}
 .binp::placeholder{color:var(--textd);font-size:12px;font-weight:400}
+.bcur-sel{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:5px 2px;font-size:11px;color:var(--textm);outline:none;cursor:pointer;flex-shrink:0;max-width:32px}
 
 /* ── CURRENCY ── */
 .curr-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
@@ -510,7 +514,7 @@ textarea.inp{min-height:56px;resize:vertical}
     <div style="display:grid;grid-template-columns:1fr 36px 1fr;gap:10px;align-items:center;margin-bottom:8px">
       <select id="qc-from" onchange="quickConv()"
         style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px 10px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);outline:none;cursor:pointer;width:100%">
-        <option value="ils">🇮🇱 ₪ Israeli Shekel</option>
+        <option value="ils">🇮🇱 ₪ ישראלi Shekel</option>
         <option value="usd">🇺🇸 $ US Dollar</option>
         <option value="thb">🇹🇭 ฿ Thai Baht</option>
         <option value="eur">🇪🇺 € Euro</option>
@@ -520,7 +524,7 @@ textarea.inp{min-height:56px;resize:vertical}
       <select id="qc-to" onchange="quickConv()"
         style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px 10px;font-family:'Heebo',sans-serif;font-size:14px;color:var(--text);outline:none;cursor:pointer;width:100%">
         <option value="thb" selected>🇹🇭 ฿ Thai Baht</option>
-        <option value="ils">🇮🇱 ₪ Israeli Shekel</option>
+        <option value="ils">🇮🇱 ₪ ישראלi Shekel</option>
         <option value="usd">🇺🇸 $ US Dollar</option>
         <option value="eur">🇪🇺 € Euro</option>
         <option value="gbp">🇬🇧 £ British Pound</option>
@@ -597,9 +601,9 @@ textarea.inp{min-height:56px;resize:vertical}
         </div>
       </div>
       <div style="background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:12px;margin-top:12px">
-        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">📋 Booking details</div>
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">📋 פרטי הזמנה</div>
         <div class="igrid">
-          <div class="irow"><div class="lbl">Booking ref</div><input class="inp inp-sm" placeholder="From confirmation email" data-key="phuket1-conf" oninput="saveData()"></div>
+          <div class="irow"><div class="lbl">מס' הזמנה</div><input class="inp inp-sm" placeholder="From confirmation email" data-key="phuket1-conf" oninput="saveData()"></div>
           <div class="irow"><div class="lbl">Total cost (₪)</div><input class="inp inp-sm" type="number" placeholder="Convert from USD" data-key="phuket1-price" oninput="saveData()"></div>
           <div class="irow"><div class="lbl">Transfer ref</div><input class="inp inp-sm" placeholder="Transfer booking ref" data-key="phuket1-transfer" oninput="saveData()"></div>
         </div>
@@ -617,7 +621,7 @@ textarea.inp{min-height:56px;resize:vertical}
   <div class="hoption" id="hkoh1">
     <div class="hhdr">
       <div><div class="hname">NH Collection Samui Peace Resort ★★★★★</div><div class="hloc">📍 Bophut Beach · 5 דק' מ-Fisherman's Village</div></div>
-      <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="badge bg">⭐ מומלץ</span><span class="badge bt">🏊 Pool Villa</span></div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="badge bg">⭐ Recommended</span><span class="badge bt">🏊 Pool Villa</span></div>
     </div>
     <div class="hbody">
       <div class="hfeats">
@@ -738,7 +742,7 @@ textarea.inp{min-height:56px;resize:vertical}
 
   <!-- CUSTOM BKK -->
   <div class="cust-h">
-    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ הוסף מלון אחר בבנגקוק</div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:13px;color:var(--textm)">➕ Add another Bangkok hotelנגקוק</div>
     <div id="custom-hotels-bkk"></div>
     <div class="igrid">
       <div class="irow"><div class="lbl">שם המלון *</div><input class="inp inp-sm" id="ch-bkk-name" placeholder="שם המלון..."></div>
@@ -765,20 +769,20 @@ textarea.inp{min-height:56px;resize:vertical}
 <!-- BUDGET -->
 <div id="s-budget" class="section">
   <div class="bsum">
-    <div class="bsc"><div class="bsnum" style="color:var(--blue)">27,000 ₪</div><div class="bslbl">תקציב כולל</div></div>
-    <div class="bsc"><div class="bsnum" id="b-spent" style="color:var(--gold)">0 ₪</div><div class="bslbl">שולם בפועל</div></div>
-    <div class="bsc"><div class="bsnum" id="b-left" style="color:var(--green)">27,000 ₪</div><div class="bslbl">נשאר</div></div>
+    <div class="bsc"><div class="bsnum" style="color:var(--blue)">27,000 ₪</div><div class="bslbl">Total Budget</div></div>
+    <div class="bsc"><div class="bsnum" id="b-spent" style="color:var(--gold)">0 ₪</div><div class="bslbl">Committed</div></div>
+    <div class="bsc"><div class="bsnum" id="b-left" style="color:var(--green)">27,000 ₪</div><div class="bslbl">Remaining</div></div>
   </div>
   <div class="card" id="pie-card">
-    <div class="ct">📊 פיזור התקציב</div>
-    <div class="pie-wrap">
-      <svg class="pie-svg" id="pie-svg" width="160" height="160" viewBox="0 0 160 160"></svg>
-      <div class="pie-legend" id="pie-legend"></div>
-    </div>
+    <div class="ct">📊 Budget Breakdown</div>
   </div>
   <div class="card">
-    <div class="ct">💰 מעקב הוצאות אמיתי</div>
-    <p style="font-size:12px;color:var(--textd);margin-bottom:13px">הזן סכום ששולם בפועל לכל קטגוריה.</p>
+    <div class="ct">💰 Expense Tracker</div>
+    <p style="font-size:12px;color:var(--textd);margin-bottom:13px">
+      🔓 <strong style="color:var(--text)">Unlocked</strong> = estimate · 
+      🔒 <strong style="color:var(--text)">Locked</strong> = committed · 
+      🟡 Booked / 🟢 Paid · tap <strong style="color:var(--text)">⋯</strong> for notes, currency & group
+    </p>
     <div id="budget-rows"></div>
   </div>
 </div>
@@ -824,7 +828,7 @@ textarea.inp{min-height:56px;resize:vertical}
   <div class="card">
     <div class="ct">💡 טיפים — כסף בתאילנד</div>
     <div class="bstip"><div>🏧</div><div><strong>כספומטים:</strong> משכו באט ישירות בתאילנד — שער הכי טוב. כל ATM גובה ~180 THB עמלה — משכו סכום גדול בכל פעם.</div></div>
-    <div class="bstip"><div>❌</div><div><strong>שדה התעופה:</strong> אל תמירו בשדה — השער גרוע ב-5–8%. המתינו לכספומט בעיר.</div></div>
+    <div class="bstip"><div>❌</div><div><strong>שדה התעופה:</strong> אל תמירו בשדה — השער גרוע ב-5–8%. המתינו לכספומט בCity.</div></div>
     <div class="bstip"><div>💳</div><div><strong>כרטיס אשראי:</strong> כרטיס ללא עמלות המרה חוסך הרבה. הודיעו לבנק לפני.</div></div>
     <div class="bstip"><div>📱</div><div><strong>Grab:</strong> תשלום במזומן או בכרטיס דרך האפליקציה.</div></div>
   </div>
@@ -832,7 +836,7 @@ textarea.inp{min-height:56px;resize:vertical}
 
 <!-- PACKING -->
 <div id="s-packing" class="section">
-  <p style="font-size:13px;color:var(--textm);margin-bottom:15px">לחץ על פריט לסימון. הכל נשמר אוטומטית.</p>
+  <p style="font-size:13px;color:var(--textm);margin-bottom:15px">Click item to check off. All saved automatically.</p>
   <div id="pack-container"></div>
 </div>
 
@@ -843,7 +847,7 @@ textarea.inp{min-height:56px;resize:vertical}
     <div class="tcard"><div class="ticon">🚇</div><div class="ttitle">BTS Skytrain — בנגקוק</div><div class="tbody">רשת רכבת עילית. <strong>נוחה מאוד</strong> עם עגלה — יש מעליות.<br><br>כרטיס יומי: <strong>~140 THB</strong><br>תחנות: Siam (קניונים), Mo Chit (Chatuchak)<div class="tipbox">💡 נגיש לעגלות בכל התחנות.</div></div></div>
     <div class="tcard"><div class="ticon">🚤</div><div class="ttitle">שיט בנהר — בנגקוק</div><div class="tbody">Chao Phraya Express: <strong>~15 THB</strong> לנסיעה.<br>מגיע ל-Grand Palace, Wat Pho, Asiatique.<div class="tipbox">💡 סירת לונגטייל פרטית ~1,500 THB/שעה.</div></div></div>
     <div class="tcard"><div class="ticon">🚕</div><div class="ttitle">מוניות בקוסמוי</div><div class="tbody">אין מד' — <strong>מחיר מוסכם מראש.</strong><br>לאטרקציות: <strong>~200–400 THB</strong> ה"ח<br>Grab מומלץ יותר.<div class="tipbox">💡 הקונסיירז' במלון יכול לסדר.</div></div></div>
-    <div class="tcard"><div class="ticon">🏝️</div><div class="ttitle">BKK ↔ קוסמוי</div><div class="tbody"><strong>טיסה פנימית:</strong> Bangkok Airways / AirAsia<br>~80 דקות · ~800–1,200 ₪ ה"ח<br><strong>לא מומלץ מעבורת</strong> עם תינוקת.<div class="tipbox">💡 שדה USM קטן ונחמד · ~15 דק' מהמלונות.</div></div></div>
+    <div class="tcard"><div class="ticon">🏝️</div><div class="ttitle">BKK ↔ קוסמוי</div><div class="tbody"><strong>טיסה פנימית:</strong> Bangkok Airways / AirAsia<br>~80 min · ~800–1,200 ₪ ה"ח<br><strong>לא מומלץ מעבורת</strong> עם תינוקת.<div class="tipbox">💡 שדה USM קטן ונחמד · ~15 דק' מהמלונות.</div></div></div>
     <div class="tcard"><div class="ticon">📱</div><div class="ttitle">SIM תאילנדי</div><div class="tbody"><strong>AIS</strong> או <strong>True Move</strong> — שניהם מצוינים.<br>30 יום / אינטרנט ללא הגבלה: <strong>~250–350 THB</strong><br>קנו בשדה BKK מיד עם הנחיתה.<div class="tipbox">💡 eSIM מראש: Airalo, Nomad.</div></div></div>
   </div>
   <div class="card" style="margin-top:6px">
@@ -868,32 +872,32 @@ textarea.inp{min-height:56px;resize:vertical}
 <!-- BABY -->
 <div id="s-baby" class="section">
   <div class="bsect">
-    <div class="bshead">✈️ על הטיסה (~16 שעות עם עצירה)</div>
-    <div class="bstip"><div>🛏️</div><div><strong>Bassinet (עריסת תינוק):</strong> בקשו מראש בניהול הזמנה ב-Emirates — שורה ראשונה עם מחיצה. חינם אבל מקומות מוגבלים!</div></div>
-    <div class="bstip"><div>👂</div><div><strong>לחץ אוזניים:</strong> להניק / לתת בקבוק בהמראה ובנחיתה — הבליעה עוזרת. אטמי אוזניים לתינוקות — קחו!</div></div>
-    <div class="bstip"><div>🎒</div><div><strong>תיק יד לתינוקת:</strong> חיתולים ל-16+ שעות, בגד חלופי ×3, שמיכה, צעצועים שקטים, אוכל, תרופות חום.</div></div>
-    <div class="bstip"><div>⏰</div><div><strong>שינה:</strong> הטיסה יוצאת 18:05 — נסו לתזמן שינה בטיסה הראשונה (TLV→DXB) ובטיסה השנייה (DXB→HKT).</div></div>
+    <div class="bshead">✈️ על הטיסה (~16 hrs עם עצירה)</div>
+    <div class="bstip"><div>🛏️</div><div><strong>Bassinet (baby cot):</strong> Request in advance via Emirates Manage Booking — first row with bulkhead. Free but limited availability!</div></div>
+    <div class="bstip"><div>👂</div><div><strong>Ear pressure:</strong> Nurse or bottle-feed on takeoff and landing — swallowing helps. Bring baby earplugs!</div></div>
+    <div class="bstip"><div>🎒</div><div><strong>תיק יד לתינוקת:</strong> חיתולים ל-16+ hrs, בגד חלופי ×3, שמיכה, צעצועים שקטים, אוכל, תרופות חום.</div></div>
+    <div class="bstip"><div>⏰</div><div><strong>שינה:</strong> הטיסה יוצאת 18:05 — try to time sleep on the flight הראשונה (TLV→DXB) ובטיסה השנייה (DXB→HKT).</div></div>
     <div class="bstip"><div>🚿</div><div><strong>החתלה:</strong> ב-Boeing 777 יש changing table בשירותים. שאלו את הצוות היכן. גם ב-Boeing 777 ב-EK 378.</div></div>
   </div>
   <div class="bsect">
     <div class="bshead">🌴 בפוקט (20–25 מאי)</div>
-    <div class="bstip"><div>🏖️</div><div><strong>חופים:</strong> Karon ו-Kata מומלצים לתינוקות — גלים קטנים יחסית. הימנעו מ-Patong בשעות שיא — עמוס ורועש.</div></div>
-    <div class="bstip"><div>☀️</div><div><strong>שמש:</strong> SPF 50+ מינרלי. כובע עם שוליים רחבים. הימנעו מחשיפה ישירה 11:00–16:00.</div></div>
-    <div class="bstip"><div>🦟</div><div><strong>יתושים:</strong> קרם DEET-free לתינוקות. ספריי על בגדים. רשת יתושים על העריסה בלילה.</div></div>
+    <div class="bstip"><div>🏖️</div><div><strong>חופים:</strong> Karon ו-Kata מומלצים לתינוקות — גלים קטנים יחסית. הימנעו מ-Patong בhrs שיא — עמוס ורועש.</div></div>
+    <div class="bstip"><div>☀️</div><div><strong>Sun:</strong> Mineral SPF 50+. Wide-brim hat. Avoid direct sun 11:00–16:00נעו מחשיפה ישירה 11:00–16:00.</div></div>
+    <div class="bstip"><div>🦟</div><div><strong>Mosquitoes:</strong> DEET-free cream for babies. Spray on clothes. רשת יתושים על העריסה בלילה.</div></div>
     <div class="bstip"><div>🏥</div><div><strong>רפואה:</strong> Bangkok Hospital Phuket: +66 76 254 425 · Phuket International Hospital: +66 76 249 400</div></div>
-    <div class="bstip"><div>🚗</div><div><strong>תחבורה:</strong> Grab זמין בפוקט. מוניות ללא מד — הסכימו על מחיר מראש. לשייטים — ודאו שיש גלגל הצלה לתינוקת.</div></div>
+    <div class="bstip"><div>🚗</div><div><strong>Transport:</strong> Grab available in Phuket. Metered taxis — agree price first על מחיר מראש. לשייטים — ודאו שיש גלגל הצלה לתינוקת.</div></div>
   </div>
   <div class="bsect">
     <div class="bshead">🏝️ בקוסמוי (25–30 מאי)</div>
-    <div class="bstip"><div>🏊</div><div><strong>Gate בטיחות לבריכה:</strong> בקשו בצ'ק-אין! רוב המלונות מספקים אבל יש לבקש מראש.</div></div>
-    <div class="bstip"><div>🌊</div><div><strong>ים:</strong> חופשו חופים רדודים ושקטים — Bophut, Mae Nam, Bangrak. הימנעו מ-Chaweng בשעות שיא.</div></div>
+    <div class="bstip"><div>🏊</div><div><strong>Pool safety gate:</strong> Request at check-in! Most hotels provide it מספקים אבל יש לבקש מראש.</div></div>
+    <div class="bstip"><div>🌊</div><div><strong>Sea:</strong> Stick to shallow calm beaches — Bophut, Mae Nam, Bangrak. הימנעו מ-Chaweng בhrs שיא.</div></div>
     <div class="bstip"><div>🏥</div><div><strong>רפואה:</strong> Bangkok Hospital Samui: +66 77 429 500 · Samui International Hospital: +66 77 230 781</div></div>
   </div>
   <div class="bsect">
     <div class="bshead">🏙️ בבנגקוק (30 מאי–3 יוני)</div>
-    <div class="bstip"><div>🚗</div><div><strong>תחבורה:</strong> Grab עם מושב בטיחות — ציינו בהזמנה. BTS נגיש לעגלות — יש מעליות.</div></div>
-    <div class="bstip"><div>🌡️</div><div><strong>חום עירוני:</strong> בנגקוק חמה ולחה יותר. קניונים ממוזגים = הצלה בשעות הצהריים.</div></div>
-    <div class="bstip"><div>🍜</div><div><strong>אוכל לתינוקת:</strong> אורז לבן, אטריות, עוף בגריל — בטוח ומצוין. הימנעו מאוכל חריף.</div></div>
+    <div class="bstip"><div>🚗</div><div><strong>Transport:</strong> Grab with car seat — note in booking. BTS נגיש לעגלות — יש מעליות.</div></div>
+    <div class="bstip"><div>🌡️</div><div><strong>Heat:</strong> Bangkok is hotter and more humid. Malls are air-conditionedזגים = הצלה בhrs הצהריים.</div></div>
+    <div class="bstip"><div>🍜</div><div><strong>Baby food:</strong> White rice, noodles, grilled chicken — safe and greatח ומצוין. הימנעו מאוכל חריף.</div></div>
   </div>
 </div>
 
@@ -924,9 +928,9 @@ textarea.inp{min-height:56px;resize:vertical}
     </div>
     <div class="ecard">
       <div class="etitle">🛡️ ביטוח — PassportCard</div>
-      <div class="insph">⏳ ביטוח עדיין לא הוסדר</div>
-      <div class="irow" style="margin-top:10px"><div class="lbl">מספר פוליסה</div><input class="inp inp-sm" placeholder="לאחר ביצוע ביטוח..." data-key="ins-num" oninput="saveData()"></div>
-      <div class="irow"><div class="lbl">טלפון חירום PassportCard</div><input class="inp inp-sm" placeholder="+972-..." data-key="ins-phone" oninput="saveData()"></div>
+      <div class="insph">⏳ Insurance not yet arranged</div>
+      <div class="irow" style="margin-top:10px"><div class="lbl">Policy number</div><input class="inp inp-sm" placeholder="לאחר ביצוע ביטוח..." data-key="ins-num" oninput="saveData()"></div>
+      <div class="irow"><div class="lbl">PassportCard emergency phone</div><input class="inp inp-sm" placeholder="+972-..." data-key="ins-phone" oninput="saveData()"></div>
     </div>
     <div class="ecard">
       <div class="etitle">✈️ Emirates — שירות לקוחות</div>
@@ -941,7 +945,7 @@ textarea.inp{min-height:56px;resize:vertical}
   <div class="card">
     <div class="ct">🔔 התראות חכמות</div>
     <p style="font-size:13px;color:var(--textm);margin-bottom:16px;line-height:1.6">
-      אפשר התראות כדי לקבל תזכורות אוטומטיות — למשל כשנפתח צ'ק-אין אונליין, TDAC, ועוד.
+      Enable notifications to get automatic reminders — e.g. when online check-in opens, TDAC, and more.
     </p>
     <div id="notif-permission-box">
       <button class="btn btn-g" onclick="requestNotifPermission()" id="notif-req-btn">🔔 אפשר התראות</button>
@@ -956,9 +960,9 @@ textarea.inp{min-height:56px;resize:vertical}
     <div class="ct">📋 תזכורות מתוכננות</div>
     <div class="notif-list">
       <div class="notif-item"><div class="ni-icon">✈️</div><div class="ni-text"><strong>Emirates Check-in נפתח</strong><br>17 מאי 2026, 18:05</div><div class="ni-time" id="checkin-countdown"></div></div>
-      <div class="notif-item"><div class="ni-icon">📄</div><div class="ni-text"><strong>TDAC — הגשת טופס כניסה</strong><br>17 מאי 2026</div><div class="ni-time"></div></div>
-      <div class="notif-item"><div class="ni-icon">🏝️</div><div class="ni-text"><strong>יציאה לקוסמוי!</strong><br>20 מאי 2026</div><div class="ni-time"></div></div>
-      <div class="notif-item"><div class="ni-icon">🏙️</div><div class="ni-text"><strong>מעבר לבנגקוק</strong><br>28 מאי 2026</div><div class="ni-time"></div></div>
+      <div class="notif-item"><div class="ni-icon">📄</div><div class="ni-text"><strong>TDAC — Submit entry formיסה</strong><br>17 מאי 2026</div><div class="ni-time"></div></div>
+      <div class="notif-item"><div class="ni-icon">🏝️</div><div class="ni-text"><strong>Off to Koh Samui!</strong><br>20 מאי 2026</div><div class="ni-time"></div></div>
+      <div class="notif-item"><div class="ni-icon">🏙️</div><div class="ni-text"><strong>Moving to Bangkok</strong><br>28 מאי 2026</div><div class="ni-time"></div></div>
       <div class="notif-item"><div class="ni-icon">🛬</div><div class="ni-text"><strong>חזרה לישראל!</strong><br>3 יוני 2026</div><div class="ni-time"></div></div>
     </div>
     <div style="margin-top:14px">
@@ -973,12 +977,12 @@ textarea.inp{min-height:56px;resize:vertical}
 <div class="modal" id="setup-modal">
   <div class="mbox">
     <div class="mtitle">☁️ חיבור ל-Google Sheets</div>
-    <div class="msub">תהליך חד-פעמי של ~15 דקות. לאחר מכן הכל מסתנכרן בכל מכשיר.</div>
+    <div class="msub">One-time setup ~15 min. After that everything syncs across all devices.</div>
     <div class="mstep"><div class="mstepn">שלב 1</div><div class="mstept">פתחו <a href="https://sheets.google.com" target="_blank" style="color:var(--green)">Google Sheets</a> וצרו גיליון חדש בשם <code>Thailand2026</code></div></div>
     <div class="mstep"><div class="mstepn">שלב 2</div><div class="mstept">בתפריט: <code>Extensions → Apps Script</code></div></div>
-    <div class="mstep"><div class="mstepn">שלב 3</div><div class="mstept">מחקו את הקוד הקיים והדביקו את ה-Apps Script מהקובץ <code>Code.gs</code> שמצורף</div></div>
+    <div class="mstep"><div class="mstepn">שלב 3</div><div class="mstept">Delete existing code and paste ה-Apps Script מהקובץ <code>Code.gs</code> שמצורף</div></div>
     <div class="mstep"><div class="mstepn">שלב 4</div><div class="mstept"><code>Deploy → New deployment → Web App</code> → Execute as: Me → Who has access: Anyone → <code>Deploy</code></div></div>
-    <div class="mstep"><div class="mstepn">שלב 5</div><div class="mstept">העתיקו את ה-URL שקיבלתם והדביקו למטה</div></div>
+    <div class="mstep"><div class="mstepn">שלב 5</div><div class="mstept">Copy the URL you received and pasteו למטה</div></div>
     <div class="irow" style="margin-top:14px"><div class="lbl">Web App URL</div><input class="inp" id="sh-url-inp" placeholder="https://script.google.com/macros/s/..."></div>
     <div class="mbtns">
       <button class="btn btn-o" onclick="document.getElementById('setup-modal').classList.remove('show')">ביטול</button>
@@ -1316,7 +1320,7 @@ function buildFlights() {
           ${f.legs.map((leg,i)=>renderLeg(leg, i===f.legs.length-1, f.arrTime, f.arrAirport)).join('')}
           ${emiratesFareBlock(f.cabin)}
           <div class="confrow" style="margin-top:14px">
-            <div class="conflbl">🔖 Booking ref:</div>
+            <div class="conflbl">🔖 מס' הזמנה:</div>
             <input class="confinp" id="${f.confId}" placeholder="HSKRKS" oninput="saveData()">
           </div>
         </div>
@@ -1361,7 +1365,7 @@ function buildFlights() {
     ${internalCards}
     ${renderCard(FLIGHTS.return)}
     <div class="confrow" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-bottom:14px">
-      <div class="conflbl">🔖 Booking ref (Bangkok Airways):</div>
+      <div class="conflbl">🔖 מס' הזמנה (Bangkok Airways):</div>
       <input class="confinp" id="conf-int" placeholder="After booking..." oninput="saveData()">
     </div>
     <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px">
@@ -1423,7 +1427,7 @@ function updateCountdown() {
     daysEl.style.color = 'var(--blue)';
     ['hms-h','hms-m','hms-s'].forEach(id => document.getElementById(id).textContent = '00');
     if (subEl) subEl.textContent = 'Welcome home!';
-    if (lblEl) lblEl.textContent = '🇮🇱 Back in Israel · Trip complete!';
+    if (lblEl) lblEl.textContent = '🇮🇱 Back in ישראל · Trip complete!';
     return;
   }
 
@@ -1464,7 +1468,7 @@ const REMS = [
   {date:'2026-05-01',day:'01',mo:'מאי',title:'בקשת Bassinet ב-Emirates',sub:'ניהול הזמנה → Special Requests',u:'ok',
     gcal:{start:'20260501T090000',end:'20260501T093000',text:'Request Bassinet — Emirates',details:'emirates.com/manage → Special Requests → Bassinet'}},
   {date:'2026-05-10',day:'10',mo:'מאי',title:'הזמינו SIM / eSIM תאילנדי',sub:'Airalo, Nomad — להזמין מראש',u:'ok',
-    gcal:{start:'20260510T090000',end:'20260510T093000',text:'Order Thailand SIM/eSIM',details:'airalo.com or nomadinternet.com — order before trip'}},
+    gcal:{start:'20260510T090000',end:'20260510T093000',text:'Order SIM תאילנדי/eSIM',details:'airalo.com or nomadinternet.com — order before trip'}},
   {date:'2026-05-16',day:'16',mo:'מאי',title:'TDAC — טופס כניסה לתאילנד',sub:'אונליין, חינם, עד 3 ימים לפני',u:'soon',
     gcal:{start:'20260516T090000',end:'20260516T093000',text:'Fill TDAC Thailand Entry Form',details:'All non-Thai nationals MUST apply before arriving. Complete within 3 days of travel.\nhttps://tdac.immigration.go.th/arrival-card/#/home'}},
   {date:'2026-05-17',day:'17',mo:'מאי',title:'Check-in אונליין נפתח — Emirates',sub:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} · 48h before departure`,u:'urgent',
@@ -1510,7 +1514,7 @@ const TODOS = [
   {cat:'✈️ טיסות וכניסה', items:[
     {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · PG 122: USM→BKK 30 מאי'},
     {id:'t-tdac',tx:'📄 TDAC — Thailand Digital Arrival Card',sb:'חובה! אונליין בחינם · עד 3 ימים לפני הנסיעה · tdac.immigration.go.th'},
-    {id:'t-checkin',tx:'Check-in אונליין — Emirates',sb:'17 מאי בשעה 18:05 (48 שעות לפני)'},
+    {id:'t-checkin',tx:'Check-in אונליין — Emirates',sb:'17 מאי בשעה 18:05 (48 hrs לפני)'},
     {id:'t-seats',tx:'בחירת מושבים + Bassinet',sb:'Emirates → ניהול הזמנה → בקשות מיוחדות'},
   ]},
   {cat:'🏨 לינה', items:[
@@ -1539,7 +1543,7 @@ const TODOS = [
   ]},
   {cat:'👶 תינוקת וציוד', items:[
     {id:'t-stroller',tx:'עגלה קלה + נשאית מוכנות',sb:'נשאית מומלצת לבנגקוק ופוקט'},
-    {id:'t-bfood',tx:'תכנון אוכל לתינוקת לטיסה',sb:'16+ שעות — תכנן מה מותר לעלות'},
+    {id:'t-bfood',tx:'תכנון אוכל לתינוקת לטיסה',sb:'16+ hrs — תכנן מה מותר לעלות'},
     {id:'t-bass',tx:'Bassinet על הטיסה — Emirates',sb:'שורה ראשונה עם מחיצה'},
     {id:'t-earp',tx:'אטמי אוזניים לתינוקות',sb:'לאיזון לחץ בהמראה ונחיתה'},
   ]},
@@ -1621,13 +1625,13 @@ const ITIN = [
   // ── FLIGHT DAY ──
   {n:1,date:'19 מאי',dn:'ג\'',city:'phuket',title:'טיסה מישראל ✈️',blks:[
     {tc:'tle',tl:'20:10',tt:'המראה מ-TLV — EK 2471 (flydubai/Emirates) 18:05. Arrive 3 hours early!'},
-    {tc:'tld',tl:'00:25',tt:'נחיתה דובאי (DXB) 22:50. קונקשן 3:45 שעות → EK 378.'},
+    {tc:'tld',tl:'00:25',tt:'נחיתה דובאי (DXB) 22:50. קונקשן 3:45 hrs → EK 378.'},
     {tc:'tlm',tl:'02:25',tt:'המראה מדובאי — EK 378 · Boeing 777 · 02:35.'},
   ]},
   // ── PHUKET ──
   {n:2,date:'20 מאי',dn:'ד\'',city:'phuket',title:'הגעה לפוקט 🌴',blks:[
     {tc:'tlm',tl:'12:15',tt:'נחיתה פוקט (HKT) · Terminal D. העברה למלון.'},
-    {tc:'tld',tl:'אחה"צ',tt:'צ\'ק-אין, הסתגלות, בריכה. מנוחה — 10+ שעות טיסה מאחורינו.'},
+    {tc:'tld',tl:'אחה"צ',tt:'צ\'ק-אין, הסתגלות, בריכה. מנוחה — 10+ hrs טיסה מאחורינו.'},
     {tc:'tle',tl:'ערב',tt:'ארוחת ערב קלה ליד המלון. שינה מוקדמת.'},
   ]},
   {n:3,date:'21 מאי',dn:'ה\'',city:'phuket',title:'יום כניסה לאווירה 🌊',blks:[
@@ -1643,7 +1647,7 @@ const ITIN = [
   {n:5,date:'23 מאי',dn:'ש\'',city:'phuket',title:'⭐ Old Town + ספא 🏛️',attr:true,blks:[
     {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה.'},
     {tc:'tld',tl:'11:00–15:00',tt:'Phuket Old Town — ארכיטקטורה סינו-פורטוגלית, קפה ייחודי, Instagrammable!'},
-    {tc:'tle',tl:'15:00–19:00',tt:'עיסוי תאילנדי זוגי בספא (1–2 שעות, ~150–200 ₪). חזרה למלון.'},
+    {tc:'tle',tl:'15:00–19:00',tt:'עיסוי תאילנדי זוגי בספא (1–2 hrs, ~150–200 ₪). חזרה למלון.'},
   ]},
   {n:6,date:'24 מאי',dn:'א\'',city:'phuket',title:'⭐ שייט איים 🏝️',attr:true,blks:[
     {tc:'tlm',tl:'08:00–09:00',tt:'ארוחת בוקר מוקדמת + הכנה לטיול.'},
@@ -1652,12 +1656,12 @@ const ITIN = [
   ]},
   {n:7,date:'25 מאי',dn:'ב\'',city:'phuket',title:'מעבר לקוסמוי 🏝️ → ✈️',blks:[
     {tc:'tlm',tl:'08:00–12:00',tt:'ארוחת בוקר אחרונה בפוקט + צ\'ק-אאוט.'},
-    {tc:'tld',tl:'13:45–14:40',tt:'PG 406 · HKT → USM · ATR72 · 55 דקות · 13:45→14:40. צ\'ק-אין מלון קוסמוי!'},
-    {tc:'tle',tl:'15:00+',tt:'הגעה. בריכה פרטית ראשונה בקוסמוי 🌴'},
+    {tc:'tld',tl:'13:45–14:40',tt:'PG 406 · HKT → USM · ATR72 · 55 min · 13:45→14:40. צ\'ק-אין מלון קוסמוי!'},
+    {tc:'tle',tl:'15:00+',tt:'הגעה. Private pool ראשונה בקוסמוי 🌴'},
   ]},
   // ── KOH SAMUI ──
   {n:8,date:'26 מאי',dn:'ג\'',city:'koh',title:'יום כניסה לקוסמוי 🌊',blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + בריכה פרטית. קפה עם נוף לים.'},
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר + Private pool. קפה עם נוף לים.'},
     {tc:'tld',tl:'11:00–17:00',tt:'חוף Bophut או Mae Nam — רדוד ושקט לתינוקת. שינת צהריים.'},
     {tc:'tle',tl:'ערב',tt:'Fisherman\'s Village — שוק לילה, פירות ים, אווירה.'},
   ]},
@@ -1672,11 +1676,11 @@ const ITIN = [
     {tc:'tle',tl:'ערב',tt:'בריכה + שקיעה מהמרפסת.'},
   ]},
   {n:11,date:'29 מאי',dn:'ו\'',city:'koh',title:'יום ים + עיסוי 💆',blks:[
-    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר ארוכה + בריכה פרטית.'},
+    {tc:'tlm',tl:'08:00–11:00',tt:'ארוחת בוקר ארוכה + Private pool.'},
     {tc:'tld',tl:'11:00–16:00',tt:'יום ים מלא — חול, מים, שמש. לא מתכננים כלום!'},
     {tc:'tle',tl:'16:00–19:00',tt:'עיסוי זוגי בספא המלון. ארוחת ערב מיוחדת.'},
   ]},
-  {n:12,date:'30 מאי',dn:'ש\'',city:'koh',title:'מעבר לבנגקוק 🏙️ → ✈️',blks:[
+  {n:12,date:'30 מאי',dn:'ש\'',city:'koh',title:'Moving to Bangkok 🏙️ → ✈️',blks:[
     {tc:'tlm',tl:'08:00–12:00',tt:'ארוחת בוקר אחרונה + צ\'ק-אאוט מקוסמוי.'},
     {tc:'tld',tl:'09:15–10:30',tt:'PG 122 · USM → BKK · Airbus A319 · 1h 15m.'},
     {tc:'tle',tl:'15:30+',tt:'Grab למלון בנגקוק. צ\'ק-אין + חקירת הסביבה ראשונה.'},
@@ -1698,7 +1702,7 @@ const ITIN = [
     {tc:'tle',tl:'17:00–20:00',tt:'עיסוי + ארוחה מיוחדת. אריזת מזוודות!'},
   ]},
   {n:16,date:'3 יוני',dn:'ד\'',city:'bkk',title:'חזרה לישראל 🇮🇱 ✈️',blks:[
-    {tc:'tlm',tl:'06:00',tt:'יציאה מוקדמת לשדה Suvarnabhumi — לפחות 3 שעות לפני.'},
+    {tc:'tlm',tl:'06:00',tt:'יציאה מוקדמת לשדה Suvarnabhumi — לפחות 3 hrs לפני.'},
     {tc:'tld',tl:'09:15',tt:'המראה — EK 375 · Airbus A380 · 09:55 → דובאי.'},
     {tc:'tle',tl:'16:50',tt:'נחיתה בן גוריון · Terminal 3. ברוכים השבים! 🌴'},
   ]},
@@ -1737,7 +1741,7 @@ function buildItin() {
             ${[1,2,3,4,5].map(i=>`<span class="star ${(S['star-'+day.n]||0)>=i?'lit':''}" onclick="setRating(${day.n},${i})">⭐</span>`).join('')}
           </div>
           ${S['star-'+day.n]?`<div class="rating-label">${['','😞 גרוע','😐 בסדר','😊 טוב','😄 מצוין','🤩 מדהים!'][S['star-'+day.n]]}</div>`:''}
-          <button class="ddonebtn" onclick="togDD(${day.n})">${done?'✅ הושלם':'○ סמן כהושלם'}</button>
+          <button class="ddonebtn" onclick="togDD(${day.n})">${done?'✅ Done':'○ סמן כDone'}</button>
         </div>
       </div>`;
     }),
@@ -1776,77 +1780,327 @@ function togDD(n){S['dd-'+n]=!S['dd-'+n];saveData();phuketDiv=false;kohDiv=false
 function saveDN(n,v){S['dn-'+n]=v;saveData();}
 
 // ═══ BUDGET ═══
-const BCATS=[
-  {id:'b-fl',em:'✈️',nm:'טיסות Emirates',est:'~13,500 ₪ (~$3,735)',col:'#3b82f6'},
-  {id:'b-int',em:'🏝️',nm:'טיסות פנימיות Bangkok Airways',est:'~1,800 ₪',col:'#14b8a6'},
-  {id:'b-hphuket',em:'🌴',nm:'Katathani Phuket Beach Resort (2 nights)',est:'~1,500 ₪ (~$414 inc. transfer)',col:'#f97316'},
-  {id:'b-hkoh',em:'🏝️',nm:'מלון קוסמוי (5 לילות)',est:'~5,000–6,000 ₪',col:'#22c55e'},
-  {id:'b-hbkk',em:'🏙️',nm:'מלון בנגקוק — Centara Grand (4 לילות)',est:'฿25,945 (~2,700 ₪)',col:'#a855f7'},
-  {id:'b-food',em:'🍜',nm:'אוכל',est:'~2,500 ₪',col:'#f59e0b'},
-  {id:'b-trans',em:'🚗',nm:'תחבורה מקומית',est:'~800 ₪',col:'#64748b'},
-  {id:'b-shop',em:'🛍️',nm:'קניות',est:'~2,000 ₪',col:'#ef4444'},
-  {id:'b-act',em:'⛵',nm:'ספא + אטרקציות',est:'~1,500 ₪',col:'#ec4899'},
-  {id:'b-ins',em:'🛡️',nm:'ביטוח נסיעות',est:'~600 ₪',col:'#8b5cf6'},
-  {id:'b-misc',em:'🎲',nm:'שונות / בלתי צפוי',est:'~800 ₪',col:'#475569'},
+const BUDGET_GROUPS = [
+  { id:'bg-flights', nm:'✈️ Flights', col:'#3b82f6' },
+  { id:'bg-hotels',  nm:'🏨 Hotels',  col:'#22c55e' },
+  { id:'bg-intrip',  nm:'🌴 In Thailand', col:'#f97316' },
+  { id:'bg-pretrip', nm:'🛡️ Pre-Trip', col:'#8b5cf6' },
 ];
+const BCATS=[
+  {id:'b-fl',   em:'✈️', nm:'Emirates Flights',                  est:'~$3,735',    col:'#3b82f6', group:'bg-flights'},
+  {id:'b-int',  em:'🏝️', nm:'Bangkok Airways (internal)',         est:'~$347',      col:'#14b8a6', group:'bg-flights'},
+  {id:'b-hphuket',em:'🌴',nm:'Katathani Phuket (2 nights)',       est:'~$414',      col:'#f97316', group:'bg-hotels'},
+  {id:'b-hkoh', em:'🏝️', nm:'Koh Samui Hotel (5 nights)',         est:'~5,000 ₪',   col:'#22c55e', group:'bg-hotels'},
+  {id:'b-hbkk', em:'🏙️', nm:'Centara Grand Bangkok (4 nights)',   est:'฿25,945',    col:'#a855f7', group:'bg-hotels'},
+  {id:'b-food', em:'🍜', nm:'Food & Restaurants',                  est:'~2,500 ₪',   col:'#f59e0b', group:'bg-intrip'},
+  {id:'b-trans',em:'🚗', nm:'Local Transport (Grab, BTS)',          est:'~800 ₪',     col:'#64748b', group:'bg-intrip'},
+  {id:'b-shop', em:'🛍️', nm:'Shopping',                            est:'~2,000 ₪',   col:'#ef4444', group:'bg-intrip'},
+  {id:'b-act',  em:'⛵', nm:'Activities & Spa',                    est:'~1,500 ₪',   col:'#ec4899', group:'bg-intrip'},
+  {id:'b-misc', em:'🎲', nm:'Miscellaneous / Buffer',              est:'~800 ₪',     col:'#475569', group:'bg-intrip'},
+  {id:'b-ins',  em:'🛡️', nm:'Travel Insurance (PassportCard)',     est:'~600 ₪',     col:'#8b5cf6', group:'bg-pretrip'},
+  {id:'b-sim',  em:'📱', nm:'SIM / eSIM Thailand',                 est:'~100 ₪',     col:'#06b6d4', group:'bg-pretrip'},
+];
+const STATUS_OPTS = ['planned','booked','paid'];
+const STATUS_CFG = {
+  planned: { label:'Planned', color:'var(--textd)',  bg:'var(--bg3)',  emoji:'⬜' },
+  booked:  { label:'Booked',  color:'var(--gold)',   bg:'var(--goldp)',emoji:'🟡' },
+  paid:    { label:'Paid',    color:'var(--green)',  bg:'var(--gp)',   emoji:'🟢' },
+};
+
+function getBudgetGroups() {
+  const custom = JSON.parse(S['custom-groups']||'[]');
+  return [...BUDGET_GROUPS, ...custom];
+}
+function getAllRows() {
+  const customs = getCustomBudget();
+  return [...BCATS.filter(c=>!S['del-b-'+c.id]), ...customs];
+}
+
 function buildBudget(){
-  const customs=getCustomBudget();
-  const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
-  const allRows=[...builtinRows,...customs];
-  const spent=allRows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
-  document.getElementById('budget-rows').innerHTML=`
-    ${allRows.map(c=>{
-      const v=S[c.id]||c.val||''; const pct=v?Math.min(100,parseInt(v)/BUDGET*100):0;
-      const isCustom=!!c.custom;
-      return `<div class="brow">
-        <div class="bem">${c.em}</div>
-        <div class="bname">
-          <input class="bnt-inp" value="${S['bnm-'+c.id]||c.nm}" placeholder="Category name"
-            oninput="S['bnm-'+this.dataset.id]=this.value;saveData()" data-id="${c.id}"
-            style="background:transparent;border:none;border-bottom:1px solid transparent;font-size:14px;font-weight:600;color:var(--text);font-family:inherit;width:100%;outline:none;padding:0;cursor:text"
-            onfocus="this.style.borderBottomColor='var(--border2)'"
-            onblur="this.style.borderBottomColor='transparent'">
-          <input class="best-inp" value="${S['best-'+c.id]||c.est||''}" placeholder="Estimate..."
-            oninput="S['best-'+this.dataset.id]=this.value;saveData()" data-id="${c.id}"
-            style="background:transparent;border:none;border-bottom:1px solid transparent;font-size:11px;color:var(--textd);font-family:inherit;width:100%;outline:none;padding:0;margin-top:2px;cursor:text"
-            onfocus="this.style.borderBottomColor='var(--border2)'"
-            onblur="this.style.borderBottomColor='transparent'">
+  const allRows = getAllRows();
+  const groups  = getBudgetGroups();
+  const container = document.getElementById('budget-rows');
+  if (!container) return;
+
+  // Per-group totals for bar chart
+  const groupTotals = {};
+  groups.forEach(g => { groupTotals[g.id] = 0; });
+  allRows.forEach(c => {
+    const v = parseInt(S[c.id]||c.val||0)||0;
+    const gid = S['grp-'+c.id]||c.group||groups[0].id;
+    if (groupTotals[gid] !== undefined) groupTotals[gid] += v;
+    else groupTotals['other'] = (groupTotals['other']||0) + v;
+  });
+  const totalSpent = allRows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+
+  // Build rows grouped
+  let html = '';
+
+  groups.forEach(g => {
+    const rows = allRows.filter(c => (S['grp-'+c.id]||c.group||groups[0].id) === g.id);
+    if (!rows.length && !S['show-empty-'+g.id]) return; // hide empty groups unless toggled
+
+    const gTotal = rows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+    const gPct = totalSpent ? Math.round(gTotal/totalSpent*100) : 0;
+    const gNm = S['gnm-'+g.id] || g.nm;
+    const gOpen = S['gopen-'+g.id] !== false; // default open
+
+    html += `
+    <div class="bgroup" id="bgrp-${g.id}">
+      <div class="bgroup-hdr" onclick="toggleGroup('${g.id}')">
+        <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
+          <input class="bgroup-name" value="${gNm}" onclick="event.stopPropagation()"
+            oninput="S['gnm-'+'${g.id}']=this.value;saveData()"
+            style="background:transparent;border:none;font-size:13px;font-weight:700;color:var(--text);font-family:inherit;outline:none;cursor:text;padding:0;min-width:0;flex:1"
+            onfocus="this.style.borderBottom='1px solid var(--border2)'"
+            onblur="this.style.borderBottom='none'">
+          <span style="font-size:13px;font-weight:700;color:${g.col};flex-shrink:0">${gTotal.toLocaleString()} ₪</span>
+          <span style="font-size:11px;color:var(--textd);flex-shrink:0">${gPct}%</span>
         </div>
-        <div class="bbar"><div class="bbar-bg"><div class="bbar-f" style="width:${pct}%;background:${c.col}"></div></div></div>
-        <input class="binp" type="number" placeholder="0 ₪" value="${v}"
-          oninput="updBudget('${c.id}',this.value)"
-          id="binp-${c.id}"
-          ${S['lock-'+c.id]?'disabled style="opacity:.5"':''}>
-        <button onclick="toggleBudgetLock('${c.id}')" title="${S['lock-'+c.id]?'Unlock to edit':'Lock price'}"
-          style="background:none;border:none;cursor:pointer;font-size:16px;padding:0 4px;color:var(--textd);flex-shrink:0">
-          ${S['lock-'+c.id]?'🔒':'🔓'}
-        </button>
-        <div class="del-btn" onclick="delBudgetRow('${c.id}',${isCustom})" title="Delete">×</div>
-      </div>`;
-    }).join('')}
-    <div class="add-item-row" style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)">
-      <input class="add-item-inp" id="b-add-name" placeholder="+ הוסף קטגוריה..." onkeydown="if(event.key==='Enter')addBudgetRow()">
-      <button class="add-item-btn" onclick="addBudgetRow()">+</button>
-    </div>
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0 4px;border-top:2px solid var(--border2);margin-top:4px">
-      <div style="display:flex;align-items:center;gap:8px">
-        <div style="font-size:18px">💰</div>
-        <div>
-          <div style="font-size:14px;font-weight:700">סה"כ שולם</div>
-          <div style="font-size:11px;color:var(--textd)">מתוך תקציב 27,000 ₪</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onclick="event.stopPropagation();addRowToGroup('${g.id}')" title="Add item to group"
+            style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:2px 10px;font-size:12px;color:var(--textm);cursor:pointer">+</button>
+          <span style="font-size:12px;color:var(--textd)">${gOpen?'▲':'▼'}</span>
         </div>
       </div>
-      <div style="text-align:left">
-        <div style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:900" id="b-total-line">0 ₪</div>
-        <div style="font-size:11px;color:var(--textd)" id="b-total-pct">0% מהתקציב</div>
+      <!-- Group bar -->
+      <div style="height:4px;background:var(--border);border-radius:2px;margin:0 0 0">
+        <div style="height:4px;background:${g.col};border-radius:2px;width:${Math.min(100,totalSpent?gTotal/BUDGET*100:0)}%;transition:width .4s"></div>
+      </div>
+      <div class="bgroup-body" ${gOpen?'':'style="display:none"'}>
+        ${rows.map(c => renderBudgetRow(c, groups)).join('')}
       </div>
     </div>`;
+  });
+
+  // Ungrouped rows
+  const ungrouped = allRows.filter(c => {
+    const gid = S['grp-'+c.id]||c.group||groups[0].id;
+    return !groups.find(g=>g.id===gid);
+  });
+  if (ungrouped.length) {
+    html += `<div style="margin-top:8px"><div class="bgroup-hdr" style="background:var(--bg3)">Other</div>
+      ${ungrouped.map(c=>renderBudgetRow(c,groups)).join('')}</div>`;
+  }
+
+  // Add group + add row buttons
+  html += `
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--border)">
+    <button class="btn btn-g" onclick="addBudgetGroup()">+ Add Group</button>
+    <button class="btn btn-o" onclick="addBudgetRow()">+ Add Item</button>
+  </div>`;
+
+  // Total bar
+  const pct = Math.round(totalSpent/BUDGET*100);
+  const left = BUDGET - totalSpent;
+  html += `
+  <div style="margin-top:16px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r)">
+    <div style="display:flex;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+      <div style="text-align:center;flex:1">
+        <div style="font-size:11px;color:var(--textd);margin-bottom:3px">BUDGET</div>
+        <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:900;color:var(--blue)">${BUDGET.toLocaleString()} ₪</div>
+      </div>
+      <div style="text-align:center;flex:1">
+        <div style="font-size:11px;color:var(--textd);margin-bottom:3px">COMMITTED</div>
+        <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:900;color:var(--gold)">${totalSpent.toLocaleString()} ₪</div>
+      </div>
+      <div style="text-align:center;flex:1">
+        <div style="font-size:11px;color:var(--textd);margin-bottom:3px">REMAINING</div>
+        <div style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:900;color:${left<0?'var(--red)':'var(--green)'}">${left<0?'-':''}${Math.abs(left).toLocaleString()} ₪</div>
+      </div>
+    </div>
+    <div style="height:10px;background:var(--border);border-radius:5px;overflow:hidden">
+      <div style="height:10px;background:${left<0?'var(--red)':pct>85?'var(--gold)':'var(--green)'};border-radius:5px;width:${Math.min(100,pct)}%;transition:width .4s"></div>
+    </div>
+    <div style="font-size:11px;color:var(--textd);margin-top:6px;text-align:center">${pct}% of budget allocated</div>
+  </div>`;
+
+  container.innerHTML = html;
   calcBudget();
-  setTimeout(buildPieChart,50);
+  setTimeout(buildBudget2, 50);
+}
+
+function renderBudgetRow(c, groups) {
+  const v      = parseInt(S[c.id]||c.val||0)||0;
+  const pct    = v ? Math.min(100, v/BUDGET*100) : 0;
+  const isCustom = !!c.custom;
+  const nm     = S['bnm-'+c.id]||c.nm;
+  const locked = S['lock-'+c.id];
+  const note   = S['note-'+c.id]||'';
+  const status = S['st-'+c.id]||'booked'; // only matters when locked
+  const open   = S['bopen-'+c.id];
+  const gid    = S['grp-'+c.id]||c.group||groups[0]?.id||'';
+
+  // Status only shown when locked
+  const statusBtn = locked ? (status==='paid'
+    ? `<button onclick="cycleStatus('${c.id}')" style="background:var(--gp);border:1px solid var(--green);border-radius:100px;padding:1px 8px;font-size:11px;color:var(--green);cursor:pointer;white-space:nowrap;flex-shrink:0">🟢 Paid</button>`
+    : `<button onclick="cycleStatus('${c.id}')" style="background:var(--goldp);border:1px solid var(--gold);border-radius:100px;padding:1px 8px;font-size:11px;color:var(--gold);cursor:pointer;white-space:nowrap;flex-shrink:0">🟡 Booked</button>`)
+    : '';
+
+  return `<div class="brow" style="flex-direction:column;padding:10px 0;gap:0;border-bottom:1px solid var(--border)">
+
+    <!-- MAIN ROW -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%">
+      <!-- Title + emoji: far right -->
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:1;min-width:0;overflow:hidden">
+        <div class="bem" style="flex-shrink:0">${c.em}</div>
+        <span style="font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;direction:rtl">${S['bnm-'+c.id]||c.nm}</span>
+      </div>
+      <!-- Controls: far left -->
+      <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+        ${statusBtn}
+        <input class="binp" type="number" placeholder="0" value="${v||''}"
+          oninput="updBudget('${c.id}',this.value)"
+          ${locked?'disabled':''} style="${locked?'opacity:.55;':''}">
+        <select class="bcur-sel" id="bcur-${c.id}"
+          onchange="S['bcur-'+'${c.id}']=this.value;saveData()" title="Currency">
+          <option value="ils" ${!S['bcur-'+c.id]||S['bcur-'+c.id]==='ils'?'selected':''}>₪</option>
+          <option value="usd" ${S['bcur-'+c.id]==='usd'?'selected':''}>$</option>
+          <option value="thb" ${S['bcur-'+c.id]==='thb'?'selected':''}>฿</option>
+          <option value="eur" ${S['bcur-'+c.id]==='eur'?'selected':''}>€</option>
+        </select>
+        <button onclick="toggleBudgetLock('${c.id}')" title="${locked?'Unlock':'Lock to commit'}"
+          style="background:none;border:none;cursor:pointer;font-size:17px;padding:0;line-height:1">${locked?'🔒':'🔓'}</button>
+        <button onclick="S['bopen-'+'${c.id}']=!${open};saveData();buildBudget()" title="Details"
+          style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--textd);padding:0">${open?'▲':'⋯'}</button>
+      </div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div style="height:2px;background:var(--border);border-radius:2px;margin:6px 26px 0 26px">
+      <div style="height:2px;background:${locked?'var(--green)':'var(--border2)'};border-radius:2px;width:${pct}%;transition:width .4s"></div>
+    </div>
+
+    <!-- EXPANDED PANEL -->
+    ${open?`<div style="margin:10px 0 4px 26px;display:flex;flex-direction:column;gap:8px">
+      <input value="${note}" placeholder="📝 Note (booking ref, details...)"
+        oninput="S['note-'+'${c.id}']=this.value;saveData()"
+        style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:6px 10px;font-size:12px;color:var(--textm);font-family:inherit;width:100%;outline:none">
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <span style="font-size:11px;color:var(--textd);flex-shrink:0">💱 Foreign amount:</span>
+        <input type="number" placeholder="e.g. 387" value="${S['bfx-'+c.id]||''}"
+          oninput="S['bfx-'+'${c.id}']=this.value;convertToBudget('${c.id}',S['bcur-${c.id}']||'ils',this.value)"
+          style="width:90px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:4px 8px;font-size:12px;color:var(--text);outline:none">
+        <span style="font-size:11px;color:var(--textd)">${S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?'→ auto-converts to ₪ using live rates':''}</span>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <span style="font-size:11px;color:var(--textd);flex-shrink:0">📂 Group:</span>
+        <select onchange="S['grp-'+'${c.id}']=this.value;saveData();buildBudget()"
+          style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:4px 6px;font-size:12px;color:var(--text);outline:none">
+          ${groups.map(g=>`<option value="${g.id}" ${gid===g.id?'selected':''}>${S['gnm-'+g.id]||g.nm}</option>`).join('')}
+        </select>
+        <button onclick="delBudgetRow('${c.id}',${isCustom})"
+          style="background:var(--redp);border:1px solid rgba(239,68,68,.3);border-radius:var(--rsm);padding:4px 10px;font-size:12px;color:var(--red);cursor:pointer">🗑️ Delete</button>
+      </div>
+    </div>`:''}
+  </div>`;
+}
+
+// Horizontal bar chart (replaces pie)
+function buildBudget2() {
+  const el = document.getElementById('pie-card');
+  if (!el) return;
+  const groups = getBudgetGroups();
+  const allRows = getAllRows();
+  const total = allRows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+
+  let bars = groups.map(g => {
+    const gTotal = allRows.filter(c=>(S['grp-'+c.id]||c.group||groups[0].id)===g.id)
+                          .reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+    return { nm: S['gnm-'+g.id]||g.nm, val: gTotal, col: g.col };
+  }).filter(b=>b.val>0);
+
+  if (!bars.length) { el.innerHTML='<div class="ct">📊 Budget Breakdown</div><div style="font-size:13px;color:var(--textd);padding:8px">Enter amounts to see breakdown.</div>'; return; }
+
+  el.innerHTML = `<div class="ct">📊 Budget Breakdown</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+      ${bars.map(b=>{
+        const pct = total ? Math.round(b.val/total*100) : 0;
+        return `<div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--textm);margin-bottom:4px">
+            <span>${b.nm}</span>
+            <span style="font-weight:700;color:var(--text)">${b.val.toLocaleString()} ₪ <span style="color:var(--textd);font-weight:400">(${pct}%)</span></span>
+          </div>
+          <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+            <div style="height:8px;background:${b.col};border-radius:4px;width:${pct}%;transition:width .5s"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function cycleStatus(id) {
+  const cur = S['st-'+id]||'planned';
+  const idx = STATUS_OPTS.indexOf(cur);
+  S['st-'+id] = STATUS_OPTS[(idx+1)%STATUS_OPTS.length];
+  saveData();
+  buildBudget();
+}
+function convertToBudget(id, currency, amount) {
+  S['bcur-'+id] = currency;
+  S['bfx-'+id] = amount;
+  saveData();
+  const amt = parseFloat(amount)||0;
+  if (!amt) return;
+  const r = getCurrencyRates();
+  const inThb = amt * r[currency];
+  const ils = Math.round(inThb / r['ils']);
+  S[id] = ils;
+  const inp = document.getElementById('binp-'+id);
+  if (inp) inp.value = ils;
+  saveData();
+  calcBudget();
+}
+function toggleGroup(id) {
+  S['gopen-'+id] = S['gopen-'+id]===false ? true : false;
+  saveData();
+  buildBudget();
+}
+function addBudgetGroup() {
+  const nm = prompt('Group name (e.g. "🎭 Activities"):');
+  if (!nm) return;
+  const customs = JSON.parse(S['custom-groups']||'[]');
+  const id = 'bg-custom-'+Date.now();
+  customs.push({ id, nm, col:'#'+Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0') });
+  S['custom-groups'] = JSON.stringify(customs);
+  saveData();
+  buildBudget();
+}
+function deleteGroup(id) {
+  if (!confirm('Delete this group? Rows will move to the first group.')) return;
+  // Remove from custom groups
+  const customs = JSON.parse(S['custom-groups']||'[]').filter(g=>g.id!==id);
+  S['custom-groups'] = JSON.stringify(customs);
+  // Reassign rows in this group to first default group
+  getAllRows().forEach(c => {
+    if ((S['grp-'+c.id]||c.group) === id) S['grp-'+c.id] = BUDGET_GROUPS[0].id;
+  });
+  saveData();
+  buildBudget();
+}
+function addRowToGroup(gid) {
+  const id = 'bc-'+Date.now();
+  const customs = JSON.parse(S['custom-budget']||'[]');
+  customs.push({id, em:'💰', nm:'New item', col:'#64748b', custom:true});
+  S['custom-budget'] = JSON.stringify(customs);
+  S['grp-'+id] = gid;
+  saveData();
+  buildBudget();
 }
 function updBudget(id,v){S[id]=v;saveData();calcBudget();}
 function toggleBudgetLock(id){
-  S['lock-'+id] = !S['lock-'+id];
+  const nowLocked = !S['lock-'+id];
+  S['lock-'+id] = nowLocked;
+  // When locking, default to 'booked' if no status set
+  if (nowLocked && !S['st-'+id]) S['st-'+id] = 'booked';
+  // When unlocking, clear status (back to estimate/planned)
+  if (!nowLocked) delete S['st-'+id];
+  saveData();
+  buildBudget();
+}
+function cycleStatus(id){
+  // Only toggles between booked and paid (only visible when locked)
+  S['st-'+id] = S['st-'+id]==='paid' ? 'booked' : 'paid';
   saveData();
   buildBudget();
 }
@@ -1988,7 +2242,7 @@ function buildPack(){
           <div class="del-btn" onclick="event.stopPropagation();delPack(${ci},'${it.id}',true)">×</div>
         </div>`).join('')}
       <div class="add-item-row">
-        <input class="add-item-inp" id="pack-add-${ci}" placeholder="+ הוסף פריט..." onkeydown="if(event.key==='Enter')addPack(${ci})">
+        <input class="add-item-inp" id="pack-add-${ci}" placeholder="+ Add item..." onkeydown="if(event.key==='Enter')addPack(${ci})">
         <button class="add-item-btn" onclick="addPack(${ci})">+</button>
       </div>
     </div>`;
@@ -2621,233 +2875,8 @@ function buildToday() {
     </div>
 
     <div class="card">
-      <div class="ct">🌤️ Weather Today</div>
+      <div class="ct">🌤️ מזג אוויר Today</div>
       <div class="wrow" style="grid-template-columns:1fr ${todayDay.city==='phuket'?'':todayDay.city==='koh'?'':''}">
         ${todayDay.city==='phuket'?'<div class="wcard"><div class="wcity">🌴 Phuket</div><div id="today-weather">'+document.getElementById('w-phuket')?.innerHTML+'</div></div>':''}
         ${todayDay.city==='koh'?'<div class="wcard"><div class="wcity">🏝️ Koh Samui</div><div id="today-weather">'+document.getElementById('w-samui')?.innerHTML+'</div></div>':''}
-        ${todayDay.city==='bkk'?'<div class="wcard"><div class="wcity">🏙️ Bangkok</div><div id="today-weather">'+document.getElementById('w-bangkok')?.innerHTML+'</div></div>':''}
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="ct">🚗 Quick Links — Today</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        ${todayDay.city==='phuket'?`
-          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Phuket+Old+Town" target="_blank">🗺️ Old Town</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Big+Buddha+Phuket" target="_blank">🗺️ Big Buddha</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Cape+Promthep+Phuket" target="_blank">🌅 Promthep</a>
-        `:''}
-        ${todayDay.city==='koh'?`
-          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Fisherman+Village+Bophut+Koh+Samui" target="_blank">🗺️ Fisherman's Village</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Big+Buddha+Koh+Samui" target="_blank">🗺️ Big Buddha</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Ang+Thong+Marine+Park" target="_blank">⛵ Ang Thong</a>
-        `:''}
-        ${todayDay.city==='bkk'?`
-          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Grand+Palace+Bangkok" target="_blank">🗺️ Grand Palace</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Chatuchak+Market+Bangkok" target="_blank">🛒 Chatuchak</a>
-          <a class="btn btn-o" href="https://maps.google.com/?q=Siam+Paragon+Bangkok" target="_blank">🛍️ Siam Paragon</a>
-        `:''}
-        <a class="btn btn-o" href="tel:1669">🚑 Emergency 1669</a>
-      </div>
-    </div>`;
-}
-
-// ═══ INIT ═══
-async function init(){
-  // URL is hardcoded — no setup needed on any device
-  localStorage.setItem('th2026-shurl', shUrl);
-  document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';
-  setSyncStatus('saving','מתחבר...');
-
-  // Load local first for instant render
-  loadLocalData();
-  buildTodo(); buildItin(); buildBudget(); buildPack(); buildRem(); buildFlights();
-  updateCountdown(); fetchWeather(); fetchRates(); fetchExtraRates(); updateProgress();
-  setTimeout(applyState, 80);
-
-  // Then load from Sheets and re-render if connected
-  if(shUrl){
-    const loaded = await loadFromSheets();
-    if(loaded) setTimeout(applyState, 100);
-  }
-
-  // countdown every second, weather every 10min
-  setInterval(updateCountdown, 1000);
-  buildCustomHotels('phuket');
-  buildCustomHotels('koh');
-  buildCustomHotels('bkk');
-  buildPieChart();
-  initNotifications();
-  initTheme();
-  registerSW();
-  buildToday();
-  quickConv();
-}
-document.addEventListener('DOMContentLoaded',init);
-// ═══ THEME TOGGLE ═══
-function toggleTheme(){
-  const isLight=document.body.classList.toggle('light');
-  document.getElementById('theme-btn').textContent=isLight?'☀️':'🌙';
-  localStorage.setItem('th2026-theme', isLight?'light':'dark');
-}
-function initTheme(){
-  const t=localStorage.getItem('th2026-theme');
-  if(t==='light'){document.body.classList.add('light');document.getElementById('theme-btn').textContent='☀️';}
-}
-
-// ═══ SEARCH ═══
-const SEARCH_INDEX=[
-  ...TODOS.flatMap(cat=>cat.items.map(i=>({section:'✅ משימות',text:i.tx+' '+i.sb,nav:'todo'}))),
-  ...ITIN.map(d=>({section:'📅 לו"ז',text:d.title+' '+d.date+' '+d.blks.map(b=>b.tt).join(' '),nav:'itinerary'})),
-  {section:'🏨 מלונות',text:'NH Collection Samui Peace Resort Bophut pool villa beachfront',nav:'hotels'},
-  {section:'🏨 מלונות',text:'Bandara Spa Resort Pool Villas Samui Kids Club',nav:'hotels'},
-  {section:'🏨 מלונות',text:'Katathani Phuket Beach Resort Kata Beach SHA Extra Plus',nav:'hotels'},
-  {section:'🏨 מלונות',text:'Centara Grand CentralWorld Bangkok Deluxe Hollywood',nav:'hotels'},
-  {section:'✈️ טיסות',text:`Emirates ${FLIGHTS.outbound.legs.map(l=>l.flight).join(' ')} ${FLIGHTS.return.legs.map(l=>l.flight).join(' ')} Abu Dhabi Bangkok TLV BKK`,nav:'flights'},
-  {section:'💰 תקציב',text:'תקציב הוצאות כסף שקל',nav:'budget'},
-  {section:'💱 המרה',text:'המרה שקל דולר באט THB ILS USD',nav:'currency'},
-  {section:'🚗 תחבורה',text:'Grab BTS מוניות שיט סים SIM',nav:'transport'},
-  {section:'👶 תינוקת',text:'תינוקת בסינט טיסה בריכה שמש יתושים',nav:'baby'},
-  {section:'📞 חירום',text:'שגרירות חירום אמבולנס PassportCard Emirates',nav:'emergency'},
-];
-function openSearch(){document.getElementById('search-overlay').classList.add('show');setTimeout(()=>document.getElementById('search-inp').focus(),100);}
-function closeSearch(){document.getElementById('search-overlay').classList.remove('show');document.getElementById('search-inp').value='';document.getElementById('search-results').innerHTML='<div class="sr-empty">התחל להקליד לחיפוש...</div>';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch();if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}});
-function doSearch(q){
-  const res=document.getElementById('search-results');
-  if(!q.trim()){res.innerHTML='<div class="sr-empty">התחל להקליד...</div>';return;}
-  const ql=q.toLowerCase();
-  const hits=SEARCH_INDEX.filter(i=>i.text.toLowerCase().includes(ql)).slice(0,12);
-  // also search custom todos and days
-  TODOS.forEach(cat=>cat.items.forEach(i=>{if(i.tx.toLowerCase().includes(ql))hits.push({section:'✅ משימות',text:i.tx,nav:'todo'});}));
-  getCustomDays().forEach(d=>{if(d.title.toLowerCase().includes(ql))hits.push({section:'📅 לו"ז',text:d.title,nav:'itinerary'});});
-  if(!hits.length){res.innerHTML='<div class="sr-empty">לא נמצאו תוצאות עבור "'+q+'"</div>';return;}
-  const seen=new Set();
-  res.innerHTML=hits.filter(h=>{const k=h.section+h.text;if(seen.has(k))return false;seen.add(k);return true;}).map(h=>{
-    const highlighted=h.text.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="sr-match">$1</span>');
-    return `<div class="sr-item" onclick="closeSearch();showSec('${h.nav}',document.querySelector('.nb:not(.active)'));document.querySelectorAll('.nb').forEach(b=>{b.classList.toggle('active',b.getAttribute('onclick')&&b.getAttribute('onclick').includes('${h.nav}'))})">
-      <span class="sr-section">${h.section}</span>
-      <div class="sr-text">${highlighted.slice(0,120)}${h.text.length>120?'...':''}</div>
-    </div>`;
-  }).join('');
-}
-
-// ═══ STAR RATING ═══
-function setRating(dayNum, stars){
-  S['star-'+dayNum]=stars;
-  saveData();
-  // rebuild just this day's stars inline
-  const starsEl=document.getElementById('stars-'+dayNum);
-  if(starsEl){
-    starsEl.querySelectorAll('.star').forEach((s,i)=>{s.classList.toggle('lit',i<stars);});
-    const labels=['','😞 גרוע','😐 בסדר','😊 טוב','😄 מצוין','🤩 מדהים!'];
-    const next=starsEl.nextElementSibling;
-    if(next&&next.classList.contains('rating-label'))next.textContent=labels[stars];
-    else{const d=document.createElement('div');d.className='rating-label';d.textContent=labels[stars];starsEl.after(d);}
-  }
-}
-
-// ═══ PIE CHART ═══
-function buildPieChart(){
-  const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
-  const customs=getCustomBudget();
-  const allRows=[...builtinRows,...customs];
-  const data=allRows.map(c=>({label:c.nm,val:parseInt(S[c.id]||c.val||0)||0,col:c.col||'#64748b'})).filter(d=>d.val>0);
-  const total=data.reduce((s,d)=>s+d.val,0);
-  const svg=document.getElementById('pie-svg');
-  const legend=document.getElementById('pie-legend');
-  if(!svg||!legend)return;
-  if(!total||!data.length){svg.innerHTML='<text x="80" y="85" text-anchor="middle" fill="#7a8a9e" font-size="12">אין נתונים</text>';legend.innerHTML='';return;}
-  const cx=80,cy=80,r=70;
-  let startAngle=-Math.PI/2;
-  let paths='';
-  data.forEach(d=>{
-    const slice=(d.val/total)*Math.PI*2;
-    const endAngle=startAngle+slice;
-    const x1=cx+r*Math.cos(startAngle),y1=cy+r*Math.sin(startAngle);
-    const x2=cx+r*Math.cos(endAngle),y2=cy+r*Math.sin(endAngle);
-    const large=slice>Math.PI?1:0;
-    paths+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} Z" fill="${d.col}" opacity=".85" stroke="var(--bg)" stroke-width="2"><title>${d.label}: ${d.val.toLocaleString()} ₪</title></path>`;
-    startAngle=endAngle;
-  });
-  svg.innerHTML=paths+`<circle cx="${cx}" cy="${cy}" r="28" fill="var(--bg2)"/><text x="${cx}" y="${cy-4}" text-anchor="middle" fill="var(--textm)" font-size="10" font-family="Rubik">סה"כ</text><text x="${cx}" y="${cy+10}" text-anchor="middle" fill="var(--green)" font-size="11" font-family="Rubik" font-weight="700">${total.toLocaleString()}</text>`;
-  legend.innerHTML=data.map(d=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${d.col}"></div><div>${d.label}: <strong>${d.val.toLocaleString()} ₪</strong> (${Math.round(d.val/total*100)}%)</div></div>`).join('');
-}
-
-// ═══ NOTIFICATIONS ═══
-const NOTIF_EVENTS=[
-  {id:'n-checkin',icon:'✈️',title:'Emirates Check-in!',body:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} - time to select seats and request Bassinet`,date:new Date(FLIGHTS.checkin.opensDateTime)},
-  {id:'n-tdac',icon:'📄',title:'TDAC - fill entry form',body:'Fill the online form before entering Thailand',date:new Date('2026-05-16T09:00:00')},
-  {id:'n-flight',icon:'🛫',title:'Flight day! TLV → Phuket',body:`EK 2471 departs ${FLIGHTS.outbound.legs[0].depTime}. Leave for airport by 17:00`,date:new Date('2026-05-19T15:00:00')},
-  {id:'n-phuket',icon:'🌴',title:'Welcome to Phuket!',body:'Landing HKT 12:15 Terminal D. Enjoy! 🏝️',date:new Date('2026-05-20T12:00:00')},
-  {id:'n-samui',icon:'🏝️',title:'Flying to Koh Samui today',body:'PG 406 departs 13:45 from HKT Terminal D',date:new Date('2026-05-25T12:00:00')},
-  {id:'n-bangkok',icon:'🏙️',title:'Flying to Bangkok today',body:'PG 122 departs 13:50 from USM',date:new Date('2026-05-31T12:00:00')},
-  {id:'n-return',icon:'🛬',title:'Flying home! BKK → TLV',body:`EK 375 departs 09:55. Be at airport by 07:00`,date:new Date('2026-06-04T07:00:00')},
-];
-async function requestNotifPermission(){
-  if(!('Notification' in window)){alert('הדפדפן שלך לא תומך בהתראות');return;}
-  const perm=await Notification.requestPermission();
-  updateNotifUI(perm);
-  if(perm==='granted'){S['notif-enabled']=true;saveData();buildNotifList();}
-}
-function updateNotifUI(perm){
-  const status=document.getElementById('notif-status');
-  const btn=document.getElementById('notif-req-btn');
-  const settings=document.getElementById('notif-settings');
-  if(perm==='granted'){status.textContent='✅ התראות מופעלות';btn.style.display='none';if(settings)settings.style.display='block';}
-  else if(perm==='denied'){status.textContent='❌ התראות חסומות — אפשר בהגדרות הדפדפן';btn.style.display='none';}
-  else{status.textContent='';}
-}
-function buildNotifList(){
-  const list=document.getElementById('notif-list');
-  if(!list)return;
-  list.innerHTML=NOTIF_EVENTS.map(ev=>{
-    const enabled=S[ev.id]!==false;
-    const isPast=ev.date<new Date();
-    return `<div class="notif-item">
-      <div class="ni-icon">${ev.icon}</div>
-      <div class="ni-text"><strong>${ev.title}</strong><br>${ev.date.toLocaleString('he-IL',{dateStyle:'medium',timeStyle:'short'})}</div>
-      <label class="toggle-sw" title="${isPast?'כבר עבר':''}">
-        <input type="checkbox" ${enabled&&!isPast?'checked':''} ${isPast?'disabled':''} onchange="toggleNotif('${ev.id}',this.checked)">
-        <span class="toggle-slider"></span>
-      </label>
-    </div>`;
-  }).join('');
-}
-function toggleNotif(id,on){S[id]=on;saveData();if(on)scheduleNotif(NOTIF_EVENTS.find(e=>e.id===id));}
-function scheduleNotif(ev){
-  if(!ev||Notification.permission!=='granted')return;
-  const delay=ev.date-new Date();
-  if(delay<=0)return;
-  setTimeout(()=>{new Notification(ev.title,{body:ev.body,icon:'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/72x72/1f334.png'});},delay);
-}
-function scheduleAllNotifs(){
-  if(Notification.permission!=='granted'){alert('אפשר קודם התראות למעלה');return;}
-  NOTIF_EVENTS.forEach(ev=>{S[ev.id]=true;scheduleNotif(ev);});
-  saveData();buildNotifList();
-  alert('✅ כל ההתראות תוזמנו!');
-}
-function initNotifications(){
-  if('Notification' in window)updateNotifUI(Notification.permission);
-  if(S['notif-enabled'])buildNotifList();
-}
-
-// ═══ OFFLINE SERVICE WORKER ═══
-function registerSW(){
-  if(!('serviceWorker' in navigator))return;
-  const swCode=`
-const CACHE='thailand2026-v1';
-const ASSETS=['/'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
-self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const clone=res.clone();caches.open(CACHE).then(c=>c.put(e.request,clone));return res;}))));
-`;
-  const blob=new Blob([swCode],{type:'application/javascript'});
-  const url=URL.createObjectURL(blob);
-  navigator.serviceWorker.register(url).catch(()=>{});
-}
-</script>
-</body>
-</html>
+        ${todayDay.city==='bkk'?'<div class="wcard"><div class="wcity">🏙️ Bangkok</div><div id="today-w
