@@ -2090,10 +2090,10 @@ function deleteGroup(id) {
   buildBudget();
 }
 function addRowToGroup(gid) {
-  const id = 'bc-'+Date.now();
-  const customs = JSON.parse(S['custom-budget']||'[]');
-  customs.push({id, em:'💰', nm:'New item', col:'#64748b', custom:true});
-  S['custom-budget'] = JSON.stringify(customs);
+  const id = 'b-'+Date.now();
+  const arr = JSON.parse(S['budget-custom']||'[]');
+  arr.push({id, em:'💰', nm:'New item', col:'#64748b', custom:true});
+  S['budget-custom'] = JSON.stringify(arr);
   S['grp-'+id] = gid;
   saveData();
   buildBudget();
@@ -2297,14 +2297,21 @@ function buildCustomHotels(dest){
 }
 
 // ═══ BUDGET ADD/EDIT/DELETE ═══
-function getCustomBudget(){ return S['budget-custom'] ? JSON.parse(S['budget-custom']) : []; }
+function getCustomBudget(){ 
+  // support both keys for backwards compatibility
+  const a = S['budget-custom'] ? JSON.parse(S['budget-custom']) : [];
+  const b = S['custom-budget'] ? JSON.parse(S['custom-budget']) : [];
+  return [...a, ...b];
+}
 function saveCustomBudget(arr){ S['budget-custom']=JSON.stringify(arr); saveData(); }
 function addBudgetRow(){
-  const n=document.getElementById('b-add-name').value.trim();
-  if(!n)return;
-  const arr=getCustomBudget();
-  arr.push({id:'b-'+Date.now(),em:'💸',nm:n,col:'#64748b',val:''});
-  saveCustomBudget(arr); document.getElementById('b-add-name').value='';
+  const id = 'b-'+Date.now();
+  const arr = JSON.parse(S['budget-custom']||'[]');
+  arr.push({id, em:'💸', nm:'New item', col:'#64748b', val:'', custom:true});
+  S['budget-custom'] = JSON.stringify(arr);
+  // assign to first group by default
+  S['grp-'+id] = getBudgetGroups()[0]?.id || 'bg-flights';
+  saveData();
   buildBudget();
 }
 function delBudgetRow(id,isCustom){
