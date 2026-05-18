@@ -1944,7 +1944,12 @@ function renderBudgetRow(c, groups) {
       <!-- Title + emoji: far right -->
       <div style="display:flex;align-items:center;gap:6px;flex-shrink:1;min-width:0;overflow:hidden">
         <div class="bem" style="flex-shrink:0">${c.em}</div>
-        <span style="font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;direction:rtl">${S['bnm-'+c.id]||c.nm}</span>
+        <input value="${S['bnm-'+c.id]||c.nm}" placeholder="Name"
+          oninput="S['bnm-'+'${c.id}']=this.value;saveData()"
+          title="${S['bnm-'+c.id]||c.nm}"
+          style="background:transparent;border:none;border-bottom:1px solid transparent;font-size:14px;font-weight:600;color:var(--text);font-family:inherit;outline:none;padding:0;cursor:text;white-space:nowrap;min-width:0;width:100%"
+          onfocus="this.style.borderBottomColor='var(--border2)'"
+          onblur="this.style.borderBottomColor='transparent'">
       </div>
       <!-- Controls: far left -->
       <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
