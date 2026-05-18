@@ -1838,7 +1838,7 @@ function buildBudget(){
 
   groups.forEach(g => {
     const rows = allRows.filter(c => (S['grp-'+c.id]||c.group||groups[0].id) === g.id);
-    if (!rows.length && !S['show-empty-'+g.id]) return; // hide empty groups unless toggled
+    // Always show group (even if empty) so newly added groups are visible
 
     const gTotal = rows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
     const gPct = totalSpent ? Math.round(gTotal/totalSpent*100) : 0;
@@ -1979,7 +1979,7 @@ function renderBudgetRow(c, groups) {
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
         <span style="font-size:11px;color:var(--textd);flex-shrink:0">💱 Foreign amount:</span>
         <input type="number" placeholder="e.g. 387" value="${S['bfx-'+c.id]||''}"
-          oninput="S['bfx-'+'${c.id}']=this.value;convertToBudget('${c.id}',S['bcur-${c.id}']||'ils',this.value)"
+        oninput="S['bfx-'+'${c.id}']=this.value;convertToBudget('${c.id}',document.getElementById('bcur-${c.id}').value,this.value)"
           style="width:90px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:4px 8px;font-size:12px;color:var(--text);outline:none">
         <span style="font-size:11px;color:var(--textd)">${S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?'→ auto-converts to ₪ using live rates':''}</span>
       </div>
@@ -2039,17 +2039,23 @@ function cycleStatus(id) {
 function convertToBudget(id, currency, amount) {
   S['bcur-'+id] = currency;
   S['bfx-'+id] = amount;
-  saveData();
   const amt = parseFloat(amount)||0;
-  if (!amt) return;
-  const r = getCurrencyRates();
-  const inThb = amt * r[currency];
-  const ils = Math.round(inThb / r['ils']);
-  S[id] = ils;
-  const inp = document.getElementById('binp-'+id);
+  if (!amt) { saveData(); calcBudget(); return; }
+  let ils;
+  if (currency === 'ils') {
+    ils = Math.round(amt);
+  } else {
+    const r = getCurrencyRates();
+    // r[currency] = THB per unit of that currency, r['ils'] = THB per ILS
+    const inThb = amt * r[currency];
+    ils = Math.round(inThb / r['ils']);
+  }
+  S[id] = String(ils);
+  // Update the ₪ input field visually
+  const inp = document.querySelector(`input.binp[oninput*="'${id}'"]`);
   if (inp) inp.value = ils;
   saveData();
-  calcBudget();
+  buildBudget(); // full rebuild so group totals update
 }
 function toggleGroup(id) {
   S['gopen-'+id] = S['gopen-'+id]===false ? true : false;
@@ -2879,4 +2885,229 @@ function buildToday() {
       <div class="wrow" style="grid-template-columns:1fr ${todayDay.city==='phuket'?'':todayDay.city==='koh'?'':''}">
         ${todayDay.city==='phuket'?'<div class="wcard"><div class="wcity">🌴 Phuket</div><div id="today-weather">'+document.getElementById('w-phuket')?.innerHTML+'</div></div>':''}
         ${todayDay.city==='koh'?'<div class="wcard"><div class="wcity">🏝️ Koh Samui</div><div id="today-weather">'+document.getElementById('w-samui')?.innerHTML+'</div></div>':''}
-        ${todayDay.city==='bkk'?'<div class="wcard"><div class="wcity">🏙️ Bangkok</div><div id="today-w
+        ${todayDay.city==='bkk'?'<div class="wcard"><div class="wcity">🏙️ Bangkok</div><div id="today-weather">'+document.getElementById('w-bangkok')?.innerHTML+'</div></div>':''}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ct">🚗 Quick Links — Today</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${todayDay.city==='phuket'?`
+          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Phuket+Old+Town" target="_blank">🗺️ Old Town</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Big+Buddha+Phuket" target="_blank">🗺️ Big Buddha</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Cape+Promthep+Phuket" target="_blank">🌅 Promthep</a>
+        `:''}
+        ${todayDay.city==='koh'?`
+          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Fisherman+Village+Bophut+Koh+Samui" target="_blank">🗺️ Fisherman's Village</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Big+Buddha+Koh+Samui" target="_blank">🗺️ Big Buddha</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Ang+Thong+Marine+Park" target="_blank">⛵ Ang Thong</a>
+        `:''}
+        ${todayDay.city==='bkk'?`
+          <a class="btn btn-o" href="https://grab.com" target="_blank">📱 Open Grab</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Grand+Palace+Bangkok" target="_blank">🗺️ Grand Palace</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Chatuchak+Market+Bangkok" target="_blank">🛒 Chatuchak</a>
+          <a class="btn btn-o" href="https://maps.google.com/?q=Siam+Paragon+Bangkok" target="_blank">🛍️ Siam Paragon</a>
+        `:''}
+        <a class="btn btn-o" href="tel:1669">🚑 Emergency 1669</a>
+      </div>
+    </div>`;
+}
+
+// ═══ INIT ═══
+async function init(){
+  // URL is hardcoded — no setup needed on any device
+  localStorage.setItem('th2026-shurl', shUrl);
+  document.getElementById('shurl-disp').textContent='✅ מחובר ל-Sheets';
+  setSyncStatus('saving','מתחבר...');
+
+  // Load local first for instant render
+  loadLocalData();
+  buildTodo(); buildItin(); buildBudget(); buildPack(); buildRem(); buildFlights();
+  updateCountdown(); fetchWeather(); fetchRates(); fetchExtraRates(); updateProgress();
+  setTimeout(applyState, 80);
+
+  // Then load from Sheets and re-render if connected
+  if(shUrl){
+    const loaded = await loadFromSheets();
+    if(loaded) setTimeout(applyState, 100);
+  }
+
+  // countdown every second, weather every 10min
+  setInterval(updateCountdown, 1000);
+  buildCustomHotels('phuket');
+  buildCustomHotels('koh');
+  buildCustomHotels('bkk');
+  buildPieChart();
+  initNotifications();
+  initTheme();
+  registerSW();
+  buildToday();
+  quickConv();
+}
+document.addEventListener('DOMContentLoaded',init);
+// ═══ THEME TOGGLE ═══
+function toggleTheme(){
+  const isLight=document.body.classList.toggle('light');
+  document.getElementById('theme-btn').textContent=isLight?'☀️':'🌙';
+  localStorage.setItem('th2026-theme', isLight?'light':'dark');
+}
+function initTheme(){
+  const t=localStorage.getItem('th2026-theme');
+  if(t==='light'){document.body.classList.add('light');document.getElementById('theme-btn').textContent='☀️';}
+}
+
+// ═══ SEARCH ═══
+const SEARCH_INDEX=[
+  ...TODOS.flatMap(cat=>cat.items.map(i=>({section:'✅ Tasks',text:i.tx+' '+i.sb,nav:'todo'}))),
+  ...ITIN.map(d=>({section:'📅 לו"ז',text:d.title+' '+d.date+' '+d.blks.map(b=>b.tt).join(' '),nav:'itinerary'})),
+  {section:'🏨 מלונות',text:'NH Collection Samui Peace Resort Bophut pool villa beachfront',nav:'hotels'},
+  {section:'🏨 מלונות',text:'Bandara Spa Resort Pool Villas Samui Kids Club',nav:'hotels'},
+  {section:'🏨 מלונות',text:'Katathani Phuket Beach Resort Kata Beach SHA Extra Plus',nav:'hotels'},
+  {section:'🏨 מלונות',text:'Centara Grand CentralWorld Bangkok Deluxe Hollywood',nav:'hotels'},
+  {section:'✈️ טיסות',text:`Emirates ${FLIGHTS.outbound.legs.map(l=>l.flight).join(' ')} ${FLIGHTS.return.legs.map(l=>l.flight).join(' ')} Abu Dhabi Bangkok TLV BKK`,nav:'flights'},
+  {section:'💰 תקציב',text:'תקציב הוצאות כסף שקל',nav:'budget'},
+  {section:'💱 המרה',text:'המרה שקל דולר באט THB ILS USD',nav:'currency'},
+  {section:'🚗 תחבורה',text:'Grab BTS מוניות שיט סים SIM',nav:'transport'},
+  {section:'👶 תינוקת',text:'תינוקת בסינט טיסה בריכה שמש יתושים',nav:'baby'},
+  {section:'📞 חירום',text:'שגרירות חירום אמבולנס PassportCard Emirates',nav:'emergency'},
+];
+function openSearch(){document.getElementById('search-overlay').classList.add('show');setTimeout(()=>document.getElementById('search-inp').focus(),100);}
+function closeSearch(){document.getElementById('search-overlay').classList.remove('show');document.getElementById('search-inp').value='';document.getElementById('search-results').innerHTML='<div class="sr-empty">התחל להקליד לחיפוש...</div>';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch();if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}});
+function doSearch(q){
+  const res=document.getElementById('search-results');
+  if(!q.trim()){res.innerHTML='<div class="sr-empty">התחל להקליד...</div>';return;}
+  const ql=q.toLowerCase();
+  const hits=SEARCH_INDEX.filter(i=>i.text.toLowerCase().includes(ql)).slice(0,12);
+  // also search custom todos and days
+  TODOS.forEach(cat=>cat.items.forEach(i=>{if(i.tx.toLowerCase().includes(ql))hits.push({section:'✅ Tasks',text:i.tx,nav:'todo'});}));
+  getCustomDays().forEach(d=>{if(d.title.toLowerCase().includes(ql))hits.push({section:'📅 לו"ז',text:d.title,nav:'itinerary'});});
+  if(!hits.length){res.innerHTML='<div class="sr-empty">לא נמצאו תוצאות עבור "'+q+'"</div>';return;}
+  const seen=new Set();
+  res.innerHTML=hits.filter(h=>{const k=h.section+h.text;if(seen.has(k))return false;seen.add(k);return true;}).map(h=>{
+    const highlighted=h.text.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="sr-match">$1</span>');
+    return `<div class="sr-item" onclick="closeSearch();showSec('${h.nav}',document.querySelector('.nb:not(.active)'));document.querySelectorAll('.nb').forEach(b=>{b.classList.toggle('active',b.getAttribute('onclick')&&b.getAttribute('onclick').includes('${h.nav}'))})">
+      <span class="sr-section">${h.section}</span>
+      <div class="sr-text">${highlighted.slice(0,120)}${h.text.length>120?'...':''}</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══ STAR RATING ═══
+function setRating(dayNum, stars){
+  S['star-'+dayNum]=stars;
+  saveData();
+  // rebuild just this day's stars inline
+  const starsEl=document.getElementById('stars-'+dayNum);
+  if(starsEl){
+    starsEl.querySelectorAll('.star').forEach((s,i)=>{s.classList.toggle('lit',i<stars);});
+    const labels=['','😞 גרוע','😐 בסדר','😊 טוב','😄 מצוין','🤩 מדהים!'];
+    const next=starsEl.nextElementSibling;
+    if(next&&next.classList.contains('rating-label'))next.textContent=labels[stars];
+    else{const d=document.createElement('div');d.className='rating-label';d.textContent=labels[stars];starsEl.after(d);}
+  }
+}
+
+// ═══ PIE CHART ═══
+function buildPieChart(){
+  const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
+  const customs=getCustomBudget();
+  const allRows=[...builtinRows,...customs];
+  const data=allRows.map(c=>({label:c.nm,val:parseInt(S[c.id]||c.val||0)||0,col:c.col||'#64748b'})).filter(d=>d.val>0);
+  const total=data.reduce((s,d)=>s+d.val,0);
+  const svg=document.getElementById('pie-svg');
+  const legend=document.getElementById('pie-legend');
+  if(!svg||!legend)return;
+  if(!total||!data.length){svg.innerHTML='<text x="80" y="85" text-anchor="middle" fill="#7a8a9e" font-size="12">אין נתונים</text>';legend.innerHTML='';return;}
+  const cx=80,cy=80,r=70;
+  let startAngle=-Math.PI/2;
+  let paths='';
+  data.forEach(d=>{
+    const slice=(d.val/total)*Math.PI*2;
+    const endAngle=startAngle+slice;
+    const x1=cx+r*Math.cos(startAngle),y1=cy+r*Math.sin(startAngle);
+    const x2=cx+r*Math.cos(endAngle),y2=cy+r*Math.sin(endAngle);
+    const large=slice>Math.PI?1:0;
+    paths+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} Z" fill="${d.col}" opacity=".85" stroke="var(--bg)" stroke-width="2"><title>${d.label}: ${d.val.toLocaleString()} ₪</title></path>`;
+    startAngle=endAngle;
+  });
+  svg.innerHTML=paths+`<circle cx="${cx}" cy="${cy}" r="28" fill="var(--bg2)"/><text x="${cx}" y="${cy-4}" text-anchor="middle" fill="var(--textm)" font-size="10" font-family="Rubik">סה"כ</text><text x="${cx}" y="${cy+10}" text-anchor="middle" fill="var(--green)" font-size="11" font-family="Rubik" font-weight="700">${total.toLocaleString()}</text>`;
+  legend.innerHTML=data.map(d=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${d.col}"></div><div>${d.label}: <strong>${d.val.toLocaleString()} ₪</strong> (${Math.round(d.val/total*100)}%)</div></div>`).join('');
+}
+
+// ═══ NOTIFICATIONS ═══
+const NOTIF_EVENTS=[
+  {id:'n-checkin',icon:'✈️',title:'Emirates Check-in!',body:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} - time to select seats and request Bassinet`,date:new Date(FLIGHTS.checkin.opensDateTime)},
+  {id:'n-tdac',icon:'📄',title:'TDAC - fill entry form',body:'Fill the online form before entering Thailand',date:new Date('2026-05-16T09:00:00')},
+  {id:'n-flight',icon:'🛫',title:'Flight day! TLV → Phuket',body:`EK 2471 departs ${FLIGHTS.outbound.legs[0].depTime}. Leave for airport by 17:00`,date:new Date('2026-05-19T15:00:00')},
+  {id:'n-phuket',icon:'🌴',title:'Welcome to Phuket!',body:'Landing HKT 12:15 Terminal D. Enjoy! 🏝️',date:new Date('2026-05-20T12:00:00')},
+  {id:'n-samui',icon:'🏝️',title:'Flying to Koh Samui today',body:'PG 406 departs 13:45 from HKT Terminal D',date:new Date('2026-05-25T12:00:00')},
+  {id:'n-bangkok',icon:'🏙️',title:'Flying to Bangkok today',body:'PG 122 departs 13:50 from USM',date:new Date('2026-05-31T12:00:00')},
+  {id:'n-return',icon:'🛬',title:'Flying home! BKK → TLV',body:`EK 375 departs 09:55. Be at airport by 07:00`,date:new Date('2026-06-04T07:00:00')},
+];
+async function requestNotifPermission(){
+  if(!('Notification' in window)){alert('הדפדפן שלך לא תומך בהתראות');return;}
+  const perm=await Notification.requestPermission();
+  updateNotifUI(perm);
+  if(perm==='granted'){S['notif-enabled']=true;saveData();buildNotifList();}
+}
+function updateNotifUI(perm){
+  const status=document.getElementById('notif-status');
+  const btn=document.getElementById('notif-req-btn');
+  const settings=document.getElementById('notif-settings');
+  if(perm==='granted'){status.textContent='✅ התראות מופעלות';btn.style.display='none';if(settings)settings.style.display='block';}
+  else if(perm==='denied'){status.textContent='❌ התראות חסומות — אפשר בהגדרות הדפדפן';btn.style.display='none';}
+  else{status.textContent='';}
+}
+function buildNotifList(){
+  const list=document.getElementById('notif-list');
+  if(!list)return;
+  list.innerHTML=NOTIF_EVENTS.map(ev=>{
+    const enabled=S[ev.id]!==false;
+    const isPast=ev.date<new Date();
+    return `<div class="notif-item">
+      <div class="ni-icon">${ev.icon}</div>
+      <div class="ni-text"><strong>${ev.title}</strong><br>${ev.date.toLocaleString('he-IL',{dateStyle:'medium',timeStyle:'short'})}</div>
+      <label class="toggle-sw" title="${isPast?'כבר עבר':''}">
+        <input type="checkbox" ${enabled&&!isPast?'checked':''} ${isPast?'disabled':''} onchange="toggleNotif('${ev.id}',this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>`;
+  }).join('');
+}
+function toggleNotif(id,on){S[id]=on;saveData();if(on)scheduleNotif(NOTIF_EVENTS.find(e=>e.id===id));}
+function scheduleNotif(ev){
+  if(!ev||Notification.permission!=='granted')return;
+  const delay=ev.date-new Date();
+  if(delay<=0)return;
+  setTimeout(()=>{new Notification(ev.title,{body:ev.body,icon:'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/72x72/1f334.png'});},delay);
+}
+function scheduleAllNotifs(){
+  if(Notification.permission!=='granted'){alert('אפשר קודם התראות למעלה');return;}
+  NOTIF_EVENTS.forEach(ev=>{S[ev.id]=true;scheduleNotif(ev);});
+  saveData();buildNotifList();
+  alert('✅ כל ההתראות תוזמנו!');
+}
+function initNotifications(){
+  if('Notification' in window)updateNotifUI(Notification.permission);
+  if(S['notif-enabled'])buildNotifList();
+}
+
+// ═══ OFFLINE SERVICE WORKER ═══
+function registerSW(){
+  if(!('serviceWorker' in navigator))return;
+  const swCode=`
+const CACHE='thailand2026-v1';
+const ASSETS=['/'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
+self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const clone=res.clone();caches.open(CACHE).then(c=>c.put(e.request,clone));return res;}))));
+`;
+  const blob=new Blob([swCode],{type:'application/javascript'});
+  const url=URL.createObjectURL(blob);
+  navigator.serviceWorker.register(url).catch(()=>{});
+}
+</script>
+</body>
+</html>
