@@ -1968,7 +1968,7 @@ function renderBudgetRow(c, groups) {
       <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
         ${statusBtn}
         <input class="binp" type="number" placeholder="0" value="${v||''}"
-          oninput="const _cur=S['bcur-'+'${c.id}']||'ils';if(this.value===''){S['${c.id}']='0';S['bils-'+'${c.id}']='0';saveData();calcBudget();}else if(_cur!=='ils'){convertToBudget('${c.id}',_cur,this.value);}else{updBudget('${c.id}',this.value);}"
+          oninput="const _cur=S['bcur-'+'${c.id}']||'ils';const _v=this.value;if(_v===''||_v===null){S['${c.id}']='0';S['bils-'+'${c.id}']='0';saveData();calcBudget();}else if(_cur!=='ils'&&parseFloat(_v)>0){convertToBudget('${c.id}',_cur,_v);}else if(_cur==='ils'){updBudget('${c.id}',_v);}"
           ${locked?'disabled':''} style="${locked?'opacity:.55;':''}">
         <select class="bcur-sel" id="bcur-${c.id}"
           onchange="S['bcur-'+'${c.id}']=this.value;saveData();const _binp=this.closest('.brow').querySelector('.binp');if(_binp&&_binp.value&&this.value!=='ils'){convertToBudget('${c.id}',this.value,_binp.value);}else if(_binp&&_binp.value){updBudget('${c.id}',_binp.value);}" title="Currency">
