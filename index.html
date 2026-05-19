@@ -791,40 +791,43 @@ textarea.inp{min-height:56px;resize:vertical}
 <!-- CURRENCY -->
 <div id="s-currency" class="section">
   <div class="curr-box">
-    <div class="curr-title">🇮🇱 שקלים (₪) → 🇹🇭 บาท (THB)</div>
-    <div class="curr-row">
-      <div style="flex:1"><div class="curr-lbl">סכום בשקלים</div><input class="curr-inp" id="ils-in" type="number" placeholder="100" oninput="conv('ils')"></div>
-      <div style="color:var(--textd);font-size:20px">→</div>
-      <div><div class="curr-lbl">בבאט תאילנדי</div><div class="curr-res" id="ils-out">—</div></div>
+    <div class="curr-title">💱 Currency Converter</div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+      <!-- Amount input -->
+      <input class="curr-inp" id="main-curr-in" type="number" placeholder="100"
+        oninput="convMain()" style="flex:1;min-width:100px">
+      <!-- From selector -->
+      <select id="curr-from" onchange="convMain()"
+        style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:10px 8px;font-family:'Rubik',sans-serif;font-size:16px;font-weight:700;color:var(--text);outline:none;cursor:pointer">
+        <option value="ils">🇮🇱 ₪ ILS</option>
+        <option value="usd">🇺🇸 $ USD</option>
+        <option value="thb" selected>🇹🇭 ฿ THB</option>
+        <option value="eur">🇪🇺 € EUR</option>
+        <option value="gbp">🇬🇧 £ GBP</option>
+      </select>
+      <!-- Swap button -->
+      <button onclick="swapMain()"
+        style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;color:var(--textm);flex-shrink:0">⇄</button>
+      <!-- To selector -->
+      <select id="curr-to" onchange="convMain()"
+        style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);padding:10px 8px;font-family:'Rubik',sans-serif;font-size:16px;font-weight:700;color:var(--text);outline:none;cursor:pointer">
+        <option value="ils" selected>🇮🇱 ₪ ILS</option>
+        <option value="usd">🇺🇸 $ USD</option>
+        <option value="thb">🇹🇭 ฿ THB</option>
+        <option value="eur">🇪🇺 € EUR</option>
+        <option value="gbp">🇬🇧 £ GBP</option>
+      </select>
     </div>
-    <div class="rate-info" id="rate-ils">טוען שער...</div>
-  </div>
-  <div class="curr-box">
-    <div class="curr-title">🇺🇸 דולר ($) → 🇹🇭 บาท (THB)</div>
-    <div class="curr-row">
-      <div style="flex:1"><div class="curr-lbl">סכום בדולרים</div><input class="curr-inp" id="usd-in" type="number" placeholder="10" oninput="conv('usd')"></div>
-      <div style="color:var(--textd);font-size:20px">→</div>
-      <div><div class="curr-lbl">בבאט תאילנדי</div><div class="curr-res" id="usd-out">—</div></div>
+    <!-- Result -->
+    <div style="background:var(--bg3);border-radius:var(--r);padding:18px 20px;text-align:center;margin-bottom:12px">
+      <div class="curr-res" id="main-curr-out" style="font-size:36px">—</div>
+      <div class="rate-info" id="main-curr-rate" style="margin-top:6px;font-size:13px"></div>
     </div>
-    <div class="rate-info" id="rate-usd">טוען שער...</div>
-  </div>
-  <div class="curr-box">
-    <div class="curr-title">🇹🇭 บาท (THB) → 🇮🇱 שקלים (₪)</div>
-    <div class="curr-row">
-      <div style="flex:1"><div class="curr-lbl">סכום בבאט</div><input class="curr-inp" id="thb-ils-in" type="number" placeholder="100" oninput="conv('thb-ils')"></div>
-      <div style="color:var(--textd);font-size:20px">→</div>
-      <div><div class="curr-lbl">בשקלים</div><div class="curr-res" id="thb-ils-out">—</div></div>
-    </div>
-    <div class="rate-info" id="rate-thb-ils">טוען שער...</div>
-  </div>
-  <div class="curr-box">
-    <div class="curr-title">🇹🇭 บาท (THB) → 🇺🇸 דולר ($)</div>
-    <div class="curr-row">
-      <div style="flex:1"><div class="curr-lbl">סכום בבאט</div><input class="curr-inp" id="thb-usd-in" type="number" placeholder="100" oninput="conv('thb-usd')"></div>
-      <div style="color:var(--textd);font-size:20px">→</div>
-      <div><div class="curr-lbl">בדולרים</div><div class="curr-res" id="thb-usd-out">—</div></div>
-    </div>
-    <div class="rate-info" id="rate-thb-usd">טוען שער...</div>
+    <div class="rate-info" id="rate-ils" style="display:none">Loading...</div>
+    <div class="rate-info" id="rate-usd" style="display:none">Loading...</div>
+    <div class="rate-info" id="rate-thb-ils" style="display:none">Loading...</div>
+    <div class="rate-info" id="rate-thb-usd" style="display:none">Loading...</div>
+    <div style="font-size:12px;color:var(--textd)">📡 Live rates from European Central Bank · Updated daily</div>
   </div>
   <div class="card">
     <div class="ct">💡 טיפים — כסף בתאילנד</div>
@@ -997,7 +1000,8 @@ textarea.inp{min-height:56px;resize:vertical}
 let S = {};
 let shUrl = 'https://script.google.com/macros/s/AKfycbzNiInaz_DmxsyDvUS3B53v9nIpZ4eg9bzlCFD5s7sPWoM_fDPD_xLXBDuOKZX2pHD_aA/exec';
 let saveTimer = null;
-let rates = {ILS:10.5, USD:34.5};
+// rates stores: how many ILS = 1 unit of each currency
+let rates = { ILS:1, USD:3.7, THB:0.105, EUR:4.0, GBP:4.7, thbPerIls:10.5, thbPerUsd:34.5 };
 const BUDGET = 27000;
 // ════════════════════════════════════════════════════════
 // FLIGHT CONFIG - edit here to update all flight info
@@ -1835,12 +1839,12 @@ function buildBudget(){
   const groupTotals = {};
   groups.forEach(g => { groupTotals[g.id] = 0; });
   allRows.forEach(c => {
-    const v = parseInt(S[c.id]||c.val||0)||0;
+    const v = (S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0);
     const gid = S['grp-'+c.id]||c.group||groups[0].id;
     if (groupTotals[gid] !== undefined) groupTotals[gid] += v;
     else groupTotals['other'] = (groupTotals['other']||0) + v;
   });
-  const totalSpent = allRows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+  const totalSpent = allRows.reduce((s,c)=>s+((S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0)),0);
 
   // Build rows grouped
   let html = '';
@@ -1849,7 +1853,7 @@ function buildBudget(){
     const rows = allRows.filter(c => (S['grp-'+c.id]||c.group||groups[0].id) === g.id);
     // Always show group (even if empty) so newly added groups are visible
 
-    const gTotal = rows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+    const gTotal = rows.reduce((s,c)=>s+((S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0)),0);
     const gPct = totalSpent ? Math.round(gTotal/totalSpent*100) : 0;
     const gNm = S['gnm-'+g.id] || g.nm;
     const gOpen = S['gopen-'+g.id] !== false; // default open
@@ -1930,7 +1934,7 @@ function buildBudget(){
 }
 
 function renderBudgetRow(c, groups) {
-  const v      = parseInt(S[c.id]||c.val||0)||0;
+  const v      = (S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0);
   const pct    = v ? Math.min(100, v/BUDGET*100) : 0;
   const isCustom = !!c.custom;
   const nm     = S['bnm-'+c.id]||c.nm;
@@ -1964,7 +1968,7 @@ function renderBudgetRow(c, groups) {
       <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
         ${statusBtn}
         <input class="binp" type="number" placeholder="0" value="${v||''}"
-          oninput="const _cur=S['bcur-'+'${c.id}']||'ils';if(this.value===''){S['${c.id}']=0;saveData();calcBudget();}else if(_cur!=='ils'){convertToBudget('${c.id}',_cur,this.value);}else{updBudget('${c.id}',this.value);}"
+          oninput="const _cur=S['bcur-'+'${c.id}']||'ils';if(this.value===''){S['${c.id}']='0';S['bils-'+'${c.id}']='0';saveData();calcBudget();}else if(_cur!=='ils'){convertToBudget('${c.id}',_cur,this.value);}else{updBudget('${c.id}',this.value);}"
           ${locked?'disabled':''} style="${locked?'opacity:.55;':''}">
         <select class="bcur-sel" id="bcur-${c.id}"
           onchange="S['bcur-'+'${c.id}']=this.value;saveData();const _binp=this.closest('.brow').querySelector('.binp');if(_binp&&_binp.value&&this.value!=='ils'){convertToBudget('${c.id}',this.value,_binp.value);}else if(_binp&&_binp.value){updBudget('${c.id}',_binp.value);}" title="Currency">
@@ -2016,11 +2020,11 @@ function buildBudget2() {
   if (!el) return;
   const groups = getBudgetGroups();
   const allRows = getAllRows();
-  const total = allRows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+  const total = allRows.reduce((s,c)=>s+((S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0)),0);
 
   let bars = groups.map(g => {
     const gTotal = allRows.filter(c=>(S['grp-'+c.id]||c.group||groups[0].id)===g.id)
-                          .reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+                          .reduce((s,c)=>s+((S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0)),0);
     return { nm: S['gnm-'+g.id]||g.nm, val: gTotal, col: g.col };
   }).filter(b=>b.val>0);
 
@@ -2054,22 +2058,13 @@ function convertToBudget(id, currency, amount) {
   S['bcur-'+id] = currency;
   S['bfx-'+id] = amount;
   const amt = parseFloat(amount)||0;
-  if (!amt) { saveData(); calcBudget(); return; }
-  let ils;
-  if (currency === 'ils') {
-    ils = Math.round(amt);
-  } else {
-    const r = getCurrencyRates();
-    // r[currency] = THB per unit of that currency, r['ils'] = THB per ILS
-    const inThb = amt * r[currency];
-    ils = Math.round(inThb / r['ils']);
-  }
-  S[id] = String(ils);
-  // Update the ₪ input field visually
-  const inp = document.querySelector(`input.binp[oninput*="'${id}'"]`);
-  if (inp) inp.value = ils;
+  if (!amt) { S['bils-'+id]='0'; saveData(); calcBudget(); return; }
+  const r = getCurrencyRates();
+  // Direct conversion: amount × (ILS per unit of currency)
+  const ils = Math.round(amt * (r[currency]||1));
+  S['bils-'+id] = String(ils);
   saveData();
-  buildBudget(); // full rebuild so group totals update
+  buildBudget();
 }
 function toggleGroup(id) {
   S['gopen-'+id] = S['gopen-'+id]===false ? true : false;
@@ -2132,9 +2127,9 @@ function calcBudget(){
   const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
   const customs=getCustomBudget();
   const allRows=[...builtinRows,...customs];
-  const sp=allRows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+  const sp=allRows.reduce((s,c)=>s+((S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0)),0);
   const paid=allRows.filter(c=>S['lock-'+c.id]&&S['st-'+c.id]==='paid')
-                    .reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+                    .reduce((s,c)=>s+((S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0)),0);
   const lft=BUDGET-sp;
   const pct=Math.round(sp/BUDGET*100);
   document.getElementById('b-spent').textContent=sp.toLocaleString()+' ₪';
@@ -2154,28 +2149,61 @@ function calcBudget(){
 
 // ═══ CURRENCY ═══
 async function fetchRates(){
-  try{
-    const r=await fetch('https://api.frankfurter.app/latest?from=ILS&to=THB');
-    const d=await r.json(); rates.ILS=d.rates.THB;
-    document.getElementById('rate-ils').textContent=`שער: 1 ₪ = ${rates.ILS.toFixed(2)} THB · עודכן עכשיו`;
-    document.getElementById('rate-thb-ils').textContent=`שער: 1 THB = ${(1/rates.ILS).toFixed(4)} ₪`;
-    const r2=await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');
-    const d2=await r2.json(); rates.USD=d2.rates.THB;
-    document.getElementById('rate-usd').textContent=`שער: 1 $ = ${rates.USD.toFixed(2)} THB · עודכן עכשיו`;
-    document.getElementById('rate-thb-usd').textContent=`שער: 1 THB = ${(1/rates.USD).toFixed(4)} $`;
-    quickConv();
-  }catch(e){
-    document.getElementById('rate-ils').textContent=`שער משוער: 1 ₪ ≈ ${rates.ILS} THB`;
-    document.getElementById('rate-usd').textContent=`שער משוער: 1 $ ≈ ${rates.USD} THB`;
-    document.getElementById('rate-thb-ils').textContent=`שער משוער: 1 THB ≈ ${(1/rates.ILS).toFixed(4)} ₪`;
-    document.getElementById('rate-thb-usd').textContent=`שער משוער: 1 THB ≈ ${(1/rates.USD).toFixed(4)} $`;
+  // Primary: fawazahmed0/currency-api via jsDelivr — no key, no limits, 200+ currencies, updated daily
+  // Fallback: Cloudflare Pages mirror
+  const endpoints = [
+    'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json',
+    'https://latest.currency-api.pages.dev/v1/currencies/usd.min.json',
+  ];
+  for (const url of endpoints) {
+    try {
+      const r = await fetch(url);
+      const d = await r.json();
+      const usd = d.usd;
+      // All rates relative to USD
+      const usdToIls = usd.ils;   // e.g. 3.67
+      const usdToThb = usd.thb;   // e.g. 33.5
+      const usdToEur = usd.eur;
+      const usdToGbp = usd.gbp;
+      rates.USD = usdToIls;                    // ILS per $
+      rates.THB = usdToIls / usdToThb;         // ILS per ฿
+      rates.EUR = usdToIls / usdToEur;          // ILS per €
+      rates.GBP = usdToIls / usdToGbp;         // ILS per £
+      rates.thbPerIls = usdToThb / usdToIls;   // THB per ILS
+      rates.thbPerUsd = usdToThb;              // THB per USD
+      const src = `📡 fawazahmed0/currency-api · ${d.date||'today'}`;
+      document.getElementById('rate-ils').textContent = `1 ₪ = ${rates.thbPerIls.toFixed(2)} ฿`;
+      document.getElementById('rate-usd').textContent = `1 $ = ${usdToIls.toFixed(3)} ₪ · ${usdToThb.toFixed(2)} ฿ · ${src}`;
+      quickConv(); convMain();
+      return; // success — stop trying
+    } catch(e) { continue; }
   }
+  // All failed — use fallback rates, show warning
+  document.getElementById('rate-usd').textContent = '⚠️ Using fallback rates — check internet connection';
+  convMain();
 }
-function conv(t){
-  if(t==='ils'){const v=parseFloat(document.getElementById('ils-in').value)||0;document.getElementById('ils-out').textContent=(v*rates.ILS).toFixed(0)+' ฿';}
-  else if(t==='usd'){const v=parseFloat(document.getElementById('usd-in').value)||0;document.getElementById('usd-out').textContent=(v*rates.USD).toFixed(0)+' ฿';}
-  else if(t==='thb-ils'){const v=parseFloat(document.getElementById('thb-ils-in').value)||0;document.getElementById('thb-ils-out').textContent=(v/rates.ILS).toFixed(2)+' ₪';}
-  else if(t==='thb-usd'){const v=parseFloat(document.getElementById('thb-usd-in').value)||0;document.getElementById('thb-usd-out').textContent='$'+(v/rates.USD).toFixed(2);}
+function convMain() {
+  const amt = parseFloat(document.getElementById('main-curr-in').value)||0;
+  const from = document.getElementById('curr-from').value;
+  const to = document.getElementById('curr-to').value;
+  const res = document.getElementById('main-curr-out');
+  const rateEl = document.getElementById('main-curr-rate');
+  if (!amt) { res.textContent = '—'; rateEl.textContent = ''; return; }
+  const r = getCurrencyRates(); // ILS per unit
+  // Convert: from → ILS → to
+  const inIls = from === 'ils' ? amt : amt * r[from];
+  const result = to === 'ils' ? inIls : inIls / r[to];
+  const syms = { ils:'₪', usd:'$', thb:'฿', eur:'€', gbp:'£' };
+  const names = { ils:'ILS', usd:'USD', thb:'THB', eur:'EUR', gbp:'GBP' };
+  const unitRate = to === 'ils' ? r[from] : (from === 'ils' ? 1/r[to] : r[from]/r[to]);
+  res.textContent = `${syms[to]}${result >= 1000 ? result.toLocaleString('en',{maximumFractionDigits:0}) : result.toFixed(2)}`;
+  rateEl.textContent = `1 ${names[from]} = ${syms[to]}${unitRate.toFixed(4)} ${names[to]}`;
+}
+function swapMain() {
+  const f = document.getElementById('curr-from');
+  const t = document.getElementById('curr-to');
+  const tmp = f.value; f.value = t.value; t.value = tmp;
+  convMain();
 }
 
 // ═══ PACKING ═══
@@ -2672,14 +2700,14 @@ function loadLocalData(){
 // ═══ QUICK CURRENCY WIDGET ═══
 // All rates stored as "how many of this currency = 1 USD"
 function getCurrencyRates() {
-  // rates.ILS = THB per ILS, rates.USD = THB per USD
-  const thbPerUsd = rates.USD;       // e.g. 34.5
-  const thbPerIls = rates.ILS;       // e.g. 10.5
-  const ilsPerUsd = thbPerUsd / thbPerIls;
-  // Approximate EUR and GBP via USD (fallback if not fetched)
-  const thbPerEur = thbPerUsd * (window.rateEUR || 1.08);
-  const thbPerGbp = thbPerUsd * (window.rateGBP || 1.27);
-  return { ils: thbPerIls, usd: thbPerUsd, thb: 1, eur: thbPerEur, gbp: thbPerGbp };
+  // Returns: how many ILS = 1 unit of each currency
+  return {
+    ils: 1,
+    usd: rates.USD,   // ILS per $
+    thb: rates.THB,   // ILS per ฿
+    eur: rates.EUR,   // ILS per €
+    gbp: rates.GBP,   // ILS per £
+  };
 }
 const CURRENCY_SYMBOLS = { ils:'₪', usd:'$', thb:'฿', eur:'€', gbp:'£' };
 const CURRENCY_NAMES = { ils:'ILS', usd:'USD', thb:'THB', eur:'EUR', gbp:'GBP' };
@@ -2711,15 +2739,7 @@ function swapCurrency() {
 }
 
 // Fetch EUR and GBP rates too for the widget
-async function fetchExtraRates() {
-  try {
-    const r = await fetch('https://api.frankfurter.app/latest?from=USD&to=EUR,GBP');
-    const d = await r.json();
-    window.rateEUR = 1 / d.rates.EUR; // USD per EUR → invert to get USD value of 1 EUR
-    window.rateGBP = 1 / d.rates.GBP;
-    quickConv();
-  } catch(e) { /* use fallback */ }
-}
+// EUR and GBP now fetched directly in fetchRates()
 
 // ═══ ICS CALENDAR EXPORT ═══
 function icsDate(d) {
@@ -2963,7 +2983,7 @@ async function init(){
   // Load local first for instant render
   loadLocalData();
   buildTodo(); buildItin(); buildBudget(); buildPack(); buildRem(); buildFlights();
-  updateCountdown(); fetchWeather(); fetchRates(); fetchExtraRates(); updateProgress();
+  updateCountdown(); fetchWeather(); fetchRates(); updateProgress();
   setTimeout(applyState, 80);
 
   // Then load from Sheets and re-render if connected
@@ -3054,7 +3074,7 @@ function buildPieChart(){
   const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
   const customs=getCustomBudget();
   const allRows=[...builtinRows,...customs];
-  const data=allRows.map(c=>({label:c.nm,val:parseInt(S[c.id]||c.val||0)||0,col:c.col||'#64748b'})).filter(d=>d.val>0);
+  const data=allRows.map(c=>({label:c.nm,val:(S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0),col:c.col||'#64748b'})).filter(d=>d.val>0);
   const total=data.reduce((s,d)=>s+d.val,0);
   const svg=document.getElementById('pie-svg');
   const legend=document.getElementById('pie-legend');
