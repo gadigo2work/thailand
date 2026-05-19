@@ -768,9 +768,10 @@ textarea.inp{min-height:56px;resize:vertical}
 
 <!-- BUDGET -->
 <div id="s-budget" class="section">
-  <div class="bsum">
+  <div class="bsum" style="grid-template-columns:repeat(4,1fr)">
     <div class="bsc"><div class="bsnum" style="color:var(--blue)">27,000 ₪</div><div class="bslbl">Total Budget</div></div>
     <div class="bsc"><div class="bsnum" id="b-spent" style="color:var(--gold)">0 ₪</div><div class="bslbl">Committed</div></div>
+    <div class="bsc"><div class="bsnum" id="b-paid" style="color:var(--green)">0 ₪</div><div class="bslbl">🟢 Paid</div></div>
     <div class="bsc"><div class="bsnum" id="b-left" style="color:var(--green)">27,000 ₪</div><div class="bslbl">Remaining</div></div>
   </div>
   <div class="card" id="pie-card">
@@ -2118,14 +2119,18 @@ function cycleStatus(id){
 function calcBudget(){
   const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
   const customs=getCustomBudget();
-  const sp=[...builtinRows,...customs].reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+  const allRows=[...builtinRows,...customs];
+  const sp=allRows.reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
+  const paid=allRows.filter(c=>S['lock-'+c.id]&&S['st-'+c.id]==='paid')
+                    .reduce((s,c)=>s+(parseInt(S[c.id]||c.val||0)||0),0);
   const lft=BUDGET-sp;
   const pct=Math.round(sp/BUDGET*100);
   document.getElementById('b-spent').textContent=sp.toLocaleString()+' ₪';
+  const paidEl=document.getElementById('b-paid');
+  if(paidEl) paidEl.textContent=paid.toLocaleString()+' ₪';
   const el=document.getElementById('b-left');
   el.textContent=(lft<0?'-':'')+Math.abs(lft).toLocaleString()+' ₪';
   el.style.color=lft>=0?'var(--green)':'var(--red)';
-  // Update total line
   const tl=document.getElementById('b-total-line');
   const tp=document.getElementById('b-total-pct');
   if(tl){
@@ -2315,8 +2320,17 @@ function addBudgetRow(){
   buildBudget();
 }
 function delBudgetRow(id,isCustom){
-  if(isCustom){saveCustomBudget(getCustomBudget().filter(r=>r.id!==id));}
-  else{S['del-b-'+id]=true;saveData();}
+  if(isCustom){
+    // Remove from both possible keys
+    const a = JSON.parse(S['budget-custom']||'[]').filter(r=>r.id!==id);
+    const b = JSON.parse(S['custom-budget']||'[]').filter(r=>r.id!==id);
+    S['budget-custom'] = JSON.stringify(a);
+    S['custom-budget'] = JSON.stringify(b);
+    saveData();
+  } else {
+    S['del-b-'+id]=true;
+    saveData();
+  }
   buildBudget();
 }
 
