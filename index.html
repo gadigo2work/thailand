@@ -1403,6 +1403,7 @@ function showSec(id, btn) {
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('s-'+id).classList.add('active');
   btn.classList.add('active');
+  localStorage.setItem('th2026-tab', id);
 }
 function navTo(id) {
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -1410,7 +1411,14 @@ function navTo(id) {
   document.getElementById('s-'+id).classList.add('active');
   const btn = [...document.querySelectorAll('.nb')].find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+id+"'"));
   if(btn) btn.classList.add('active');
+  localStorage.setItem('th2026-tab', id);
   window.scrollTo({top:0,behavior:'smooth'});
+}
+function restoreTab() {
+  const saved = localStorage.getItem('th2026-tab');
+  if (saved && document.getElementById('s-'+saved)) {
+    navTo(saved);
+  }
 }
 
 // ═══ COUNTDOWN ═══
@@ -1956,10 +1964,10 @@ function renderBudgetRow(c, groups) {
       <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
         ${statusBtn}
         <input class="binp" type="number" placeholder="0" value="${v||''}"
-          oninput="updBudget('${c.id}',this.value)"
+          oninput="const _cur=document.getElementById('bcur-${c.id}')?.value||'ils';if(_cur!=='ils'){convertToBudget('${c.id}',_cur,this.value);}else{updBudget('${c.id}',this.value);}"
           ${locked?'disabled':''} style="${locked?'opacity:.55;':''}">
         <select class="bcur-sel" id="bcur-${c.id}"
-          onchange="S['bcur-'+'${c.id}']=this.value;saveData()" title="Currency">
+          onchange="S['bcur-'+'${c.id}']=this.value;saveData();const _fx=document.getElementById('bfx-${c.id}');if(_fx&&_fx.value)convertToBudget('${c.id}',this.value,_fx.value);" title="Currency">
           <option value="ils" ${!S['bcur-'+c.id]||S['bcur-'+c.id]==='ils'?'selected':''}>₪</option>
           <option value="usd" ${S['bcur-'+c.id]==='usd'?'selected':''}>$</option>
           <option value="thb" ${S['bcur-'+c.id]==='thb'?'selected':''}>฿</option>
@@ -2971,6 +2979,7 @@ async function init(){
   registerSW();
   buildToday();
   quickConv();
+  restoreTab();
 }
 document.addEventListener('DOMContentLoaded',init);
 // ═══ THEME TOGGLE ═══
