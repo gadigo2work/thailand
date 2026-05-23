@@ -1822,7 +1822,23 @@ const STATUS_CFG = {
 
 function getBudgetGroups() {
   const custom = JSON.parse(S['custom-groups']||'[]');
-  return [...BUDGET_GROUPS, ...custom].filter(g => !S['hide-group-'+g.id]);
+  const all = [...BUDGET_GROUPS, ...custom].filter(g => !S['hide-group-'+g.id]);
+  // Apply saved order if exists
+  const order = JSON.parse(S['group-order']||'[]');
+  if (!order.length) return all;
+  const ordered = order.map(id => all.find(g=>g.id===id)).filter(Boolean);
+  const rest = all.filter(g => !order.includes(g.id));
+  return [...ordered, ...rest];
+}
+function moveGroup(id, dir) {
+  const groups = getBudgetGroups();
+  const idx = groups.findIndex(g=>g.id===id);
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= groups.length) return;
+  [groups[idx], groups[newIdx]] = [groups[newIdx], groups[idx]];
+  S['group-order'] = JSON.stringify(groups.map(g=>g.id));
+  saveData();
+  buildBudget();
 }
 function getAllRows() {
   const customs = getCustomBudget();
@@ -1880,6 +1896,10 @@ function buildBudget(){
           <span style="font-size:11px;color:var(--textd);flex-shrink:0">${gPct}%</span>
         </div>
         <div style="display:flex;align-items:center;gap:8px">
+          <button onclick="event.stopPropagation();moveGroup('${g.id}',-1)" title="Move up"
+            style="background:none;border:none;color:var(--textd);cursor:pointer;font-size:14px;padding:0;line-height:1">▲</button>
+          <button onclick="event.stopPropagation();moveGroup('${g.id}',1)" title="Move down"
+            style="background:none;border:none;color:var(--textd);cursor:pointer;font-size:14px;padding:0;line-height:1">▼</button>
           <button onclick="event.stopPropagation();addRowToGroup('${g.id}')" title="Add item to group"
             style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:2px 10px;font-size:12px;color:var(--textm);cursor:pointer">+</button>
           <button onclick="event.stopPropagation();deleteGroup('${g.id}')" title="Delete group"
