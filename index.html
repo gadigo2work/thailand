@@ -1813,12 +1813,6 @@ const BCATS=[
   {id:'b-ins',  em:'🛡️', nm:'Travel Insurance (PassportCard)',     est:'~600 ₪',     col:'#8b5cf6', group:'bg-pretrip'},
   {id:'b-sim',  em:'📱', nm:'SIM / eSIM Thailand',                 est:'~100 ₪',     col:'#06b6d4', group:'bg-pretrip'},
 ];
-const STATUS_OPTS = ['planned','booked','paid'];
-const STATUS_CFG = {
-  planned: { label:'Planned', color:'var(--textd)',  bg:'var(--bg3)',  emoji:'⬜' },
-  booked:  { label:'Booked',  color:'var(--gold)',   bg:'var(--goldp)',emoji:'🟡' },
-  paid:    { label:'Paid',    color:'var(--green)',  bg:'var(--gp)',   emoji:'🟢' },
-};
 
 function getBudgetGroups() {
   const custom = JSON.parse(S['custom-groups']||'[]');
@@ -2078,13 +2072,7 @@ function buildBudget2() {
     </div>`;
 }
 
-function cycleStatus(id) {
-  const cur = S['st-'+id]||'planned';
-  const idx = STATUS_OPTS.indexOf(cur);
-  S['st-'+id] = STATUS_OPTS[(idx+1)%STATUS_OPTS.length];
-  saveData();
-  buildBudget();
-}
+// cycleStatus defined below
 function convertToBudget(id, currency, amount) {
   S['bcur-'+id] = currency;
   S['bfx-'+id] = amount;
@@ -2186,13 +2174,7 @@ function calcBudget(){
   const el=document.getElementById('b-left');
   el.textContent=(lft<0?'-':'')+Math.abs(lft).toLocaleString()+' ₪';
   el.style.color=lft>=0?'var(--green)':'var(--red)';
-  const tl=document.getElementById('b-total-line');
-  const tp=document.getElementById('b-total-pct');
-  if(tl){
-    tl.textContent=sp.toLocaleString()+' ₪';
-    tl.style.color=lft<0?'var(--red)':lft<BUDGET*0.1?'var(--gold)':'var(--green)';
-  }
-  if(tp) tp.textContent=`${pct}% מהתקציב · נשאר ${lft<0?'חריגה של ':''}${Math.abs(lft).toLocaleString()} ₪`;
+
 }
 
 // ═══ CURRENCY ═══
@@ -2391,9 +2373,16 @@ function buildCustomHotels(dest){
 
 // ═══ BUDGET ADD/EDIT/DELETE ═══
 function getCustomBudget(){ 
-  const a = S['budget-custom'] ? JSON.parse(S['budget-custom']) : [];
-  const b = S['custom-budget'] ? JSON.parse(S['custom-budget']) : [];
-  return [...a, ...b];
+  // Migrate any data from old key on first read
+  if (S['custom-budget'] && !S['_migrated']) {
+    const old = JSON.parse(S['custom-budget']||'[]');
+    const cur = JSON.parse(S['budget-custom']||'[]');
+    const merged = [...cur, ...old.filter(o=>!cur.find(c=>c.id===o.id))];
+    S['budget-custom'] = JSON.stringify(merged);
+    S['_migrated'] = true;
+    delete S['custom-budget'];
+  }
+  return S['budget-custom'] ? JSON.parse(S['budget-custom']) : [];
 }
 function saveCustomBudget(arr){ S['budget-custom']=JSON.stringify(arr); saveData(); }
 
@@ -3144,7 +3133,8 @@ function setRating(dayNum, stars){
 }
 
 // ═══ PIE CHART ═══
-function buildPieChart(){
+function buildPieChart(){ return buildBudget2(); } // old pie chart code below (kept for reference)
+function _oldPieChart_unused(){
   const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
   const customs=getCustomBudget();
   const allRows=[...builtinRows,...customs];
