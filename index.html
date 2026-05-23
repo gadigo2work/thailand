@@ -614,7 +614,7 @@ textarea.inp{min-height:56px;resize:vertical}
 
   <!-- KOH SAMUI HEADER -->
   <div style="background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:11px 15px;margin-bottom:18px;font-size:13px;color:var(--textm)">
-    🏝️ <strong style="color:var(--green)">קוסמוי — 25–30 מאי · 5 לילות</strong> · הגעה PG 406 · עזיבה PG 122
+    🏝️ <strong style="color:var(--green)">קוסמוי — 25–30 מאי · 5 לילות</strong> · הגעה PG 406 (25 מאי) · עזיבה PG 122 (31 מאי)
   </div>
 
   <!-- NH COLLECTION -->
@@ -1090,15 +1090,21 @@ const FLIGHTS = {
   },
   internal: {
     confId: 'conf-int',
-    note: 'Bangkok Airways · HKT→USM (25 May) and USM→BKK (30 May)',
+    confPg406: 'conf-pg406',
+    note: 'Bangkok Airways · HKT→USM (25 May) · F8FKK4 and USM→BKK (31 May)',
     flights: [
       {
         route: 'Phuket (HKT) \u2192 Ko Samui (USM)',
-        date: 'Tuesday 26 May 2026',
+        date: 'Monday 25 May 2026',
         dep: '13:45', arr: '14:40',
         duration: '55 min', flight: 'PG 406',
         airline: 'Bangkok Airways', aircraft: 'ATR72',
         depTerminal: 'Terminal D', fare: 'Web Freedom',
+        seats: 'Gadi: 15D (with Shaya) · Noy: 15C · Free of charge',
+        meal: 'Included · In-flight entertainment included',
+        baggage: {adult: '20 kg checked + 7 kg cabin', infant: '10 kg checked + 5 kg diaper bag'},
+        rebooking: 'Permitted',
+        fareType: 'Bangkok Airways Web Freedom',
       },
       {
         route: 'Ko Samui (USM) \u2192 Bangkok (BKK)',
@@ -1253,14 +1259,6 @@ function buildFlights() {
         <div>🛒 <strong style="color:var(--text)">Stroller / carry-cot: free</strong> — checked into hold at no charge</div>
         <div style="font-size:11px;color:var(--textd)">Source: <a href="https://www.emirates.com/us/english/before-you-fly/families/travelling-with-infants/" target="_blank" style="color:var(--blue)">emirates.com/travelling-with-infants ←</a></div>
       </div>
-      <div style="background:var(--redp);border:1px solid rgba(239,68,68,.2);border-radius:var(--rsm);padding:10px;font-size:12px;color:var(--textm);display:flex;flex-direction:column;gap:3px">
-        <div style="font-weight:700;color:var(--red);margin-bottom:4px">💳 Fare conditions${isBiz?' — Business Special (non-refundable)':' — Economy Flex (from your ticket)'}</div>
-        ${isBiz ? `<div>🔄 Change: <strong style="color:var(--text)">$400/person</strong> + fare difference</div>
-        <div>🚫 Refund: <strong style="color:var(--red)">NOT allowed</strong> — non-refundable fare</div>` :
-        `<div>🔄 Change: <strong style="color:var(--text)">$75/person</strong> + fare diff · 💰 Refund: <strong style="color:var(--text)">$125/person</strong></div>
-        <div>🚫 No-show → change: <strong style="color:var(--text)">$150</strong> · No-show → refund: <strong style="color:var(--text)">$250</strong></div>
-        <div style="font-size:11px;color:var(--textd);margin-top:2px">Max stay: 4 months · Unlimited stopovers</div>`}
-      </div>
     </div>`; };
 
   const bkkFareBlock = (fare) => `
@@ -1294,12 +1292,6 @@ function buildFlights() {
         <div>🔄 <strong style="color:var(--text)">Rebooking without fee</strong></div>
         <div>✈️ <strong style="color:var(--text)">Flyerbonus 100% accrual</strong></div>
         <div style="font-size:11px;color:var(--textd);margin-top:2px">Source: <a href="https://www.bangkokair.com/faqs" target="_blank" style="color:var(--blue)">bangkokair.com/faqs ←</a></div>
-      </div>
-      <div style="background:var(--redp);border:1px solid rgba(239,68,68,.2);border-radius:var(--rsm);padding:10px;font-size:12px;color:var(--textm);display:flex;flex-direction:column;gap:3px">
-        <div style="font-weight:700;color:var(--red);margin-bottom:4px">💳 Cancellation fees</div>
-        <div>📅 Before flight day: <strong style="color:var(--text)">~$60/flight + $10</strong> · On/after: <strong style="color:var(--text)">~$80/flight + $10</strong></div>
-        <div>🚫 No-show: <strong style="color:var(--text)">additional fee applies</strong></div>
-        <div style="font-size:11px;color:var(--textd);margin-top:2px"><a href="https://www.bangkokair.com/fare-conditions" target="_blank" style="color:var(--blue)">bangkokair.com/fare-conditions ←</a></div>
       </div>
     </div>`;
 
@@ -1337,8 +1329,11 @@ function buildFlights() {
   const ci = FLIGHTS.checkin;
   const checkinPast = new Date(ci.opensDateTime) < new Date();
 
-  const internalCards = fi.flights.map(f => {
+  const internalConfs = ['conf-pg406', 'conf-pg122'];
+  const internalCards = fi.flights.map((f, idx) => {
     const fid = nextId();
+    const confId = internalConfs[idx] || 'conf-int';
+    const confDefault = idx === 0 ? 'F8FKK4' : '';
     return `
     <div class="fcard">
       <div class="fhdr" onclick="toggleFlight('${fid}')" style="cursor:pointer;user-select:none;direction:ltr">
@@ -1359,6 +1354,10 @@ function buildFlights() {
             🛬 <strong style="color:var(--green)">Lands ${f.arr}</strong> · ${f.route.split('\u2192')[1]?.trim()||''}
           </div>
           ${bkkFareBlock(f.fare)}
+          <div class="confrow" style="margin-top:12px">
+            <div class="conflbl">🔖 Booking ref:</div>
+            <input class="confinp" id="${confId}" placeholder="Booking ref..." value="${confDefault}" oninput="saveData()">
+          </div>
         </div>
       </div>
     </div>`;
@@ -1369,10 +1368,6 @@ function buildFlights() {
     <div style="font-size:12px;font-weight:700;color:var(--textm);text-transform:uppercase;letter-spacing:.9px;margin:18px 0 11px">✈️ Internal Flights — Bangkok Airways</div>
     ${internalCards}
     ${renderCard(FLIGHTS.return)}
-    <div class="confrow" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-bottom:14px">
-      <div class="conflbl">🔖 מס' הזמנה (Bangkok Airways):</div>
-      <input class="confinp" id="conf-int" placeholder="After booking..." oninput="saveData()">
-    </div>
     <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px">
       ${fi.links.map(l=>`<a class="btn ${l.cls}" href="${l.url}" target="_blank">${l.label} ←</a>`).join('')}
     </div>
@@ -1525,7 +1520,7 @@ function buildRem() {
 // ═══ TODO ═══
 const TODOS = [
   {cat:'✈️ טיסות וכניסה', items:[
-    {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · PG 122: USM→BKK 30 מאי'},
+    {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · F8FKK4 · PG 122: USM→BKK 31 מאי'},
     {id:'t-tdac',tx:'📄 TDAC — Thailand Digital Arrival Card',sb:'חובה! אונליין בחינם · עד 3 ימים לפני הנסיעה · tdac.immigration.go.th'},
     {id:'t-checkin',tx:'Check-in אונליין — Emirates',sb:'17 מאי בשעה 18:05 (48 hrs לפני)'},
     {id:'t-seats',tx:'בחירת מושבים + Bassinet',sb:'Emirates → ניהול הזמנה → בקשות מיוחדות'},
@@ -1669,7 +1664,7 @@ const ITIN = [
   ]},
   {n:7,date:'25 מאי',dn:'ב\'',city:'phuket',title:'מעבר לקוסמוי 🏝️ → ✈️',blks:[
     {tc:'tlm',tl:'08:00–12:00',tt:'ארוחת בוקר אחרונה בפוקט + צ\'ק-אאוט.'},
-    {tc:'tld',tl:'13:45–14:40',tt:'PG 406 · HKT → USM · ATR72 · 55 min · 13:45→14:40. צ\'ק-אין מלון קוסמוי!'},
+    {tc:'tld',tl:'13:45–14:40',tt:'PG 406 · HKT → USM · ATR72 · 55 min · 13:45→14:40 · F8FKK4. צ\'ק-אין מלון קוסמוי!'},
     {tc:'tle',tl:'15:00+',tt:'הגעה. Private pool ראשונה בקוסמוי 🌴'},
   ]},
   // ── KOH SAMUI ──
@@ -2725,7 +2720,7 @@ function saveData(){
 }
 function applyState(){
   document.querySelectorAll('[data-key]').forEach(el=>{if(S[el.getAttribute('data-key')]!==undefined)el.value=S[el.getAttribute('data-key')];});
-  ['conf-out','conf-ret','conf-int'].forEach(id=>{const el=document.getElementById(id);if(el&&S[id])el.value=S[id];});
+  ['conf-out','conf-ret','conf-int','conf-pg406','conf-pg122'].forEach(id=>{const el=document.getElementById(id);if(el&&S[id])el.value=S[id];});
   restoreHotels(); calcBudget();
   buildTodo(); buildItin(); buildBudget(); buildPack(); updateProgress();
   buildCustomHotels('phuket'); buildCustomHotels('koh'); buildCustomHotels('bkk'); buildFlights();
