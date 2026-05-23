@@ -1956,7 +1956,7 @@ function renderBudgetRow(c, groups) {
     <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%">
       <!-- Title + emoji: far right -->
       <div style="display:flex;align-items:center;gap:6px;flex-shrink:1;min-width:0;overflow:hidden">
-        <div class="bem" style="flex-shrink:0">${c.em}</div>
+        <div class="bem" style="flex-shrink:0;cursor:pointer" title="Change icon" onclick="pickEmoji('${S['bem-'+c.id]||c.em}','${c.id}')">${S['bem-'+c.id]||c.em}</div>
         <input value="${S['bnm-'+c.id]||c.nm}" placeholder="Name"
           oninput="S['bnm-'+'${c.id}']=this.value;saveData()"
           title="${S['bnm-'+c.id]||c.nm}"
@@ -2343,34 +2343,59 @@ function buildCustomHotels(dest){
 
 // ═══ BUDGET ADD/EDIT/DELETE ═══
 function getCustomBudget(){ 
-  // support both keys for backwards compatibility
   const a = S['budget-custom'] ? JSON.parse(S['budget-custom']) : [];
   const b = S['custom-budget'] ? JSON.parse(S['custom-budget']) : [];
   return [...a, ...b];
 }
 function saveCustomBudget(arr){ S['budget-custom']=JSON.stringify(arr); saveData(); }
+
+const EMOJI_OPTS = ['💸','💰','✈️','🏨','🍜','🚗','🛍️','⛵','🛡️','🎲','📱','💊','🎭','🏖️','🎫','🛺','💆','🎁','🍽️','☕','🏋️','📸','🛒','🎪','🌊','🏝️','🏙️','🎯','💡','🔧'];
+
+function pickEmoji(currentEm, rowId) {
+  document.getElementById('emoji-picker-modal')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'emoji-picker-modal';
+  modal.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:16px;z-index:9999;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
+  modal.innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:var(--textm);margin-bottom:10px">Choose icon</div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px">
+      ${EMOJI_OPTS.map(e=>`<button onclick="S['bem-'+'${rowId}']=this.textContent;saveData();buildBudget();document.getElementById('emoji-picker-modal').remove()"
+        style="background:${e===currentEm?'var(--gp)':'var(--bg3)'};border:1px solid ${e===currentEm?'var(--green)':'var(--border)'};border-radius:var(--rsm);padding:6px;font-size:20px;cursor:pointer">${e}</button>`).join('')}
+    </div>
+    <button onclick="document.getElementById('emoji-picker-modal').remove()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:6px;color:var(--textm);cursor:pointer;font-size:13px">Cancel</button>`;
+  document.body.appendChild(modal);
+}
+
 function addBudgetRow(){
   const id = 'b-'+Date.now();
+  const groups = getBudgetGroups();
   const arr = JSON.parse(S['budget-custom']||'[]');
   arr.push({id, em:'💸', nm:'New item', col:'#64748b', val:'', custom:true});
   S['budget-custom'] = JSON.stringify(arr);
-  // assign to first group by default
-  S['grp-'+id] = getBudgetGroups()[0]?.id || 'bg-flights';
+  S['grp-'+id] = groups[0]?.id || 'bg-flights';
   saveData();
   buildBudget();
+  // Scroll to newly added item after build
+  setTimeout(()=>{
+    const rows = document.querySelectorAll('.brow');
+    if(rows.length) rows[rows.length-1].scrollIntoView({behavior:'smooth',block:'center'});
+  }, 100);
 }
-function delBudgetRow(id,isCustom){
+
+function delBudgetRow(id, isCustom){
   if(isCustom){
-    // Remove from both possible keys
     const a = JSON.parse(S['budget-custom']||'[]').filter(r=>r.id!==id);
     const b = JSON.parse(S['custom-budget']||'[]').filter(r=>r.id!==id);
     S['budget-custom'] = JSON.stringify(a);
     S['custom-budget'] = JSON.stringify(b);
-    saveData();
   } else {
-    S['del-b-'+id]=true;
-    saveData();
+    S['del-b-'+id] = true;
   }
+  // Clean up all associated keys
+  ['','lock-','st-','bnm-','best-','note-','grp-','bcur-','bfx-','bils-','bopen-'].forEach(k => {
+    delete S[k+id];
+  });
+  saveData();
   buildBudget();
 }
 
