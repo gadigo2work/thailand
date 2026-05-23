@@ -1822,7 +1822,7 @@ const STATUS_CFG = {
 
 function getBudgetGroups() {
   const custom = JSON.parse(S['custom-groups']||'[]');
-  return [...BUDGET_GROUPS, ...custom];
+  return [...BUDGET_GROUPS, ...custom].filter(g => !S['hide-group-'+g.id]);
 }
 function getAllRows() {
   const customs = getCustomBudget();
@@ -1855,13 +1855,22 @@ function buildBudget(){
 
     const gTotal = rows.reduce((s,c)=>s+((S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0)),0);
     const gPct = totalSpent ? Math.round(gTotal/totalSpent*100) : 0;
-    const gNm = S['gnm-'+g.id] || g.nm;
-    const gOpen = S['gopen-'+g.id] !== false; // default open
+    const gNmRaw = S['gnm-'+g.id] || g.nm;
+    // Extract leading emoji from the name (e.g. "✈️ Flights" → emoji="✈️", name="Flights")
+    const _emojiChars = [...gNmRaw];
+    const _firstChar = _emojiChars[0]||'';
+    const _hasLeadingEmoji = _firstChar.codePointAt(0) > 127;
+    const gEmoji = S['gem-'+g.id] || (_hasLeadingEmoji ? _firstChar : '');
+    const gNm = (gEmoji && gNmRaw.startsWith(gEmoji)) ? gNmRaw.slice(gEmoji.length).trim() : gNmRaw;
+    const gOpen = S['gopen-'+g.id] !== false;
+
 
     html += `
     <div class="bgroup" id="bgrp-${g.id}">
       <div class="bgroup-hdr" onclick="toggleGroup('${g.id}')">
         <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
+          <span style="font-size:18px;cursor:pointer;flex-shrink:0" title="Change icon"
+            onclick="event.stopPropagation();pickGroupEmoji('${g.id}','${gEmoji}')">${gEmoji||'➕'}</span>
           <input class="bgroup-name" value="${gNm}" onclick="event.stopPropagation()"
             oninput="S['gnm-'+'${g.id}']=this.value;saveData()"
             style="background:transparent;border:none;font-size:13px;font-weight:700;color:var(--text);font-family:inherit;outline:none;cursor:text;padding:0;min-width:0;flex:1"
@@ -1873,6 +1882,8 @@ function buildBudget(){
         <div style="display:flex;align-items:center;gap:8px">
           <button onclick="event.stopPropagation();addRowToGroup('${g.id}')" title="Add item to group"
             style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:2px 10px;font-size:12px;color:var(--textm);cursor:pointer">+</button>
+          <button onclick="event.stopPropagation();deleteGroup('${g.id}')" title="Delete group"
+            style="background:none;border:none;color:var(--textd);cursor:pointer;font-size:16px;padding:0 2px;line-height:1">🗑️</button>
           <span style="font-size:12px;color:var(--textd)">${gOpen?'▲':'▼'}</span>
         </div>
       </div>
@@ -2081,12 +2092,29 @@ function addBudgetGroup() {
   saveData();
   buildBudget();
 }
+function pickGroupEmoji(gid, currentEm) {
+  document.getElementById('emoji-picker-modal')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'emoji-picker-modal';
+  modal.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:16px;z-index:9999;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
+  modal.innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:var(--textm);margin-bottom:10px">Choose group icon</div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px">
+      ${EMOJI_OPTS.map(e=>`<button onclick="S['gem-'+'${gid}']=this.textContent;saveData();buildBudget();document.getElementById('emoji-picker-modal').remove()"
+        style="background:${e===currentEm?'var(--gp)':'var(--bg3)'};border:1px solid ${e===currentEm?'var(--green)':'var(--border)'};border-radius:var(--rsm);padding:6px;font-size:20px;cursor:pointer">${e}</button>`).join('')}
+    </div>
+    <button onclick="document.getElementById('emoji-picker-modal').remove()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);padding:6px;color:var(--textm);cursor:pointer;font-size:13px">Cancel</button>`;
+  document.body.appendChild(modal);
+}
 function deleteGroup(id) {
-  if (!confirm('Delete this group? Rows will move to the first group.')) return;
+  const label = S['gnm-'+id] || getBudgetGroups().find(g=>g.id===id)?.nm || id;
+  if (!confirm(`Delete group "${label}"?\nRows will move to Flights.`)) return;
   // Remove from custom groups
   const customs = JSON.parse(S['custom-groups']||'[]').filter(g=>g.id!==id);
   S['custom-groups'] = JSON.stringify(customs);
-  // Reassign rows in this group to first default group
+  // For built-in groups: mark hidden so they don't reappear
+  S['hide-group-'+id] = true;
+  // Reassign all rows in this group to Flights
   getAllRows().forEach(c => {
     if ((S['grp-'+c.id]||c.group) === id) S['grp-'+c.id] = BUDGET_GROUPS[0].id;
   });
@@ -3070,128 +3098,4 @@ function doSearch(q){
   getCustomDays().forEach(d=>{if(d.title.toLowerCase().includes(ql))hits.push({section:'📅 לו"ז',text:d.title,nav:'itinerary'});});
   if(!hits.length){res.innerHTML='<div class="sr-empty">לא נמצאו תוצאות עבור "'+q+'"</div>';return;}
   const seen=new Set();
-  res.innerHTML=hits.filter(h=>{const k=h.section+h.text;if(seen.has(k))return false;seen.add(k);return true;}).map(h=>{
-    const highlighted=h.text.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="sr-match">$1</span>');
-    return `<div class="sr-item" onclick="closeSearch();showSec('${h.nav}',document.querySelector('.nb:not(.active)'));document.querySelectorAll('.nb').forEach(b=>{b.classList.toggle('active',b.getAttribute('onclick')&&b.getAttribute('onclick').includes('${h.nav}'))})">
-      <span class="sr-section">${h.section}</span>
-      <div class="sr-text">${highlighted.slice(0,120)}${h.text.length>120?'...':''}</div>
-    </div>`;
-  }).join('');
-}
-
-// ═══ STAR RATING ═══
-function setRating(dayNum, stars){
-  S['star-'+dayNum]=stars;
-  saveData();
-  // rebuild just this day's stars inline
-  const starsEl=document.getElementById('stars-'+dayNum);
-  if(starsEl){
-    starsEl.querySelectorAll('.star').forEach((s,i)=>{s.classList.toggle('lit',i<stars);});
-    const labels=['','😞 גרוע','😐 בסדר','😊 טוב','😄 מצוין','🤩 מדהים!'];
-    const next=starsEl.nextElementSibling;
-    if(next&&next.classList.contains('rating-label'))next.textContent=labels[stars];
-    else{const d=document.createElement('div');d.className='rating-label';d.textContent=labels[stars];starsEl.after(d);}
-  }
-}
-
-// ═══ PIE CHART ═══
-function buildPieChart(){
-  const builtinRows=BCATS.filter(c=>!S['del-b-'+c.id]);
-  const customs=getCustomBudget();
-  const allRows=[...builtinRows,...customs];
-  const data=allRows.map(c=>({label:c.nm,val:(S['bcur-'+c.id]&&S['bcur-'+c.id]!=='ils'?parseInt(S['bils-'+c.id]||0)||0:parseInt(S[c.id]||c.val||0)||0),col:c.col||'#64748b'})).filter(d=>d.val>0);
-  const total=data.reduce((s,d)=>s+d.val,0);
-  const svg=document.getElementById('pie-svg');
-  const legend=document.getElementById('pie-legend');
-  if(!svg||!legend)return;
-  if(!total||!data.length){svg.innerHTML='<text x="80" y="85" text-anchor="middle" fill="#7a8a9e" font-size="12">אין נתונים</text>';legend.innerHTML='';return;}
-  const cx=80,cy=80,r=70;
-  let startAngle=-Math.PI/2;
-  let paths='';
-  data.forEach(d=>{
-    const slice=(d.val/total)*Math.PI*2;
-    const endAngle=startAngle+slice;
-    const x1=cx+r*Math.cos(startAngle),y1=cy+r*Math.sin(startAngle);
-    const x2=cx+r*Math.cos(endAngle),y2=cy+r*Math.sin(endAngle);
-    const large=slice>Math.PI?1:0;
-    paths+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} Z" fill="${d.col}" opacity=".85" stroke="var(--bg)" stroke-width="2"><title>${d.label}: ${d.val.toLocaleString()} ₪</title></path>`;
-    startAngle=endAngle;
-  });
-  svg.innerHTML=paths+`<circle cx="${cx}" cy="${cy}" r="28" fill="var(--bg2)"/><text x="${cx}" y="${cy-4}" text-anchor="middle" fill="var(--textm)" font-size="10" font-family="Rubik">סה"כ</text><text x="${cx}" y="${cy+10}" text-anchor="middle" fill="var(--green)" font-size="11" font-family="Rubik" font-weight="700">${total.toLocaleString()}</text>`;
-  legend.innerHTML=data.map(d=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${d.col}"></div><div>${d.label}: <strong>${d.val.toLocaleString()} ₪</strong> (${Math.round(d.val/total*100)}%)</div></div>`).join('');
-}
-
-// ═══ NOTIFICATIONS ═══
-const NOTIF_EVENTS=[
-  {id:'n-checkin',icon:'✈️',title:'Emirates Check-in!',body:`${FLIGHTS.outbound.legs[0].flight} + ${FLIGHTS.outbound.legs[1].flight} - time to select seats and request Bassinet`,date:new Date(FLIGHTS.checkin.opensDateTime)},
-  {id:'n-tdac',icon:'📄',title:'TDAC - fill entry form',body:'Fill the online form before entering Thailand',date:new Date('2026-05-16T09:00:00')},
-  {id:'n-flight',icon:'🛫',title:'Flight day! TLV → Phuket',body:`EK 2471 departs ${FLIGHTS.outbound.legs[0].depTime}. Leave for airport by 17:00`,date:new Date('2026-05-19T15:00:00')},
-  {id:'n-phuket',icon:'🌴',title:'Welcome to Phuket!',body:'Landing HKT 12:15 Terminal D. Enjoy! 🏝️',date:new Date('2026-05-20T12:00:00')},
-  {id:'n-samui',icon:'🏝️',title:'Flying to Koh Samui today',body:'PG 406 departs 13:45 from HKT Terminal D',date:new Date('2026-05-25T12:00:00')},
-  {id:'n-bangkok',icon:'🏙️',title:'Flying to Bangkok today',body:'PG 122 departs 13:50 from USM',date:new Date('2026-05-31T12:00:00')},
-  {id:'n-return',icon:'🛬',title:'Flying home! BKK → TLV',body:`EK 375 departs 09:55. Be at airport by 07:00`,date:new Date('2026-06-04T07:00:00')},
-];
-async function requestNotifPermission(){
-  if(!('Notification' in window)){alert('הדפדפן שלך לא תומך בהתראות');return;}
-  const perm=await Notification.requestPermission();
-  updateNotifUI(perm);
-  if(perm==='granted'){S['notif-enabled']=true;saveData();buildNotifList();}
-}
-function updateNotifUI(perm){
-  const status=document.getElementById('notif-status');
-  const btn=document.getElementById('notif-req-btn');
-  const settings=document.getElementById('notif-settings');
-  if(perm==='granted'){status.textContent='✅ התראות מופעלות';btn.style.display='none';if(settings)settings.style.display='block';}
-  else if(perm==='denied'){status.textContent='❌ התראות חסומות — אפשר בהגדרות הדפדפן';btn.style.display='none';}
-  else{status.textContent='';}
-}
-function buildNotifList(){
-  const list=document.getElementById('notif-list');
-  if(!list)return;
-  list.innerHTML=NOTIF_EVENTS.map(ev=>{
-    const enabled=S[ev.id]!==false;
-    const isPast=ev.date<new Date();
-    return `<div class="notif-item">
-      <div class="ni-icon">${ev.icon}</div>
-      <div class="ni-text"><strong>${ev.title}</strong><br>${ev.date.toLocaleString('he-IL',{dateStyle:'medium',timeStyle:'short'})}</div>
-      <label class="toggle-sw" title="${isPast?'כבר עבר':''}">
-        <input type="checkbox" ${enabled&&!isPast?'checked':''} ${isPast?'disabled':''} onchange="toggleNotif('${ev.id}',this.checked)">
-        <span class="toggle-slider"></span>
-      </label>
-    </div>`;
-  }).join('');
-}
-function toggleNotif(id,on){S[id]=on;saveData();if(on)scheduleNotif(NOTIF_EVENTS.find(e=>e.id===id));}
-function scheduleNotif(ev){
-  if(!ev||Notification.permission!=='granted')return;
-  const delay=ev.date-new Date();
-  if(delay<=0)return;
-  setTimeout(()=>{new Notification(ev.title,{body:ev.body,icon:'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/72x72/1f334.png'});},delay);
-}
-function scheduleAllNotifs(){
-  if(Notification.permission!=='granted'){alert('אפשר קודם התראות למעלה');return;}
-  NOTIF_EVENTS.forEach(ev=>{S[ev.id]=true;scheduleNotif(ev);});
-  saveData();buildNotifList();
-  alert('✅ כל ההתראות תוזמנו!');
-}
-function initNotifications(){
-  if('Notification' in window)updateNotifUI(Notification.permission);
-  if(S['notif-enabled'])buildNotifList();
-}
-
-// ═══ OFFLINE SERVICE WORKER ═══
-function registerSW(){
-  if(!('serviceWorker' in navigator))return;
-  const swCode=`
-const CACHE='thailand2026-v1';
-const ASSETS=['/'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
-self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const clone=res.clone();caches.open(CACHE).then(c=>c.put(e.request,clone));return res;}))));
-`;
-  const blob=new Blob([swCode],{type:'application/javascript'});
-  const url=URL.createObjectURL(blob);
-  navigator.serviceWorker.register(url).catch(()=>{});
-}
-</script>
-</body>
-</html>
+  res.inne
