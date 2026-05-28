@@ -614,7 +614,7 @@ textarea.inp{min-height:56px;resize:vertical}
 
   <!-- KOH SAMUI HEADER -->
   <div style="background:var(--gp);border:1px solid rgba(34,197,94,.2);border-radius:var(--rsm);padding:11px 15px;margin-bottom:18px;font-size:13px;color:var(--textm)">
-    🏝️ <strong style="color:var(--green)">קוסמוי — 25–30 מאי · 5 לילות</strong> · הגעה PG 406 (25 מאי) · עזיבה PG 122 (31 מאי)
+    🏝️ <strong style="color:var(--green)">קוסמוי — 25–30 מאי · 5 לילות</strong> · הגעה PG 406 (25 מאי) · עזיבה PG 146 (31 מאי · 15:25)
   </div>
 
   <!-- NH COLLECTION -->
@@ -1109,8 +1109,8 @@ const FLIGHTS = {
       {
         route: 'Ko Samui (USM) \u2192 Bangkok (BKK)',
         date: 'Sunday 31 May 2026',
-        dep: '09:15', arr: '10:30',
-        duration: '1h 15m', flight: 'PG 122',
+        dep: '15:25', arr: '16:40',
+        duration: '1h 15m', flight: 'PG 146',
         airline: 'Bangkok Airways', aircraft: 'Airbus A319',
         fare: 'Blue Ribbon',
       },
@@ -1333,7 +1333,7 @@ function buildFlights() {
   const internalCards = fi.flights.map((f, idx) => {
     const fid = nextId();
     const confId = internalConfs[idx] || 'conf-int';
-    const confDefault = idx === 0 ? 'F8FKK4' : '';
+    const confDefault = idx === 0 ? 'F8FKK4' : 'EJG2ZS';
     return `
     <div class="fcard">
       <div class="fhdr" onclick="toggleFlight('${fid}')" style="cursor:pointer;user-select:none;direction:ltr">
@@ -1520,7 +1520,7 @@ function buildRem() {
 // ═══ TODO ═══
 const TODOS = [
   {cat:'✈️ טיסות וכניסה', items:[
-    {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · F8FKK4 · PG 122: USM→BKK 31 מאי'},
+    {id:'t-internal',tx:'טיסות פנימיות — Bangkok Airways',sb:'PG 406: HKT→USM 25 מאי · F8FKK4 · PG 146: USM→BKK 31 מאי · 15:25'},
     {id:'t-tdac',tx:'📄 TDAC — Thailand Digital Arrival Card',sb:'חובה! אונליין בחינם · עד 3 ימים לפני הנסיעה · tdac.immigration.go.th'},
     {id:'t-checkin',tx:'Check-in אונליין — Emirates',sb:'17 מאי בשעה 18:05 (48 hrs לפני)'},
     {id:'t-seats',tx:'בחירת מושבים + Bassinet',sb:'Emirates → ניהול הזמנה → בקשות מיוחדות'},
@@ -1690,7 +1690,7 @@ const ITIN = [
   ]},
   {n:12,date:'30 מאי',dn:'ש\'',city:'koh',title:'Moving to Bangkok 🏙️ → ✈️',blks:[
     {tc:'tlm',tl:'08:00–12:00',tt:'ארוחת בוקר אחרונה + צ\'ק-אאוט מקוסמוי.'},
-    {tc:'tld',tl:'09:15–10:30',tt:'PG 122 · USM → BKK · Airbus A319 · 1h 15m.'},
+    {tc:'tld',tl:'15:25–16:40',tt:'PG 146 · USM → BKK · Airbus A319 · 1h 15m.'},
     {tc:'tle',tl:'15:30+',tt:'Grab למלון בנגקוק. צ\'ק-אין + חקירת הסביבה ראשונה.'},
   ]},
   // ── BANGKOK ──
@@ -1710,7 +1710,7 @@ const ITIN = [
     {tc:'tle',tl:'17:00–20:00',tt:'עיסוי + ארוחה מיוחדת. אריזת מזוודות!'},
   ]},
   {n:16,date:'3 יוני',dn:'ד\'',city:'bkk',title:'חזרה לישראל 🇮🇱 ✈️',blks:[
-    {tc:'tlm',tl:'06:00',tt:'יציאה מוקדמת לשדה Suvarnabhumi — לפחות 3 hrs לפני.'},
+    {tc:'tlm',tl:'06:00',tt:'יציאה לשדה Suvarnabhumi — לפחות 3 hrs לפני.'},
     {tc:'tld',tl:'09:15',tt:'המראה — EK 375 · Airbus A380 · 09:55 → דובאי.'},
     {tc:'tle',tl:'16:50',tt:'נחיתה בן גוריון · Terminal 3. ברוכים השבים! 🌴'},
   ]},
@@ -2851,9 +2851,9 @@ function exportICS() {
       'Days 8–12 of trip\\nCheck in: 25 May · Check out: 30 May',
       new Date('2026-05-25T15:00:00'), new Date('2026-05-30T12:00:00'), 'Koh Samui, Thailand'),
     // Internal flight 2
-    icsEvent('pg142', '✈️ PG 122 USM → BKK (Bangkok)',
-      'Bangkok Airways PG 122 · Airbus A319\\nDepart 13:50 · Arrive 15:05',
-      new Date('2026-05-31T07:15:00'), new Date('2026-05-31T10:30:00'), 'Ko Samui Airport USM'),
+    icsEvent('pg142', '✈️ PG 146 USM → BKK (Bangkok)',
+      'Bangkok Airways PG 146 · Airbus A319\\nDepart 15:25 · Arrive 16:40\\nBooking ref: EJG2ZS\\nGadi: 6A · Noy: 6C',
+      new Date('2026-05-31T15:25:00'), new Date('2026-05-31T16:40:00'), 'Ko Samui Airport USM'),
     // Bangkok stay
     icsEvent('bkk-stay', '🏙️ Bangkok — Centara Grand (4 Nights)',
       'Days 13–16 of trip\\nCheck in: 30 May · Check out: 3 Jun',
@@ -3162,7 +3162,7 @@ const NOTIF_EVENTS=[
   {id:'n-flight',icon:'🛫',title:'Flight day! TLV → Phuket',body:`EK 2471 departs ${FLIGHTS.outbound.legs[0].depTime}. Leave for airport by 17:00`,date:new Date('2026-05-19T15:00:00')},
   {id:'n-phuket',icon:'🌴',title:'Welcome to Phuket!',body:'Landing HKT 12:15 Terminal D. Enjoy! 🏝️',date:new Date('2026-05-20T12:00:00')},
   {id:'n-samui',icon:'🏝️',title:'Flying to Koh Samui today',body:'PG 406 departs 13:45 from HKT Terminal D',date:new Date('2026-05-25T12:00:00')},
-  {id:'n-bangkok',icon:'🏙️',title:'Flying to Bangkok today',body:'PG 122 departs 13:50 from USM',date:new Date('2026-05-31T12:00:00')},
+  {id:'n-bangkok',icon:'🏙️',title:'Flying to Bangkok today',body:'PG 146 departs 15:25 from USM · Booking ref: EJG2ZS',date:new Date('2026-05-31T12:00:00')},
   {id:'n-return',icon:'🛬',title:'Flying home! BKK → TLV',body:`EK 375 departs 09:55. Be at airport by 07:00`,date:new Date('2026-06-04T07:00:00')},
 ];
 async function requestNotifPermission(){
